@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">InMatch</string>
+    <string name="title_home">Home</string>
+    <string name="title_match">Partite</string>
+    <string name="title_players">Giocatori</string>
+    <string name="title_player">Profilo</string>
+</resources>
