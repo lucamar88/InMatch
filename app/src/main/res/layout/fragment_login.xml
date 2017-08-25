@@ -10,7 +10,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="40dp"
-    tools:context="com.ready.sport.inmatch.Activity.LoginActivity">
+    tools:context="com.ready.sport.inmatch.Activity.SignLoginActivity">
 
     <!-- Login progress -->
     <ProgressBar
@@ -43,11 +43,12 @@
                 android:backgroundTint="@color/colorButton"
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
+                android:textSize="15dp"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@android:color/white"
                 android:textColorHint="@color/colorButton"
-                android:drawableLeft="@drawable/ic_user_icon"
+                android:drawableLeft="@drawable/ic_msg_icon"
                 android:drawablePadding="8dp"
                 />
 
@@ -69,6 +70,7 @@
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
+                android:textSize="15dp"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="@android:color/white"

@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:drawable="@drawable/pass_icon"
+        android:drawable="@drawable/msg_icon"
         android:width="20dp"
         android:height="20dp"
         android:bottom="10dp"

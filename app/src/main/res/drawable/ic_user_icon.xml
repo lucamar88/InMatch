@@ -3,8 +3,9 @@
 
     <item
         android:drawable="@drawable/user_icon"
-        android:width="30dp"
-        android:height="30dp"
+        android:width="20dp"
+        android:height="20dp"
+        android:bottom="10dp"
         />
 
 </layer-list >
