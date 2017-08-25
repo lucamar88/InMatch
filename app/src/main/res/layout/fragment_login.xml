@@ -1,0 +1,103 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSecond"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="40dp"
+    tools:context="com.ready.sport.inmatch.Activity.LoginActivity">
+
+    <!-- Login progress -->
+    <ProgressBar
+        android:id="@+id/login_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone" />
+
+
+    <LinearLayout
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.ready.sport.inmatch.util.TextInputLayoutPlus
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorButton"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+            <com.ready.sport.inmatch.util.AutoCompleteTextViewPlus
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/colorButton"
+                android:drawableLeft="@drawable/ic_user_icon"
+                android:drawablePadding="8dp"
+                />
+
+        </com.ready.sport.inmatch.util.TextInputLayoutPlus>
+
+        <com.ready.sport.inmatch.util.TextInputLayoutPlus
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@android:color/white"
+            app:hintTextAppearance="@style/TextAppearence.App.TextInputLayout">
+
+            <com.ready.sport.inmatch.util.EditTextPlus
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorButton"
+                android:hint="@string/prompt_password"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@android:color/white"
+                android:textColorHint="@color/colorButton"
+                android:drawableLeft="@drawable/ic_pass_icon"
+                android:drawablePadding="15dp"
+               />
+
+        </com.ready.sport.inmatch.util.TextInputLayoutPlus>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorSecond"
+        android:orientation="vertical"></LinearLayout>
+
+    <com.ready.sport.inmatch.util.ButtonPlus
+        android:id="@+id/email_sign_in_button"
+        style="?android:textAppearanceSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorButton"
+        android:text="@string/action_sign_in"
+        android:textColor="@android:color/white"
+        android:textColorHint="@color/colorButton"
+        android:textStyle="bold" />
+</LinearLayout>
