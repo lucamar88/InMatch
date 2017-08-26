@@ -3,6 +3,7 @@ package com.ready.sport.inmatch.Fragments;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ready.sport.inmatch.Activity.MainActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.util.AutoCompleteTextViewPlus;
 import com.ready.sport.inmatch.util.EditTextPlus;
@@ -327,6 +329,7 @@ public class LoginFragment extends Fragment {
             showProgress(false);
 
             if (success) {
+                startActivity(new Intent(getActivity(), MainActivity.class));
                 getActivity().finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

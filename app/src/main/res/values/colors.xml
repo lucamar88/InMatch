@@ -6,7 +6,10 @@
     <color name="colorButton">#a2d1db</color>
     <color name="colorSecond">#559bbf</color>
 
-
+    <color name="soccerColor">#fcb465</color>
+    <color name="basketColor">#62d7c8</color>
+    <color name="tennisColor">#9894ff</color>
+    <color name="volleyColor">#ff3366</color>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
 </resources>
