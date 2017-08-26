@@ -7,10 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -19,22 +22,47 @@ import com.ready.sport.inmatch.R;
 public class ProfileFragment extends Fragment {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
-
+    private SoccerFragment socFrag;
+    private BasketFragment basFrag;
+    private TennisFragment tenFrag;
+    private VolleyFragment volFrag;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile_layout, container, false);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        //mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) rootView.findViewById(R.id.viewPagerProfile);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //mViewPager.setAdapter(mSectionsPagerAdapter);
+        setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabsProfile);
         tabLayout.setupWithViewPager(mViewPager);
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.soccer_icon);
+        tabLayout.getTabAt(1).setIcon(R.drawable.basket_icon);
+        tabLayout.getTabAt(2).setIcon(R.drawable.tennis_icon);
+        tabLayout.getTabAt(3).setIcon(R.drawable.volley_icon);
+        mViewPager.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true;
+            }
+        });
         return rootView;
     }
 
@@ -71,19 +99,18 @@ public class ProfileFragment extends Fragment {
             return 4;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "CALCIO";
-                case 1:
-                    return "BASKET";
-                case 2:
-                    return "TENNIS";
-                case 3:
-                    return "VOLLEY";
-            }
-            return null;
-        }
+
+    }
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        socFrag=new SoccerFragment();
+        basFrag=new BasketFragment();
+        tenFrag=new TennisFragment();
+        volFrag=new VolleyFragment();
+        adapter.addFragment(socFrag);
+        adapter.addFragment(basFrag);
+        adapter.addFragment(tenFrag);
+        adapter.addFragment(volFrag);
+        viewPager.setAdapter(adapter);
     }
 }

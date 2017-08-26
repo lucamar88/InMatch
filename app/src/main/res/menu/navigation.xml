@@ -4,27 +4,27 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/home"
+        android:icon="@drawable/home_icon_nav"
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:title="@string/title_home" />
 
     <item
         android:id="@+id/navigation_match"
-        android:icon="@drawable/match"
+        android:icon="@drawable/match_icon_nav"
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:title="@string/title_match" />
 
     <item
         android:id="@+id/navigation_players"
-        android:icon="@drawable/players"
+        android:icon="@drawable/players_icon_nav"
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:title="@string/title_players" />
     <item
         android:id="@+id/navigation_player"
-        android:icon="@drawable/player"
+        android:icon="@drawable/player_icon_nav"
         app:showAsAction="ifRoom"
         android:enabled="true"
         android:title="@string/title_player" />

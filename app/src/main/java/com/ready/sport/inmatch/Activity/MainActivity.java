@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.ready.sport.inmatch.Fragments.HomeFragment;
 import com.ready.sport.inmatch.Fragments.ListMatchFragment;
 import com.ready.sport.inmatch.Fragments.PlayersFragment;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private NoSwipableViewPager mViewPager;
 
-    private BottomNavigationView navigation;
+    private BottomNavigationViewEx navigation;
 
     private FragmentManager manager = getSupportFragmentManager();
 
@@ -70,9 +71,13 @@ public class MainActivity extends AppCompatActivity {
         //Initializing viewPager
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewpager_home);
 
-        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationViewEx) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        BottomNavigationViewHelper.disableShiftMode(navigation);
+        //BottomNavigationViewHelper.disableShiftMode(navigation);
+        navigation.setTextVisibility(false);
+        navigation.enableShiftingMode(false);
+        navigation.enableItemShiftingMode(false);
+        navigation.setIconSize(30, 30);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
