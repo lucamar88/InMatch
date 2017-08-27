@@ -1,0 +1,32 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+
+    <com.xw.repo.BubbleSeekBar
+        android:id="@+id/fragment_treatment_Settings_programs_seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:bsb_auto_adjust_section_mark="true"
+        app:bsb_second_track_color="@color/colorPrimary"
+        app:bsb_bubble_color="@color/colorPrimary"
+        app:bsb_max="10.0"
+        app:bsb_min="1"
+        app:bsb_progress="5.0"
+        app:bsb_section_count="90"
+        app:bsb_is_float_type="true"
+        app:bsb_touch_to_seek="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
+
+</LinearLayout>

@@ -45,5 +45,6 @@ dependencies {
     compile 'com.badoo.mobile:android-weak-handler:1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
+    compile 'com.xw.repo:bubbleseekbar:3.6'
     testCompile 'junit:junit:4.12'
 }
