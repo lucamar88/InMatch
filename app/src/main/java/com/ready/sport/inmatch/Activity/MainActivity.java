@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
 import com.ready.sport.inmatch.Fragments.HomeFragment;
@@ -19,7 +18,6 @@ import com.ready.sport.inmatch.Fragments.ListMatchFragment;
 import com.ready.sport.inmatch.Fragments.PlayersFragment;
 import com.ready.sport.inmatch.Fragments.ProfileFragment;
 import com.ready.sport.inmatch.R;
-import com.ready.sport.inmatch.Tools.BottomNavigationViewHelper;
 import com.ready.sport.inmatch.Tools.NoSwipableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
 
