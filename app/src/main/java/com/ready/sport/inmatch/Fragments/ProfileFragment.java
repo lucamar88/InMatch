@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.Tools.LockableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
 
 /**
@@ -29,7 +30,7 @@ public class ProfileFragment extends Fragment {
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private LockableViewPager mViewPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,9 @@ public class ProfileFragment extends Fragment {
         //mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) rootView.findViewById(R.id.viewPagerProfile);
-        //mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager = (LockableViewPager) rootView.findViewById(R.id.viewPagerProfile);
+
+        mViewPager.setSwipeable(false);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabsProfile);
@@ -55,14 +57,7 @@ public class ProfileFragment extends Fragment {
         tabLayout.getTabAt(1).setIcon(R.drawable.basket_icon);
         tabLayout.getTabAt(2).setIcon(R.drawable.tennis_icon);
         tabLayout.getTabAt(3).setIcon(R.drawable.volley_icon);
-        mViewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
+
         return rootView;
     }
 

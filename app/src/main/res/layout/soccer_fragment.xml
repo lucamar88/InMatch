@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:circular="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -101,5 +108,121 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/separatorColor"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <com.ready.sport.inmatch.util.TextViewPlus
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Dribbling"
+            android:paddingLeft="20dp"
+            android:layout_gravity="center"/>
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seekbarSocDri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_show_section_mark="true"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="float type, section text interval : 2, auto adjust"
+            android:textSize="12sp"/>
+    </android.support.v7.widget.LinearLayoutCompat>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <com.ready.sport.inmatch.util.TextViewPlus
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Difesa"
+            android:paddingLeft="20dp"
+            android:layout_gravity="center"/>
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seekbarSocDif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_show_section_mark="true"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="float type, section text interval : 2, auto adjust"
+            android:textSize="12sp"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <com.ready.sport.inmatch.util.TextViewPlus
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Attacco"
+            android:paddingLeft="20dp"
+            android:layout_gravity="center"/>
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seekbarSocAtt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_show_section_mark="true"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="float type, section text interval : 2, auto adjust"
+            android:textSize="12sp"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <com.ready.sport.inmatch.util.TextViewPlus
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="Agilità"
+            android:paddingLeft="20dp"
+            android:layout_gravity="center"/>
+        <com.xw.repo.BubbleSeekBar
+            android:id="@+id/seekbarSocAgi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:bsb_auto_adjust_section_mark="true"
+            app:bsb_show_section_mark="true"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="float type, section text interval : 2, auto adjust"
+            android:textSize="12sp"/>
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor"/>
 </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>

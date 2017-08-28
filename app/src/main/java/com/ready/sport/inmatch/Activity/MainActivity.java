@@ -23,6 +23,8 @@ import com.ready.sport.inmatch.Tools.BottomNavigationViewHelper;
 import com.ready.sport.inmatch.Tools.NoSwipableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
 
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -67,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //Initializing viewPager
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewpager_home);
 
@@ -130,4 +131,5 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(profileFrg);
         viewPager.setAdapter(adapter);
     }
+
 }
