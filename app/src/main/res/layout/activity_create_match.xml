@@ -15,8 +15,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="5dp">
             <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/backBtnCreateMatch"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/icon_back"

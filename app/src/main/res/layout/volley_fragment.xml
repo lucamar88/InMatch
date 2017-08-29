@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView android:id="@+id/scrollBasket"
+<android.support.v4.widget.NestedScrollView android:id="@+id/scrollVolley"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
@@ -15,10 +15,10 @@
         android:layout_height="match_parent"
         >
         <android.support.v7.widget.LinearLayoutCompat
-            android:id="@+id/titleBasketFragment"
+            android:id="@+id/titleVolleyFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/basketColor"
+            android:background="@color/volleyColor"
             android:visibility="gone"
             android:layout_marginBottom="5dp"
             android:paddingBottom="10dp"
@@ -26,7 +26,7 @@
             <com.ready.sport.inmatch.util.TextViewPlus
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/basket_label"
+                android:text="@string/volley_label"
                 android:textSize="22dp"
                 android:textColor="#ffff"
                 android:textAlignment="center"/>
@@ -37,8 +37,8 @@
             android:gravity="center_horizontal"
             android:paddingTop="20dp">
             <com.ready.sport.inmatch.util.CircularProgressBar
-                android:id="@+id/circularprogressbarBasket"
-                style="@style/Widget.ProgressBar.Basket.CircularProgressBar"
+                android:id="@+id/circularprogressbarVolley"
+                style="@style/Widget.ProgressBar.Volley.CircularProgressBar"
                 android:layout_width="120dip"
                 android:layout_height="120dip"
                 android:layout_marginTop="10dip"
@@ -75,11 +75,11 @@
             <com.ready.sport.inmatch.util.TextViewPlus
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/velocity"
+                android:text="@string/battuta"
                 android:paddingLeft="20dp"
                 android:layout_gravity="center"/>
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/seekbarBasVel"
+                android:id="@+id/seekbarVolBat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bsb_auto_adjust_section_mark="true"
@@ -108,7 +108,7 @@
                 android:paddingLeft="20dp"
                 android:layout_gravity="center"/>
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/seekbarBasPot"
+                android:id="@+id/seekbarVolPot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bsb_auto_adjust_section_mark="true"
@@ -133,11 +133,11 @@
             <com.ready.sport.inmatch.util.TextViewPlus
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/passage"
+                android:text="@string/ricezione"
                 android:paddingLeft="20dp"
                 android:layout_gravity="center"/>
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/seekbarBasPas"
+                android:id="@+id/seekbarVolRic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bsb_auto_adjust_section_mark="true"
@@ -166,7 +166,7 @@
                 android:paddingLeft="20dp"
                 android:layout_gravity="center"/>
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/seekbarBasDif"
+                android:id="@+id/seekbarVolDif"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bsb_auto_adjust_section_mark="true"
@@ -191,11 +191,11 @@
             <com.ready.sport.inmatch.util.TextViewPlus
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/attac"
+                android:text="@string/precisione"
                 android:paddingLeft="20dp"
                 android:layout_gravity="center"/>
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/seekbarBasAtt"
+                android:id="@+id/seekbarVolPre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bsb_auto_adjust_section_mark="true"
@@ -220,11 +220,11 @@
             <com.ready.sport.inmatch.util.TextViewPlus
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:text="@string/finality"
+                android:text="@string/schiacciata"
                 android:paddingLeft="20dp"
                 android:layout_gravity="center"/>
             <com.xw.repo.BubbleSeekBar
-                android:id="@+id/seekbarBasFin"
+                android:id="@+id/seekbarVolSc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:bsb_auto_adjust_section_mark="true"

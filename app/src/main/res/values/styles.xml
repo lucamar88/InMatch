@@ -63,7 +63,12 @@
     </style>
 
     /*Spinner*/
-        <style name="customtheme" parent="@android:style/Theme.Light">
+    <style name="SpinnerAppTheme" parent="android:Widget.Spinner">
+        <item name="android:dropDownSelector">#000</item>
+        <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+    </style>
+        <style name="customtheme" parent="@android:style/Widget.Spinner.DropDown">
             <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
             <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
         </style>

@@ -1,8 +1,10 @@
 package com.ready.sport.inmatch.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
@@ -37,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private ListMatchFragment listFrg;
     private PlayersFragment playerFrg;
     private ProfileFragment profileFrg;
+    private FloatingActionButton fab;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -47,15 +50,19 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     mViewPager.setCurrentItem(0);
+                    fab.setVisibility(View.GONE);
                     return true;
                 case R.id.navigation_match:
                     mViewPager.setCurrentItem(1);
+                    fab.setVisibility(View.GONE);
                     return true;
                 case R.id.navigation_players:
                     mViewPager.setCurrentItem(2);
+                    fab.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_player:
                     mViewPager.setCurrentItem(3);
+                    fab.setVisibility(View.GONE);
                     return true;
             }
             return false;
@@ -113,7 +120,14 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
+        fab = (FloatingActionButton) findViewById(R.id.add_player_button);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent in = new Intent(MainActivity.this, CreatePlayerActivity.class);
+                startActivity(in);
+            }
+        });
         setupViewPager(mViewPager);
     }
 

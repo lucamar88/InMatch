@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Display;
 import android.view.Gravity;
@@ -15,58 +13,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 
 import com.ready.sport.inmatch.R;
 import com.xw.repo.BubbleSeekBar;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
- * Created by l.martelloni on 28/08/2017.
+ * Created by l.martelloni on 29/08/2017.
  */
 
-public class PopupDialogFragment extends DialogFragment {
+public class PopupDialogFragmentVolley extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.soccer_fragment, container,
+        View rootView = inflater.inflate(R.layout.volley_fragment, container,
                 false);
-        LinearLayoutCompat lin = (LinearLayoutCompat)rootView.findViewById(R.id.titleSoccerFragment);
+        LinearLayoutCompat lin = (LinearLayoutCompat)rootView.findViewById(R.id.titleVolleyFragment);
         lin.setVisibility(View.VISIBLE);
-        CircularProgressBar c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbar1);
-        c3.setTitle("7,5");
-        c3.setProgress(75);
-        List<String> categories = new ArrayList<String>();
-        categories.add("Portiere");
-        categories.add("Difensore");
-        categories.add("Centrocampista");
-        categories.add("Attaccante");
-        // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categories);
+        CircularProgressBar c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarVolley);
+        c3.setTitle("5,0");
+        c3.setProgress(50);
 
-        // Drop down layout style - list view with radio button
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        AppCompatSpinner spinner = (AppCompatSpinner) rootView.findViewById(R.id.spinnerSoccer);
-        // attaching data adapter to spinner
-        spinner.setAdapter(dataAdapter);
-        spinner.setClickable(false);
 
-        final BubbleSeekBar seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocVel);
+        final BubbleSeekBar seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolDif);
         setBubbleSeekBar(seekbar);
-        final BubbleSeekBar seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocPot);
+        final BubbleSeekBar seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolRic);
         setBubbleSeekBar(seekbar2);
-        final BubbleSeekBar seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocDri);
+        final BubbleSeekBar seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolPot);
         setBubbleSeekBar(seekbar3);
-        final BubbleSeekBar seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocDif);
+        final BubbleSeekBar seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolBat);
         setBubbleSeekBar(seekbar4);
-        final BubbleSeekBar seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAtt);
+        final BubbleSeekBar seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolPre);
         setBubbleSeekBar(seekbar5);
-        final BubbleSeekBar seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
+        final BubbleSeekBar seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolSc);
         setBubbleSeekBar(seekbar6);
 
 

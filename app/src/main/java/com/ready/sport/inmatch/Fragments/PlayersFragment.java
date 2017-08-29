@@ -2,15 +2,7 @@ package com.ready.sport.inmatch.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -19,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ready.sport.inmatch.Activity.SignLoginActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
@@ -129,6 +120,7 @@ public class PlayersFragment extends Fragment {
         /*TouchHelperCallback touchHelperCallback = new TouchHelperCallback();
         ItemTouchHelper touchHelper = new ItemTouchHelper(touchHelperCallback);
         touchHelper.attachToRecyclerView(recyclerView);*/
+
     }
     @Override
     public void onDestroyView() {

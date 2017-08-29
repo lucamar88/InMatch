@@ -11,6 +11,8 @@
     <string name="prompt_password">Password</string>
     <string name="prompt_password_confirm">Conferma password</string>
     <string name="prompt_username">Nome utente</string>
+    <string name="prompt_name">Nome</string>
+    <string name="prompt_surname">Cognome</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
@@ -28,4 +30,21 @@
     <string name="basket_label">BASKET</string>
     <string name="tennis_label">TENNIS</string>
     <string name="volley_label">VOLLEY</string>
+
+    // Attributes
+    <string name="role">Ruolo</string>
+    <string name="velocity">Velocità</string>
+    <string name="power">Potenza</string>
+    <string name="attac">Attacco</string>
+    <string name="defense">Difesa</string>
+    <string name="agility">Agilità</string>
+    <string name="dribbling">Dribbling</string>
+    <string name="passage">Passaggio</string>
+    <string name="finality">Finalizzazione</string>
+    <string name="battuta">Battuta</string>
+    <string name="dritto">Dritto</string>
+    <string name="rovescio">Rovescio</string>
+    <string name="schiacciata">Schiacciata</string>
+    <string name="ricezione">Ricezione</string>
+    <string name="precisione">Precisione</string>
 </resources>

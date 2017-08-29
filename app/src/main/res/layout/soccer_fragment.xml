@@ -26,7 +26,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Calcio"
+            android:text="@string/soccer_label"
             android:textSize="22dp"
             android:textColor="#ffff"
             android:textAlignment="center"/>
@@ -34,14 +34,15 @@
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:paddingTop="20dp">
         <com.ready.sport.inmatch.util.CircularProgressBar
-            android:id="@+id/circularprogressbar1"
+            android:id="@+id/circularprogressbarSoccer"
             style="@style/Widget.ProgressBar.Soccer.CircularProgressBar"
             android:layout_width="120dip"
             android:layout_height="120dip"
             android:layout_marginTop="10dip"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             circular:title="5,0"
             android:layout_gravity="center"/>
     </android.support.v7.widget.LinearLayoutCompat>
@@ -51,7 +52,7 @@
     <com.ready.sport.inmatch.util.TextViewPlus
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="Ruolo"
+        android:text="@string/role"
         android:paddingLeft="20dp"
         android:layout_gravity="center"/>
     <android.support.v7.widget.AppCompatSpinner
@@ -59,8 +60,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginRight="20dp"
-        style="@style/customtheme">
+        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:spinnerMode="dialog"
+        android:background="@drawable/spinner_layout"
+        android:textAlignment="center">
 
     </android.support.v7.widget.AppCompatSpinner>
 </android.support.v7.widget.LinearLayoutCompat>
@@ -74,7 +79,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Velocità"
+            android:text="@string/velocity"
             android:paddingLeft="20dp"
             android:layout_gravity="center"/>
         <com.xw.repo.BubbleSeekBar
@@ -103,7 +108,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Potenza"
+            android:text="@string/power"
             android:paddingLeft="20dp"
             android:layout_gravity="center"/>
         <com.xw.repo.BubbleSeekBar
@@ -132,7 +137,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Dribbling"
+            android:text="@string/dribbling"
             android:paddingLeft="20dp"
             android:layout_gravity="center"/>
         <com.xw.repo.BubbleSeekBar
@@ -161,7 +166,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Difesa"
+            android:text="@string/defense"
             android:paddingLeft="20dp"
             android:layout_gravity="center"/>
         <com.xw.repo.BubbleSeekBar
@@ -190,7 +195,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Attacco"
+            android:text="@string/attac"
             android:paddingLeft="20dp"
             android:layout_gravity="center"/>
         <com.xw.repo.BubbleSeekBar
@@ -219,7 +224,7 @@
         <com.ready.sport.inmatch.util.TextViewPlus
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:text="Agilità"
+            android:text="@string/agility"
             android:paddingLeft="20dp"
             android:layout_gravity="center"/>
         <com.xw.repo.BubbleSeekBar

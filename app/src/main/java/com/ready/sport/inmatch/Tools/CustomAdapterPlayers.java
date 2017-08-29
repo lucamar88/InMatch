@@ -8,7 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
-import com.ready.sport.inmatch.util.PopupDialogFragment;
+import com.ready.sport.inmatch.util.PopupDialogFragmentBasket;
+import com.ready.sport.inmatch.util.PopupDialogFragmentSoccer;
+import com.ready.sport.inmatch.util.PopupDialogFragmentTennis;
+import com.ready.sport.inmatch.util.PopupDialogFragmentVolley;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
 
@@ -50,7 +53,29 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
         holder.soccerRating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPopup(view);
+                PopupDialogFragmentSoccer dialogFragment = new PopupDialogFragmentSoccer();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+            }
+        });
+        holder.basketRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupDialogFragmentBasket dialogFragment = new PopupDialogFragmentBasket();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+            }
+        });
+        holder.tennisRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupDialogFragmentTennis dialogFragment = new PopupDialogFragmentTennis();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+            }
+        });
+        holder.volleyRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupDialogFragmentVolley dialogFragment = new PopupDialogFragmentVolley();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
             }
         });
 
@@ -62,10 +87,24 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
         return getItem(index).IdPlayer;
     }
 
-    public void showPopup(View view) {
-        PopupDialogFragment dialogFragment = new PopupDialogFragment();
-        dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
-    }
+    /*public void showPopup(View view, int index) {
+
+        switch (index){
+            case 1:
+                PopupDialogFragmentSoccer dialogFragment = new PopupDialogFragmentSoccer();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+            case 2:
+                PopupDialogFragmentBasket dialogFragment = new PopupDialogFragmentSoccer();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+            case 3:
+                PopupDialogFragmentTennis dialogFragment = new PopupDialogFragmentSoccer();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+            case 4:
+                PopupDialogFragmentSoccer dialogFragment = new PopupDialogFragmentSoccer();
+                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
+        }
+
+    }*/
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextViewPlus soccerRating ;
