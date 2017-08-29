@@ -26,6 +26,7 @@
                 android:layout_weight="0.15"
                 android:clickable="true"/>
             <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/titleNewMatch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New match - Calcio"
