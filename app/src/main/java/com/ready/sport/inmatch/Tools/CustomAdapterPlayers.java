@@ -87,24 +87,6 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
         return getItem(index).IdPlayer;
     }
 
-    /*public void showPopup(View view, int index) {
-
-        switch (index){
-            case 1:
-                PopupDialogFragmentSoccer dialogFragment = new PopupDialogFragmentSoccer();
-                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
-            case 2:
-                PopupDialogFragmentBasket dialogFragment = new PopupDialogFragmentSoccer();
-                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
-            case 3:
-                PopupDialogFragmentTennis dialogFragment = new PopupDialogFragmentSoccer();
-                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
-            case 4:
-                PopupDialogFragmentSoccer dialogFragment = new PopupDialogFragmentSoccer();
-                dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
-        }
-
-    }*/
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextViewPlus soccerRating ;

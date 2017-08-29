@@ -17,6 +17,7 @@ import com.ready.sport.inmatch.Activity.SplashActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.util.AutoCompleteTextViewPlus;
 import com.ready.sport.inmatch.util.ButtonPlus;
+import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
 
 /**
@@ -39,25 +40,41 @@ public class HomeFragment extends Fragment {
         card1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CreateMatchActivity.class));
+                Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
+                int strName = Constants.SOCCER_TYPE;
+                intent.putExtra(Constants.MATCH_TYPE, strName);
+
+                startActivity(intent);
             }
         });
         card2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CreateMatchActivity.class));
+                Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
+                int strName = Constants.BASKET_TYPE;
+                intent.putExtra(Constants.MATCH_TYPE, strName);
+
+                startActivity(intent);
             }
         });
         card3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CreateMatchActivity.class));
+                Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
+                int strName = Constants.TENNIS_TYPE;
+                intent.putExtra(Constants.MATCH_TYPE, strName);
+
+                startActivity(intent);
             }
         });
         card4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(), CreateMatchActivity.class));
+                Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
+                int strName = Constants.VOLLEY_TYPE;
+                intent.putExtra(Constants.MATCH_TYPE, strName);
+
+                startActivity(intent);
             }
         });
         return rootView;

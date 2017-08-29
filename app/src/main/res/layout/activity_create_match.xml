@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.ready.sport.inmatch.Activity.MainActivity">
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+        android:id="@+id/appbarCreateMatch"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:theme="@style/AwesomeSplashTheme.AppBarOverlay">

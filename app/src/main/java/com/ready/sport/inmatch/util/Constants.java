@@ -5,6 +5,12 @@ public class Constants {
     private static final int SPLASH_DELAY = 5000;
     private static final String EMPTY = "";
 
+    //Type
+    public static final String MATCH_TYPE = "matchType";
+    public static final int SOCCER_TYPE = 1;
+    public static final int BASKET_TYPE = 2;
+    public static final int TENNIS_TYPE = 3;
+    public static final int VOLLEY_TYPE = 4;
     //fonts
     private static final String STREATWEAR_FONT = "fonts/streatwear.otf";
     private static final String DITI_SWEET_FONT = "fonts/diti_sweet.ttf";
