@@ -38,6 +38,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private AppBarLayout bar;
     private TextViewPlus title;
     private TextViewPlus numSelectPl;
+    private int count = 0;
 
     private Realm realm;
 
@@ -181,12 +182,14 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     }
     @Override
     public void setPlayerForMatch(int idPlayer,int type){
-        /*if(type == 0){
-            listaPlayer.remove(idPlayer);
+        if(type == 0){
+            count = count-1;
+            //listaPlayer.remove(idPlayer);
         }else{
+            count = count+1;
             //listaPlayer.add(idPlayer);
-        }*/
-        //numSelectPl.setText(String.valueOf(listaPlayer.size()));
+        }
+        numSelectPl.setText(String.valueOf(count));
     }
     /**
      * Converting dp to pixel
