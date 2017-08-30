@@ -1,0 +1,100 @@
+<LinearLayout
+    android:id="@+id/cardPlayerNewMatch"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:circular="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="5dp">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnCount="2"
+            android:rowCount="1">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:layout_column="0"
+                android:layout_row="0">
+
+
+                <com.ready.sport.inmatch.util.TextViewPlus
+                    android:id="@+id/namePlayerList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="7dp"
+                    android:paddingRight="5dp"
+                    android:paddingTop="5dp"
+                    android:textSize="10dp" />
+
+                <com.ready.sport.inmatch.util.TextViewPlus
+                    android:id="@+id/surnamePlayerList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Surname"
+                    android:layout_below="@id/namePlayerList"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:textSize="10dp" />
+                <com.ready.sport.inmatch.util.TextViewPlus
+                    android:id="@+id/rolePlayerList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CENTROCAMPISTA"
+                    android:backgroundTint="@color/soccerColor"
+                    android:background="@color/soccerColor"
+                    android:textColor="@android:color/white"
+                    android:layout_below="@id/surnamePlayerList"
+                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="3dp"
+                    android:textSize="7dp"
+                    android:textAlignment="center"
+                    android:gravity="center"/>
+            </RelativeLayout>
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_row="0"
+                android:layout_gravity="end">
+                <com.ready.sport.inmatch.util.CircularProgressBar
+                    android:id="@+id/circularprogressbarPlayer"
+                    style="@style/Widget.ProgressBar.Player.CircularProgressBar"
+                    android:layout_width="30dip"
+                    android:layout_height="30dip"
+                    android:layout_marginTop="10dip"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="10dp"
+                    circular:title="5,0"
+                    android:layout_gravity="center"/>
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:id="@+id/selectPlayer"
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_player_new_match"
+                    android:layout_gravity="end"
+                    android:visibility="invisible"
+                    >
+
+                </android.support.v7.widget.LinearLayoutCompat>
+            </android.support.v7.widget.LinearLayoutCompat>
+
+            </GridLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

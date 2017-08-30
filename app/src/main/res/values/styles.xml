@@ -38,6 +38,12 @@
         <item name="cpb_titleColor">#a3a3a3</item>
         <item name="cpb_progressColor">@color/volleyColor</item>
     </style>
+    <style name="Widget.ProgressBar.Player.CircularProgressBar" parent="Widget.ProgressBar.CircularProgressBar">
+        <item name="cpb_hasShadow">false</item>
+        <item name="cpb_strokeWidth">3</item>
+        <item name="cpb_titleColor">@color/colorButton</item>
+        <item name="cpb_progressColor">@color/colorPrimary</item>
+    </style>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->

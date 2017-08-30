@@ -6,11 +6,11 @@
     android:layout_height="wrap_content">
 
     <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnCount="2"
-        android:rowCount="2"
-        android:layout_marginTop="50dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:rowCount="2"
+    android:layout_marginTop="50dp">
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/linear1"
         android:layout_width="wrap_content"

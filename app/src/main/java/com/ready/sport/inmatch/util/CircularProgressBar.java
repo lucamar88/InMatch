@@ -17,6 +17,7 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.Size;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
@@ -241,6 +242,12 @@ public class CircularProgressBar extends ProgressBar {
         this.mTitle = title;
         invalidate();
     }
+
+    public synchronized void setSizeTitle(int size){
+        mTitlePaint.setTextSize(size);
+        invalidate();
+    }
+
 
     public synchronized void setSubTitle(String subtitle){
         this.mSubTitle = subtitle;

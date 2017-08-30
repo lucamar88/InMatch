@@ -49,6 +49,7 @@ public class PlayersFragment extends Fragment {
                      PlayersModel l = realm.createObject(PlayersModel.class);
                      l.setSurName("Martelloni");
                      l.setName("Luca");
+                     l.setIdPlayer(i);
                      l.setRatingSoccer(7.5);
                      l.setRatingBasket(5.5);
                      l.setRatingTennis(4.5);
