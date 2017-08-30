@@ -43,6 +43,68 @@
 
 
     </android.support.design.widget.AppBarLayout>
-
+<android.support.v7.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.v7.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <com.ready.sport.inmatch.util.EditTextPlus
+        android:id="@+id/locationNewMatch"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:backgroundTint="@color/colorButton"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
+        android:hint="Luogo"
+        android:imeActionLabel="@string/action_sign_in_short"
+        android:imeOptions="actionUnspecified"
+        android:inputType="text"
+        android:textSize="15dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColorHint="@color/colorButton"
+        android:drawableLeft="@drawable/location_icon_rid"
+        android:drawablePadding="15dp"
+        />
+</android.support.v7.widget.LinearLayoutCompat>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor"/>
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.ready.sport.inmatch.util.EditTextPlus
+            android:id="@+id/dataNewMatch"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorButton"
+            android:layout_marginRight="60dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
+            android:hint="Data"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+            android:textSize="15dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColorHint="@color/colorButton"
+            android:drawableLeft="@drawable/data_icon_rid"
+            android:drawablePadding="15dp"
+            />
+    </android.support.v7.widget.LinearLayoutCompat>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separatorColor"/>
+</android.support.v7.widget.LinearLayoutCompat>
 
 </LinearLayout>
