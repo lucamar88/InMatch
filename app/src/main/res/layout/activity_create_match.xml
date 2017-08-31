@@ -54,7 +54,8 @@
 <android.support.v7.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:layout_marginTop="10dp">
     <android.support.v7.widget.LinearLayoutCompat
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -72,7 +73,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionUnspecified"
         android:inputType="text"
-        android:textSize="17dp"
+        android:textSize="15dp"
         android:textColor="#a3a3a3"
         android:maxLines="1"
         android:singleLine="true"
