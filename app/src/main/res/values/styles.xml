@@ -68,6 +68,7 @@
     <item name="android:textColor">@android:color/white</item>
     </style>
 
+
     /*Spinner*/
     <style name="SpinnerAppTheme" parent="android:Widget.Spinner">
         <item name="android:dropDownSelector">#000</item>
