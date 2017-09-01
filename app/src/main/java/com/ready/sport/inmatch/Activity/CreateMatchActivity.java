@@ -323,7 +323,6 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             listaPlayer.add(new Integer(idPlayer));
         }
         numSelectPl.setText(String.valueOf(count));
-        Toast.makeText(this,"ID player: " + idPlayer, Toast.LENGTH_SHORT).show();
     }
     /**
      * Converting dp to pixel

@@ -94,7 +94,7 @@ public class SoccerFragment extends Fragment {
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-        //spinner.setClickable(false);
+        spinner.setClickable(false);
 
         seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocVel);
         setBubbleSeekBar(seekbar);
