@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.BasketModel;
+import com.ready.sport.inmatch.RealmClass.TennisModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.xw.repo.BubbleSeekBar;
 
@@ -33,6 +35,7 @@ public class BasketFragment extends Fragment {
     private BubbleSeekBar seekbar5;
     private BubbleSeekBar seekbar6;
     private CircularProgressBar c3;
+    private double ratingFinal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.basket_fragment, container, false);
@@ -126,10 +129,23 @@ public class BasketFragment extends Fragment {
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
                     DecimalFormat value = new DecimalFormat("#.#");
                     c3.setTitle(value.format(fin));
+                    ratingFinal = fin;
                     c3.setProgress((int)fin*10);
                 }
             });
         }
 
+    }
+
+    public BasketModel getDataBasket(){
+        BasketModel model = new BasketModel();
+        model.setVelocitaBasket(seekbar.getProgressFloat());
+        model.setPotenzaBasket(seekbar2.getProgressFloat());
+        model.setPassaggioBasket(seekbar3.getProgressFloat());
+        model.setDifesaBasket(seekbar4.getProgressFloat());
+        model.setAttaccoBasket(seekbar5.getProgressFloat());
+        model.setFinalizzazioneBasket(seekbar6.getProgressFloat());
+        model.setRatingBasket(ratingFinal);
+        return model;
     }
 }

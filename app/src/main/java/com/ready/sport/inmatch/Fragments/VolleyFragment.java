@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.BasketModel;
+import com.ready.sport.inmatch.RealmClass.VolleyModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.xw.repo.BubbleSeekBar;
 
@@ -29,6 +31,7 @@ public class VolleyFragment extends Fragment {
     private BubbleSeekBar seekbar5;
     private BubbleSeekBar seekbar6;
     private CircularProgressBar c3;
+    private double ratingFinal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.volley_fragment, container, false);
@@ -121,11 +124,24 @@ public class VolleyFragment extends Fragment {
                     double tmp6 = seekbar6.getProgressFloat();
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
                     DecimalFormat value = new DecimalFormat("#.#");
+                    ratingFinal = fin;
                     c3.setTitle(value.format(fin));
                     c3.setProgress((int)fin*10);
                 }
             });
         }
 
+    }
+
+    public VolleyModel getDataVolley(){
+        VolleyModel model = new VolleyModel();
+        model.setBattutaVolley(seekbar.getProgressFloat());
+        model.setPotenzaVolley(seekbar2.getProgressFloat());
+        model.setPrecisioneVolley(seekbar3.getProgressFloat());
+        model.setRicezioneVolley(seekbar4.getProgressFloat());
+        model.setDifesaVolley(seekbar5.getProgressFloat());
+        model.setSchiacciataVolley(seekbar6.getProgressFloat());
+        model.setRatingVolley(ratingFinal);
+        return model;
     }
 }

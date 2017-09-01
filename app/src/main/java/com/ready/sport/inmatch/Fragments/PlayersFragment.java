@@ -28,10 +28,8 @@ public class PlayersFragment extends Fragment {
      private Realm realm;
 
     private static RecyclerView.Adapter adapter;
-    private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
     private static ArrayList<PlayersModel> data;
-    static View.OnClickListener myOnClickListener;
 
      public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
      View rootView = inflater.inflate(R.layout.fragment_players_layout, container, false);
@@ -42,7 +40,7 @@ public class PlayersFragment extends Fragment {
          //recyclerView.setHasFixedSize(true);
          data = new ArrayList<PlayersModel>();
          //Creo dati
-         realm.executeTransaction(new Realm.Transaction() {
+         /*realm.executeTransaction(new Realm.Transaction() {
              @Override
              public void execute(Realm realm) {
                  for(int i = 0; i<10 ;i++){
@@ -58,35 +56,13 @@ public class PlayersFragment extends Fragment {
 
 
              }
-         });
+         });*/
 
 
-         /*layoutManager = new LinearLayoutManager(getActivity());
-         recyclerView.setLayoutManager(layoutManager);
-         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-         myOnClickListener = new MyOnClickListener(getActivity());
-
-         adapter = new CustomAdapterPlayers(data);
-         recyclerView.setAdapter(adapter);*/
          setUpRecyclerView();
      return rootView;
 }
-    private static class MyOnClickListener implements View.OnClickListener {
-
-        private final Context context;
-
-        private MyOnClickListener(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        public void onClick(View v) {
-            Toast.makeText(context, "Click", Toast.LENGTH_LONG);
-        }
-
-
-    }
 
 
     private class TouchHelperCallback extends ItemTouchHelper.SimpleCallback {
@@ -128,4 +104,5 @@ public class PlayersFragment extends Fragment {
         super.onDestroyView();
         realm.close();
     }
+
 }

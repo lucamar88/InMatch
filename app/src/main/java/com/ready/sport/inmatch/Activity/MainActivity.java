@@ -32,8 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationViewEx navigation;
 
-    private FragmentManager manager = getSupportFragmentManager();
-
     private MenuItem prevMenuItem;
     private HomeFragment homeFrg;
     private ListMatchFragment listFrg;
@@ -81,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //BottomNavigationViewHelper.disableShiftMode(navigation);
         navigation.setTextVisibility(false);
+        navigation.enableAnimation(true);
         navigation.enableShiftingMode(false);
         navigation.enableItemShiftingMode(false);
         navigation.setIconSize(30, 30);

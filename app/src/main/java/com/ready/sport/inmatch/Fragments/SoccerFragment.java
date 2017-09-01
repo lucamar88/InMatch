@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.SoccerModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.xw.repo.BubbleSeekBar;
 
@@ -45,6 +46,7 @@ public class SoccerFragment extends Fragment {
     private BubbleSeekBar seekbar5;
     private BubbleSeekBar seekbar6;
     private CircularProgressBar c3;
+    private double ratingFinal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.soccer_fragment, container, false);
@@ -159,6 +161,7 @@ public class SoccerFragment extends Fragment {
                     double tmp6 = seekbar6.getProgressFloat();
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
                     DecimalFormat value = new DecimalFormat("#.#");
+                    ratingFinal = fin;
                     c3.setTitle(value.format(fin));
                     c3.setProgress((int)fin*10);
                 }
@@ -167,7 +170,15 @@ public class SoccerFragment extends Fragment {
 
     }
 
-    public double getDataSoccer(){
-        return seekbar.getProgressFloat();
+    public SoccerModel getDataSoccer(){
+        SoccerModel model = new SoccerModel();
+        model.setAgilitaSoccer(seekbar6.getProgressFloat());
+        model.setAttaccoSoccer(seekbar5.getProgressFloat());
+        model.setDifesaSoccer(seekbar4.getProgressFloat());
+        model.setDribblingSoccer(seekbar3.getProgressFloat());
+        model.setPotenzaSoccer(seekbar2.getProgressFloat());
+        model.setVelocitaSoccer(seekbar.getProgressFloat());
+        model.setRatingSoccer(ratingFinal);
+        return model;
     }
 }

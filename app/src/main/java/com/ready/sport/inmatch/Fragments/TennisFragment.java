@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.SoccerModel;
+import com.ready.sport.inmatch.RealmClass.TennisModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.xw.repo.BubbleSeekBar;
 
@@ -29,6 +31,7 @@ public class TennisFragment extends Fragment {
     private BubbleSeekBar seekbar5;
     private BubbleSeekBar seekbar6;
     private CircularProgressBar c3;
+    private double ratingFinal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tennis_fragment, container, false);
@@ -122,10 +125,23 @@ public class TennisFragment extends Fragment {
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
                     DecimalFormat value = new DecimalFormat("#.#");
                     c3.setTitle(value.format(fin));
+                    ratingFinal = fin;
                     c3.setProgress((int)fin*10);
                 }
             });
         }
 
+    }
+
+    public TennisModel getDataTennis(){
+        TennisModel model = new TennisModel();
+        model.setAgilitaTennis(seekbar.getProgressFloat());
+        model.setPotenzaTennis(seekbar2.getProgressFloat());
+        model.setBattutaTennis(seekbar3.getProgressFloat());
+        model.setDrittoTennis(seekbar4.getProgressFloat());
+        model.setRovescioTennis(seekbar5.getProgressFloat());
+        model.setSchiacciataTennis(seekbar6.getProgressFloat());
+        model.setRatingTennis(ratingFinal);
+        return model;
     }
 }

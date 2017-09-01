@@ -97,7 +97,7 @@ public class PlayersModel extends RealmObject {
     public double i_DifesaBasket;
 
     public double    getDifesaBasket() { return i_DifesaBasket; }
-    public void   setDifesaBasket(double difesaBasket) { this.i_DifesaSoccer = difesaBasket; }
+    public void   setDifesaBasket(double difesaBasket) { this.i_DifesaBasket = difesaBasket; }
 
     public double i_AttaccoBasket ;
 
@@ -183,10 +183,10 @@ public class PlayersModel extends RealmObject {
     public double    getSchiacciataVolley() { return i_SchiacciataVolley; }
     public void   setSchiacciataVolley(double schiacciataVolley) { this.i_SchiacciataVolley = schiacciataVolley; }
 
-    public double i_AttaccoVolley ;
+    /*public double i_AttaccoVolley ;
 
-    public double    geti_AttaccoVolley() { return i_AttaccoVolley; }
-    public void   seti_AttaccoVolley(double attaccoVolley) { this.i_AttaccoVolley = attaccoVolley; }
+    public double    getAttaccoVolley() { return i_AttaccoVolley; }
+    public void   setAttaccoVolley(double attaccoVolley) { this.i_AttaccoVolley = attaccoVolley; }*/
 
     public double i_RatingTotVolley ;
 

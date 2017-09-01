@@ -6,14 +6,25 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.ready.sport.inmatch.Fragments.BasketFragment;
 import com.ready.sport.inmatch.Fragments.SoccerFragment;
 import com.ready.sport.inmatch.Fragments.TennisFragment;
 import com.ready.sport.inmatch.Fragments.VolleyFragment;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.BasketModel;
+import com.ready.sport.inmatch.RealmClass.CreatePlayerClass;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
+import com.ready.sport.inmatch.RealmClass.SoccerModel;
+import com.ready.sport.inmatch.RealmClass.TennisModel;
+import com.ready.sport.inmatch.RealmClass.VolleyModel;
 import com.ready.sport.inmatch.Tools.LockableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
+import com.ready.sport.inmatch.util.EditTextPlus;
+import com.ready.sport.inmatch.util.TextViewPlus;
+
+import io.realm.Realm;
 
 import static android.R.attr.value;
 
@@ -26,6 +37,10 @@ public class CreatePlayerActivity extends AppCompatActivity {
     private BasketFragment basFrag;
     private TennisFragment tenFrag;
     private VolleyFragment volFrag;
+    private EditTextPlus name;
+    private EditTextPlus surName;
+    private Realm realm;
+    private PlayersModel model;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -35,7 +50,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_player);
-
+        realm= Realm.getDefaultInstance();
         mViewPager = (ViewPager) findViewById(R.id.viewPagerNewPlayer);
 
         setupViewPager(mViewPager);
@@ -48,6 +63,9 @@ public class CreatePlayerActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setIcon(R.drawable.tennis_icon);
         tabLayout.getTabAt(3).setIcon(R.drawable.volley_icon);
 
+        name = (EditTextPlus) findViewById(R.id.nameNewPlayer);
+        surName = (EditTextPlus) findViewById(R.id.surnameNewPlayer);
+
         AppCompatImageView back = (AppCompatImageView)findViewById(R.id.backBtnCreatePlayer);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +74,13 @@ public class CreatePlayerActivity extends AppCompatActivity {
             }
         });
 
+        AppCompatImageView add = (AppCompatImageView)findViewById(R.id.add_player_button);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createPlayer();
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -81,6 +106,30 @@ public class CreatePlayerActivity extends AppCompatActivity {
     }
 
     private void createPlayer(){
-        socFrag.getDataSoccer();
+        SoccerModel soccerModel = socFrag.getDataSoccer();
+        BasketModel basketModel = basFrag.getDataBasket();
+        TennisModel tennisModel = tenFrag.getDataTennis();
+        VolleyModel volleyModel = volFrag.getDataVolley();
+
+        model = CreatePlayerClass.setPlayerModel(false, soccerModel,basketModel,tennisModel,volleyModel, name.getText().toString(), surName.getText().toString() );
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.createObject(PlayersModel.class, model);
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                finish();
+                // Transaction was a success.
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+            }
+        });
+
     }
 }

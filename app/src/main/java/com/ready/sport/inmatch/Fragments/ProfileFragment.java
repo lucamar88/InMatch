@@ -100,10 +100,18 @@ public class ProfileFragment extends Fragment {
     }
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
+        Bundle args = new Bundle();
+        args.putBoolean("isClick", true);
         socFrag=new SoccerFragment();
         basFrag=new BasketFragment();
         tenFrag=new TennisFragment();
         volFrag=new VolleyFragment();
+
+        socFrag.setArguments(args);
+        basFrag.setArguments(args);
+        tenFrag.setArguments(args);
+        volFrag.setArguments(args);
+
         adapter.addFragment(socFrag);
         adapter.addFragment(basFrag);
         adapter.addFragment(tenFrag);
