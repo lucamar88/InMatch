@@ -23,7 +23,6 @@ import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.Tools.NoSwipableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
 
-import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
 

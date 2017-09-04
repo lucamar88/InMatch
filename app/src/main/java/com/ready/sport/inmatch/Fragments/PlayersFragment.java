@@ -104,5 +104,12 @@ public class PlayersFragment extends Fragment {
         super.onDestroyView();
         realm.close();
     }
+    @Override
+    public void onResume(){
+        super.onResume();
 
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAll(),getContext());
+        adapter.notifyDataSetChanged();
+        recyclerView.setAdapter(adapter);
+    }
 }
