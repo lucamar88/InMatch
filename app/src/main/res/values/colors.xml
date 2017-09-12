@@ -5,6 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorButton">#a2d1db</color>
     <color name="colorSecond">#559bbf</color>
+    <color name="colorTextFill">#9a9a9a</color>
 
     <color name="soccerColor">#fcb465</color>
     <color name="basketColor">#62d7c8</color>
