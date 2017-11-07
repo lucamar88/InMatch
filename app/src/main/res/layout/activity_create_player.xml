@@ -113,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <android.support.v4.view.ViewPager
+        <com.ready.sport.inmatch.Tools.NoSwipableViewPager
             android:id="@+id/viewPagerNewPlayer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

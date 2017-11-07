@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.ready.sport.inmatch"
         minSdkVersion 16
@@ -45,11 +45,12 @@ dependencies {
     compile 'com.badoo.mobile:android-weak-handler:1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.ittianyu:BottomNavigationViewEx:1.2.1'
-    compile 'com.xw.repo:bubbleseekbar:3.7'
+    compile 'com.xw.repo:bubbleseekbar:3.8'
     compile 'io.realm:android-adapters:2.0.0'
     compile 'com.shawnlin:number-picker:2.4.4'
     compile 'com.github.florent37:singledateandtimepicker:1.2.0'
     compile 'com.wdullaer:materialdatetimepicker:3.2.2'
     compile 'com.github.iwgang:countdownview:2.1.6'
+    compile 'com.github.iammert:HueSeekBar:master'
     testCompile 'junit:junit:4.12'
 }

@@ -55,12 +55,13 @@ public class BasketFragment extends Fragment {
             scroller.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    seekbar.correctOffsetWhenContainerOnScrolling();
-                    seekbar2.correctOffsetWhenContainerOnScrolling();
-                    seekbar3.correctOffsetWhenContainerOnScrolling();
-                    seekbar4.correctOffsetWhenContainerOnScrolling();
-                    seekbar5.correctOffsetWhenContainerOnScrolling();
-                    seekbar6.correctOffsetWhenContainerOnScrolling();
+//                    seekbar.correctOffsetWhenContainerOnScrolling();
+//                    seekbar2.correctOffsetWhenContainerOnScrolling();
+//                    seekbar3.correctOffsetWhenContainerOnScrolling();
+//                    seekbar4.correctOffsetWhenContainerOnScrolling();
+//                    seekbar5.correctOffsetWhenContainerOnScrolling();
+//                    seekbar6.correctOffsetWhenContainerOnScrolling();
+                    UpdateOffsetSeekBar();
                 }
             });
         }
@@ -77,7 +78,7 @@ public class BasketFragment extends Fragment {
         setBubbleSeekBar(seekbar5);
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasFin);
         setBubbleSeekBar(seekbar6);
-
+        UpdateOffsetSeekBar();
         return rootView;
     }
 
@@ -110,16 +111,16 @@ public class BasketFragment extends Fragment {
         }else{
             seek.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
                 @Override
-                public void onProgressChanged(int progress, float progressFloat) {
+                public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
 
                 }
 
                 @Override
-                public void getProgressOnActionUp(int progress, float progressFloat) {
+                public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                 }
 
                 @Override
-                public void getProgressOnFinally(int progress, float progressFloat) {
+                public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                     double tmp1 = seekbar.getProgressFloat();
                     double tmp2 = seekbar2.getProgressFloat();
                     double tmp3 = seekbar3.getProgressFloat();
@@ -135,6 +136,15 @@ public class BasketFragment extends Fragment {
             });
         }
 
+    }
+
+    public void UpdateOffsetSeekBar(){
+        seekbar.correctOffsetWhenContainerOnScrolling();
+        seekbar2.correctOffsetWhenContainerOnScrolling();
+        seekbar3.correctOffsetWhenContainerOnScrolling();
+        seekbar4.correctOffsetWhenContainerOnScrolling();
+        seekbar5.correctOffsetWhenContainerOnScrolling();
+        seekbar6.correctOffsetWhenContainerOnScrolling();
     }
 
     public BasketModel getDataBasket(){

@@ -23,13 +23,19 @@ import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.SoccerModel;
+import com.ready.sport.inmatch.util.ButtonPlus;
 import com.ready.sport.inmatch.util.CircularProgressBar;
+import com.ready.sport.inmatch.util.TextViewPlus;
 import com.xw.repo.BubbleSeekBar;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import iammert.com.huelib.HueSeekBar;
+import iammert.com.huelib.ProgressListener;
+import iammert.com.huelib.VerticalAnimationListener;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -39,42 +45,39 @@ public class SoccerFragment extends Fragment {
 
     private boolean isClickable = false;
 
-    private BubbleSeekBar seekbar;
-    private BubbleSeekBar seekbar2;
-    private BubbleSeekBar seekbar3;
-    private BubbleSeekBar seekbar4;
-    private BubbleSeekBar seekbar5;
-    private BubbleSeekBar seekbar6;
+    private HueSeekBar seekbar;
+    private HueSeekBar seekbar2;
+    private HueSeekBar seekbar3;
+    private HueSeekBar seekbar4;
+    private HueSeekBar seekbar5;
+    private HueSeekBar seekbar6;
+
+    private TextViewPlus seekbartext;
+    private TextViewPlus seekbartext2;
+    private TextViewPlus seekbartext3;
+    private TextViewPlus seekbartext4;
+    private TextViewPlus seekbartext5;
+    private TextViewPlus seekbartext6;
+
     private CircularProgressBar c3;
+    private NestedScrollView scroller;
     private double ratingFinal;
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.soccer_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarSoccer);
         c3.setTitle("5,0");
         c3.setProgress(50);
+
         try {
             isClickable = getArguments().getBoolean("isClick");
         }
         catch (Exception e){
             e.printStackTrace();
         }
-        NestedScrollView scroller = (NestedScrollView) rootView.findViewById(R.id.scrollSoccer);
 
-        if (scroller != null) {
-
-            scroller.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    seekbar.correctOffsetWhenContainerOnScrolling();
-                    seekbar2.correctOffsetWhenContainerOnScrolling();
-                    seekbar3.correctOffsetWhenContainerOnScrolling();
-                    seekbar4.correctOffsetWhenContainerOnScrolling();
-                    seekbar5.correctOffsetWhenContainerOnScrolling();
-                    seekbar6.correctOffsetWhenContainerOnScrolling();
-                }
-            });
-        }
         // Spinner element
         AppCompatSpinner spinner = (AppCompatSpinner) rootView.findViewById(R.id.spinnerSoccer);
 
@@ -98,41 +101,32 @@ public class SoccerFragment extends Fragment {
         spinner.setAdapter(dataAdapter);
         spinner.setClickable(false);
 
-        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocVel);
-        setBubbleSeekBar(seekbar);
-        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocPot);
-        setBubbleSeekBar(seekbar2);
-        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocDri);
-        setBubbleSeekBar(seekbar3);
-        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocDif);
-        setBubbleSeekBar(seekbar4);
-        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAtt);
-        setBubbleSeekBar(seekbar5);
-        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
-        setBubbleSeekBar(seekbar6);
-
+        seekbar = (HueSeekBar)rootView.findViewById(R.id.seekbarSocVel);
+        seekbartext = (TextViewPlus) rootView.findViewById(R.id.seekbarSocVelNum);
+        setBubbleSeekBar(seekbar, seekbartext);
+        seekbar2 = (HueSeekBar)rootView.findViewById(R.id.seekbarSocPot);
+        seekbartext2 = (TextViewPlus) rootView.findViewById(R.id.seekbarSocPotNum);
+        setBubbleSeekBar(seekbar2,seekbartext2);
+        seekbar3 = (HueSeekBar)rootView.findViewById(R.id.seekbarSocDri);
+        seekbartext3 = (TextViewPlus) rootView.findViewById(R.id.seekbarSocDriNum);
+        setBubbleSeekBar(seekbar3,seekbartext3);
+        seekbar4 = (HueSeekBar)rootView.findViewById(R.id.seekbarSocDif);
+        seekbartext4 = (TextViewPlus) rootView.findViewById(R.id.seekbarSocDifNum);
+        setBubbleSeekBar(seekbar4,seekbartext4);
+        seekbar5 = (HueSeekBar)rootView.findViewById(R.id.seekbarSocAtt);
+        seekbartext5 = (TextViewPlus) rootView.findViewById(R.id.seekbarSocAttNum);
+        setBubbleSeekBar(seekbar5,seekbartext5);
+        seekbar6 = (HueSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
+        seekbartext6 = (TextViewPlus) rootView.findViewById(R.id.seekbarSocAgiNum);
+        setBubbleSeekBar(seekbar6,seekbartext6);
         return rootView;
     }
 
-    public void setBubbleSeekBar(BubbleSeekBar seek){
-        seek.getConfigBuilder()
-                .min(1)
-                .max(10.0f)
-                .floatType()
-                .progress(5.0f)
-                .sectionCount(90)
-                .trackColor(ContextCompat.getColor(getContext(), R.color.colorButton))
-                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .showThumbText()
-                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbTextSize(18)
-                .bubbleColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .bubbleTextSize(18)
-                .seekBySection()
-                .showSectionMark()
-                .autoAdjustSectionMark()
-                .build();
+    public void setBubbleSeekBar(final HueSeekBar seek, TextViewPlus text){
+        seek.setCurrentProgress(50);
+        final TextViewPlus textViewPlus = text;
+
+
         if(!isClickable){
             seek.setOnTouchListener(new View.OnTouchListener(){
                 @Override
@@ -141,44 +135,65 @@ public class SoccerFragment extends Fragment {
                 }
             });
         }else{
-            seek.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
-                @Override
-                public void onProgressChanged(int progress, float progressFloat) {
 
-                }
+            seek.setProgressListener(new ProgressListener() {
 
                 @Override
-                public void getProgressOnActionUp(int progress, float progressFloat) {
-                }
+                public void onProgressChange(int progress) {
 
-                @Override
-                public void getProgressOnFinally(int progress, float progressFloat) {
-                    double tmp1 = seekbar.getProgressFloat();
-                    double tmp2 = seekbar2.getProgressFloat();
-                    double tmp3 = seekbar3.getProgressFloat();
-                    double tmp4 = seekbar4.getProgressFloat();
-                    double tmp5 = seekbar5.getProgressFloat();
-                    double tmp6 = seekbar6.getProgressFloat();
+                    float perc = (float)progress / 10;
+
+                    textViewPlus.setText(perc + " / 10");
+                    //do somth with progress value
+
+                    double tmp1 = seekbar.getCurrentProgress();
+                    double tmp2 = seekbar2.getCurrentProgress();
+                    double tmp3 = seekbar3.getCurrentProgress();
+                    double tmp4 = seekbar4.getCurrentProgress();
+                    double tmp5 = seekbar5.getCurrentProgress();
+                    double tmp6 = seekbar6.getCurrentProgress();
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
                     DecimalFormat value = new DecimalFormat("#.#");
-                    ratingFinal = fin;
-                    c3.setTitle(value.format(fin));
-                    c3.setProgress((int)fin*10);
+                    ratingFinal = fin/10;
+                    c3.setTitle(value.format(fin/10));
+                    c3.setProgress((int)fin);
                 }
             });
+            seek.setVerticalAnimationListener(new VerticalAnimationListener() {
+                @Override
+                public void onAnimProgressChanged(int percentage) {
+                    float perc = (float)seek.getCurrentProgress() / 10;
+                    textViewPlus.setText(perc + " / 10");
+
+                    double tmp1 = seekbar.getCurrentProgress();
+                    double tmp2 = seekbar2.getCurrentProgress();
+                    double tmp3 = seekbar3.getCurrentProgress();
+                    double tmp4 = seekbar4.getCurrentProgress();
+                    double tmp5 = seekbar5.getCurrentProgress();
+                    double tmp6 = seekbar6.getCurrentProgress();
+                    double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
+                    DecimalFormat value = new DecimalFormat("#.#");
+                    ratingFinal = fin/10;
+                    c3.setTitle(value.format(fin/10));
+                    c3.setProgress((int)fin);
+                }
+            });
+
         }
 
     }
 
+
+
     public SoccerModel getDataSoccer(){
         SoccerModel model = new SoccerModel();
-        model.setAgilitaSoccer(seekbar6.getProgressFloat());
-        model.setAttaccoSoccer(seekbar5.getProgressFloat());
-        model.setDifesaSoccer(seekbar4.getProgressFloat());
-        model.setDribblingSoccer(seekbar3.getProgressFloat());
-        model.setPotenzaSoccer(seekbar2.getProgressFloat());
-        model.setVelocitaSoccer(seekbar.getProgressFloat());
-        model.setRatingSoccer(ratingFinal);
+        model.setAgilitaSoccer(seekbar6.getCurrentProgress()/10);
+        model.setAttaccoSoccer(seekbar5.getCurrentProgress()/10);
+        model.setDifesaSoccer(seekbar4.getCurrentProgress()/10);
+        model.setDribblingSoccer(seekbar3.getCurrentProgress()/10);
+        model.setPotenzaSoccer(seekbar2.getCurrentProgress()/10);
+        model.setVelocitaSoccer(seekbar.getCurrentProgress()/10);
+        model.setRatingSoccer(ratingFinal/10);
         return model;
     }
 }
