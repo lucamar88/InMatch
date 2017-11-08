@@ -68,13 +68,16 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                android:paddingLeft="10dp"
                 android:background="@drawable/spinner_layout"
                 android:gravity="center"
                 android:spinnerMode="dialog"
-                android:textAlignment="center">
+                android:textAlignment="center"
+                >
 
             </android.support.v7.widget.AppCompatSpinner>
         </android.support.v7.widget.LinearLayoutCompat>
+
         <!--<View-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="1dp"-->
@@ -248,6 +251,16 @@
         <!--android:text="float type, section text interval : 2, auto adjust"-->
         <!--android:textSize="12sp"/>-->
         <!--</android.support.v7.widget.LinearLayoutCompat>-->
+
+        <SeekBar
+            android:id="@+id/seekBarTest"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorButton"
+            android:background="@color/colorButton"
+            android:max="100"
+            android:progress="1" />
 
         <View
             android:layout_width="match_parent"

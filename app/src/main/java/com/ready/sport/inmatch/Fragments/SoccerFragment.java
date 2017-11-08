@@ -99,7 +99,7 @@ public class SoccerFragment extends Fragment {
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
-        spinner.setClickable(false);
+        spinner.setClickable(isClickable);
 
         seekbar = (HueSeekBar)rootView.findViewById(R.id.seekbarSocVel);
         seekbartext = (TextViewPlus) rootView.findViewById(R.id.seekbarSocVelNum);
@@ -119,6 +119,11 @@ public class SoccerFragment extends Fragment {
         seekbar6 = (HueSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
         seekbartext6 = (TextViewPlus) rootView.findViewById(R.id.seekbarSocAgiNum);
         setBubbleSeekBar(seekbar6,seekbartext6);
+
+        //Test seek discrete
+        SeekBar discrete = (SeekBar)rootView.findViewById(R.id.seekBarTest);
+
+
         return rootView;
     }
 
@@ -183,7 +188,14 @@ public class SoccerFragment extends Fragment {
 
     }
 
-
+    public void UpdateFrag(){
+        seekbar.setCurrentProgress(50);
+        seekbar2.setCurrentProgress(50);
+        seekbar3.setCurrentProgress(50);
+        seekbar4.setCurrentProgress(50);
+        seekbar5.setCurrentProgress(50);
+        seekbar6.setCurrentProgress(50);
+    }
 
     public SoccerModel getDataSoccer(){
         SoccerModel model = new SoccerModel();

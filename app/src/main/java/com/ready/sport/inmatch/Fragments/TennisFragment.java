@@ -13,6 +13,7 @@ import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.SoccerModel;
 import com.ready.sport.inmatch.RealmClass.TennisModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
+import com.ready.sport.inmatch.util.TextViewPlus;
 import com.xw.repo.BubbleSeekBar;
 
 import java.text.DecimalFormat;
@@ -30,6 +31,9 @@ public class TennisFragment extends Fragment {
     private BubbleSeekBar seekbar4;
     private BubbleSeekBar seekbar5;
     private BubbleSeekBar seekbar6;
+
+    private TextViewPlus label1, label2, label3, label4, label5, label6;
+
     private CircularProgressBar c3;
     private double ratingFinal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +61,17 @@ public class TennisFragment extends Fragment {
 //                    seekbar4.correctOffsetWhenContainerOnScrolling();
 //                    seekbar5.correctOffsetWhenContainerOnScrolling();
 //                    seekbar6.correctOffsetWhenContainerOnScrolling();
-                    UpdateOffsetSeekBar();
+
                 }
             });
         }
+
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelTenAgi);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelTenPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelTenBat);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelTenDri);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelTenRov);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelTenSc);
 
         seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenAgi);
         setBubbleSeekBar(seekbar);
@@ -74,29 +85,31 @@ public class TennisFragment extends Fragment {
         setBubbleSeekBar(seekbar5);
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenSc);
         setBubbleSeekBar(seekbar6);
-        UpdateOffsetSeekBar();
         return rootView;
     }
 
     public void setBubbleSeekBar(BubbleSeekBar seek){
-        seek.getConfigBuilder()
-                .min(1)
-                .max(10.0f)
-                .floatType()
-                .progress(5.0f)
-                .sectionCount(90)
-                .trackColor(ContextCompat.getColor(getContext(), R.color.colorButton))
-                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .showThumbText()
-                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbTextSize(18)
-                .bubbleColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .bubbleTextSize(18)
-                .seekBySection()
-                .showSectionMark()
-                .autoAdjustSectionMark()
-                .build();
+//        seek.getConfigBuilder()
+//                .min(1)
+//                .max(10.0f)
+//                .floatType()
+//                .progress(0.5f)
+//                .sectionCount(90)
+//                .trackColor(ContextCompat.getColor(getContext(), R.color.colorButton))
+//                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+//                .thumbColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+//                .showThumbText()
+//                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+//                .thumbTextSize(18)
+//                .hideBubble()
+//                .showSectionText()
+//                .sectionTextPosition(1)
+//                .seekBySection()
+//                .showSectionMark()
+//                .autoAdjustSectionMark()
+//                .touchToSeek()
+//                .build();
+
         if(!isClickable){
             seek.setOnTouchListener(new View.OnTouchListener(){
                 @Override
@@ -128,6 +141,28 @@ public class TennisFragment extends Fragment {
                     c3.setTitle(value.format(fin));
                     ratingFinal = fin;
                     c3.setProgress((int)fin*10);
+
+                    switch (bubbleSeekBar.getId()){
+                        case R.id.seekbarTenAgi:
+                            label1.setText(value.format(tmp1));
+                            break;
+                        case R.id.seekbarTenPot:
+                            label2.setText(value.format(tmp2));
+                            break;
+                        case R.id.seekbarTenBat:
+                            label3.setText(value.format(tmp3));
+                            break;
+                        case R.id.seekbarTenDri:
+                            label4.setText(value.format(tmp4));
+                            break;
+                        case R.id.seekbarTenRov:
+                            label5.setText(value.format(tmp5));
+                            break;
+                        case R.id.seekbarTenSc:
+                            label6.setText(value.format(tmp6));
+                            break;
+                    }
+
                 }
             });
         }
