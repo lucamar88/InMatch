@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
         mViewPager = (LockableViewPager) rootView.findViewById(R.id.viewPagerProfile);
 
         mViewPager.setSwipeable(false);
+        mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabsProfile);

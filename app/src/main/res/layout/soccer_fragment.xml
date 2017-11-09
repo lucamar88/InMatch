@@ -46,8 +46,7 @@
                 android:layout_height="120dip"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="10dip"
-                app:title="5,0" />
+                android:layout_marginTop="10dip"/>
         </android.support.v7.widget.LinearLayoutCompat>
 
         <android.support.v7.widget.LinearLayoutCompat
@@ -72,495 +71,347 @@
                 android:background="@drawable/spinner_layout"
                 android:gravity="center"
                 android:spinnerMode="dialog"
-                android:textAlignment="center"
-                >
+                android:textAlignment="center">
 
             </android.support.v7.widget.AppCompatSpinner>
         </android.support.v7.widget.LinearLayoutCompat>
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/separatorColor"/>-->
-        <!--<android.support.v7.widget.LinearLayoutCompat-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp">-->
-            <!--<com.ready.sport.inmatch.util.TextViewPlus-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/velocity"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:layout_gravity="center"/>-->
-            <!--<com.xw.repo.BubbleSeekBar-->
-        <!--android:id="@+id/seekbarSocVel"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:bsb_auto_adjust_section_mark="true"-->
-        <!--app:bsb_show_section_mark="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--/>-->
-            <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="float type, section text interval : 2, auto adjust"-->
-        <!--android:textSize="12sp"/>-->
-        <!--</android.support.v7.widget.LinearLayoutCompat>-->
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/separatorColor"/>-->
-        <!--<android.support.v7.widget.LinearLayoutCompat-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp">-->
-            <!--<com.ready.sport.inmatch.util.TextViewPlus-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/power"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:layout_gravity="center"/>-->
-            <!--<com.xw.repo.BubbleSeekBar-->
-        <!--android:id="@+id/seekbarSocPot"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:bsb_auto_adjust_section_mark="true"-->
-        <!--app:bsb_show_section_mark="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--/>-->
-            <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="float type, section text interval : 2, auto adjust"-->
-        <!--android:textSize="12sp"/>-->
-        <!--</android.support.v7.widget.LinearLayoutCompat>-->
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/separatorColor"/>-->
-        <!--<android.support.v7.widget.LinearLayoutCompat-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp">-->
-            <!--<com.ready.sport.inmatch.util.TextViewPlus-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/dribbling"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:layout_gravity="center"/>-->
-            <!--<com.xw.repo.BubbleSeekBar-->
-        <!--android:id="@+id/seekbarSocDri"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:bsb_auto_adjust_section_mark="true"-->
-        <!--app:bsb_show_section_mark="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--/>-->
-            <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="float type, section text interval : 2, auto adjust"-->
-        <!--android:textSize="12sp"/>-->
-        <!--</android.support.v7.widget.LinearLayoutCompat>-->
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/separatorColor"/>-->
-        <!--<android.support.v7.widget.LinearLayoutCompat-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp">-->
-            <!--<com.ready.sport.inmatch.util.TextViewPlus-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/defense"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:layout_gravity="center"/>-->
-            <!--<com.xw.repo.BubbleSeekBar-->
-        <!--android:id="@+id/seekbarSocDif"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:bsb_auto_adjust_section_mark="true"-->
-        <!--app:bsb_show_section_mark="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--/>-->
-            <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="float type, section text interval : 2, auto adjust"-->
-        <!--android:textSize="12sp"/>-->
-        <!--</android.support.v7.widget.LinearLayoutCompat>-->
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/separatorColor"/>-->
-        <!--<android.support.v7.widget.LinearLayoutCompat-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp">-->
-            <!--<com.ready.sport.inmatch.util.TextViewPlus-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/attac"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:layout_gravity="center"/>-->
-            <!--<com.xw.repo.BubbleSeekBar-->
-        <!--android:id="@+id/seekbarSocAtt"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:bsb_auto_adjust_section_mark="true"-->
-        <!--app:bsb_show_section_mark="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--/>-->
-            <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="float type, section text interval : 2, auto adjust"-->
-        <!--android:textSize="12sp"/>-->
-        <!--</android.support.v7.widget.LinearLayoutCompat>-->
-
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="@color/separatorColor"/>-->
-        <!--<android.support.v7.widget.LinearLayoutCompat-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="60dp">-->
-            <!--<com.ready.sport.inmatch.util.TextViewPlus-->
-        <!--android:layout_width="150dp"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="@string/agility"-->
-        <!--android:paddingLeft="20dp"-->
-        <!--android:layout_gravity="center"/>-->
-            <!--<com.xw.repo.BubbleSeekBar-->
-        <!--android:id="@+id/seekbarSocAgi"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:bsb_auto_adjust_section_mark="true"-->
-        <!--app:bsb_show_section_mark="true"-->
-        <!--android:layout_gravity="center"-->
-        <!--/>-->
-            <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="16dp"-->
-        <!--android:text="float type, section text interval : 2, auto adjust"-->
-        <!--android:textSize="12sp"/>-->
-        <!--</android.support.v7.widget.LinearLayoutCompat>-->
-
-        <SeekBar
-            android:id="@+id/seekBarTest"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorButton"
-            android:background="@color/colorButton"
-            android:max="100"
-            android:progress="1" />
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separatorColor" />
+            android:background="@color/separatorColor"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/velocity"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <iammert.com.huelib.HueSeekBar
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/labelSocVel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@+id/seekbarSocVel"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_circle_players"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+            <com.xw.repo.BubbleSeekBar
                 android:id="@+id/seekbarSocVel"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:bottomSeekHeight="20dp"
-                app:bottomSeekToggleWidth="20dp"
-                app:colorEmpty="@color/colorButton"
-                app:colorFill="@color/colorPrimary"
-                app:colorToggle="@color/colorSecond"
-                app:maxProgress="100"
-                app:currentProgress="50"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocVelText"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:text="@string/velocity" />
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocVelNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@+id/seekbarSocVelText"
-                    android:text="5.0 / 10"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_track_color="@color/colorButton"
+                app:bsb_thumb_color="@color/colorPrimary"
+                app:bsb_section_count="18"
+                app:bsb_touch_to_seek="true"
+                app:bsb_max="10.0"
+                app:bsb_min="1.0"
+                app:bsb_progress="5.0"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_hide_bubble="true"
+                app:bsb_thumb_text_size="18sp"
+                />
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="float type, section text interval : 2, auto adjust"
+        android:textSize="12sp"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separatorColor" />
+            android:background="@color/separatorColor"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/power"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <iammert.com.huelib.HueSeekBar
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/labelSocPot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@+id/seekbarSocPot"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_circle_players"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+            <com.xw.repo.BubbleSeekBar
                 android:id="@+id/seekbarSocPot"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:bottomSeekHeight="20dp"
-                app:bottomSeekToggleWidth="20dp"
-                app:colorEmpty="@color/colorButton"
-                app:colorFill="@color/colorPrimary"
-                app:colorToggle="@color/colorSecond"
-                app:maxProgress="100"
-                app:currentProgress="50"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocPotText"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:text="@string/power" />
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocPotNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@+id/seekbarSocPotText"
-                    android:text="5.0 / 10"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_track_color="@color/colorButton"
+                app:bsb_thumb_color="@color/colorPrimary"
+                app:bsb_section_count="18"
+                app:bsb_touch_to_seek="true"
+                app:bsb_max="10.0"
+                app:bsb_min="1.0"
+                app:bsb_progress="5.0"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_hide_bubble="true"
+                app:bsb_thumb_text_size="18sp"
+                />
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="float type, section text interval : 2, auto adjust"
+        android:textSize="12sp"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separatorColor" />
+            android:background="@color/separatorColor"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/dribbling"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <iammert.com.huelib.HueSeekBar
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/labelSocDri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@+id/seekbarSocDri"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_circle_players"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+            <com.xw.repo.BubbleSeekBar
                 android:id="@+id/seekbarSocDri"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:bottomSeekHeight="20dp"
-                app:bottomSeekToggleWidth="20dp"
-                app:colorEmpty="@color/colorButton"
-                app:colorFill="@color/colorPrimary"
-                app:colorToggle="@color/colorSecond"
-                app:maxProgress="100"
-                app:currentProgress="50"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocDriText"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:text="@string/dribbling" />
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocDriNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@+id/seekbarSocDriText"
-                    android:text="5.0 / 10"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_track_color="@color/colorButton"
+                app:bsb_thumb_color="@color/colorPrimary"
+                app:bsb_section_count="18"
+                app:bsb_touch_to_seek="true"
+                app:bsb_max="10.0"
+                app:bsb_min="1.0"
+                app:bsb_progress="5.0"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_hide_bubble="true"
+                app:bsb_thumb_text_size="18sp"
+                />
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="float type, section text interval : 2, auto adjust"
+        android:textSize="12sp"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separatorColor" />
+            android:background="@color/separatorColor"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/defense"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <iammert.com.huelib.HueSeekBar
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/labelSocDif"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@+id/seekbarSocDif"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_circle_players"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+            <com.xw.repo.BubbleSeekBar
                 android:id="@+id/seekbarSocDif"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:bottomSeekHeight="20dp"
-                app:bottomSeekToggleWidth="20dp"
-                app:colorEmpty="@color/colorButton"
-                app:colorFill="@color/colorPrimary"
-                app:colorToggle="@color/colorSecond"
-                app:maxProgress="100"
-                app:currentProgress="50"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocDifText"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:text="@string/defense" />
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocDifNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@+id/seekbarSocDifText"
-                    android:text="5.0 / 10"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_track_color="@color/colorButton"
+                app:bsb_thumb_color="@color/colorPrimary"
+                app:bsb_section_count="18"
+                app:bsb_touch_to_seek="true"
+                app:bsb_max="10.0"
+                app:bsb_min="1.0"
+                app:bsb_progress="5.0"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_hide_bubble="true"
+                app:bsb_thumb_text_size="18sp"
+                />
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="float type, section text interval : 2, auto adjust"
+        android:textSize="12sp"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separatorColor" />
+            android:background="@color/separatorColor"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/attac"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <iammert.com.huelib.HueSeekBar
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/labelSocAtt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@+id/seekbarSocAtt"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_circle_players"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+            <com.xw.repo.BubbleSeekBar
                 android:id="@+id/seekbarSocAtt"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:bottomSeekHeight="20dp"
-                app:bottomSeekToggleWidth="20dp"
-                app:colorEmpty="@color/colorButton"
-                app:colorFill="@color/colorPrimary"
-                app:colorToggle="@color/colorSecond"
-                app:maxProgress="100"
-                app:currentProgress="50"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocAttText"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:text="@string/attac" />
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocAttNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@+id/seekbarSocAttText"
-                    android:text="5.0 / 10"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_track_color="@color/colorButton"
+                app:bsb_thumb_color="@color/colorPrimary"
+                app:bsb_section_count="18"
+                app:bsb_touch_to_seek="true"
+                app:bsb_max="10.0"
+                app:bsb_min="1.0"
+                app:bsb_progress="5.0"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_hide_bubble="true"
+                app:bsb_thumb_text_size="18sp"
+                />
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="float type, section text interval : 2, auto adjust"
+        android:textSize="12sp"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separatorColor" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp">
-
-            <iammert.com.huelib.HueSeekBar
+            android:background="@color/separatorColor"/>
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="@string/agility"
+        android:paddingLeft="20dp"
+        android:layout_gravity="center"/>
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/labelSocAgi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5"
+                android:layout_toLeftOf="@+id/seekbarSocAgi"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/background_circle_players"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textAlignment="center"/>
+            <com.xw.repo.BubbleSeekBar
                 android:id="@+id/seekbarSocAgi"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                app:bottomSeekHeight="20dp"
-                app:bottomSeekToggleWidth="20dp"
-                app:colorEmpty="@color/colorButton"
-                app:colorFill="@color/colorPrimary"
-                app:colorToggle="@color/colorSecond"
-                app:currentProgress="50"
-                app:maxProgress="100" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:bsb_auto_adjust_section_mark="true"
+                app:bsb_is_float_type="true"
+                app:bsb_second_track_color="@color/colorPrimary"
+                app:bsb_track_color="@color/colorButton"
+                app:bsb_thumb_color="@color/colorPrimary"
+                app:bsb_section_count="18"
+                app:bsb_touch_to_seek="true"
+                app:bsb_max="10.0"
+                app:bsb_min="1.0"
+                app:bsb_progress="5.0"
+                app:bsb_show_progress_in_float="false"
+                app:bsb_show_section_mark="false"
+                app:bsb_show_section_text="false"
+                app:bsb_show_thumb_text="false"
+                app:bsb_hide_bubble="true"
+                app:bsb_thumb_text_size="18sp"
+                />
+            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="float type, section text interval : 2, auto adjust"
+        android:textSize="12sp"/>
+        </android.support.v7.widget.LinearLayoutCompat>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
 
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocAgiText"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:paddingLeft="20dp"
-                    android:text="@string/agility" />
-
-                <com.ready.sport.inmatch.util.TextViewPlus
-                    android:id="@+id/seekbarSocAgiNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:layout_toRightOf="@+id/seekbarSocAgiText"
-                    android:text="5.0 / 10"
-                    android:textAlignment="center"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </RelativeLayout>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

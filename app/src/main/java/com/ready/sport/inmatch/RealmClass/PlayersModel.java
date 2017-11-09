@@ -3,13 +3,14 @@ package com.ready.sport.inmatch.RealmClass;
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by l.martelloni on 28/08/2017.
  */
 
 public class PlayersModel extends RealmObject {
-
+    @PrimaryKey
     public int IdPlayer;
 
     public int    getIdPlayer() { return IdPlayer; }

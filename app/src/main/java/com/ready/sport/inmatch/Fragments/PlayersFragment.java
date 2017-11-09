@@ -18,6 +18,7 @@ import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.Sort;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -25,7 +26,7 @@ import io.realm.Realm;
 
 public class PlayersFragment extends Fragment {
 
-     private Realm realm;
+    private Realm realm;
 
     private static RecyclerView.Adapter adapter;
     private static RecyclerView recyclerView;
@@ -40,23 +41,27 @@ public class PlayersFragment extends Fragment {
          //recyclerView.setHasFixedSize(true);
          data = new ArrayList<PlayersModel>();
          //Creo dati
-         /*realm.executeTransaction(new Realm.Transaction() {
+         realm.executeTransaction(new Realm.Transaction() {
              @Override
              public void execute(Realm realm) {
-                 for(int i = 0; i<10 ;i++){
-                     PlayersModel l = realm.createObject(PlayersModel.class);
-                     l.setSurName("Martelloni");
-                     l.setName("Luca");
-                     l.setIdPlayer(i);
-                     l.setRatingSoccer(7.5);
-                     l.setRatingBasket(5.5);
-                     l.setRatingTennis(4.5);
-                     l.setRatingVolley(3.5);
+                 for(int i = 1; i<10 ;i++){
+                     PlayersModel model = new PlayersModel();
+                     model.setSurName("Martelloni");
+                     model.setName("Luca");
+                     model.setIdPlayer(i);
+                     model.setRatingSoccer(7.5);
+                     model.setRatingBasket(5.5);
+                     model.setRatingTennis(4.5);
+                     model.setRatingVolley(3.5);
+
+                     realm.createObject(PlayersModel.class,i);
+                     realm.copyToRealmOrUpdate(model);
+
                  }
 
 
              }
-         });*/
+         });
 
 
 
@@ -88,7 +93,7 @@ public class PlayersFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAll(),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAllSorted("IdPlayer", Sort.DESCENDING),getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

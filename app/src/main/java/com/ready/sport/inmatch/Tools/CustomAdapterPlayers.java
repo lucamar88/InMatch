@@ -1,6 +1,7 @@
 package com.ready.sport.inmatch.Tools;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,7 +44,8 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final PlayersModel obj = getItem(position);
-
+        final Bundle args = new Bundle();
+        args.putInt("idPlayer", (int)getItemId(position));
         holder.soccerRating.setText(String.valueOf(obj.i_RatingTotSoccer));
         holder.basketRating.setText(String.valueOf(obj.i_RatingTotBasket));
         holder.tennisRating.setText(String.valueOf(obj.i_RatingTotTennis));
@@ -54,6 +56,8 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
             @Override
             public void onClick(View view) {
                 PopupDialogFragmentSoccer dialogFragment = new PopupDialogFragmentSoccer();
+
+                dialogFragment.setArguments(args);
                 dialogFragment.show(((FragmentActivity)mContext).getSupportFragmentManager(), "OpenPopup");
             }
         });

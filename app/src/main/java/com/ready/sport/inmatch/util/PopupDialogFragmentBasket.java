@@ -14,7 +14,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.xw.repo.BubbleSeekBar;
+
+import java.text.DecimalFormat;
+
+import io.realm.Realm;
 
 
 /**
@@ -22,6 +27,10 @@ import com.xw.repo.BubbleSeekBar;
  */
 
 public class PopupDialogFragmentBasket extends DialogFragment {
+    private Realm realm;
+    private int idPLayer;
+    private CircularProgressBar c3;
+    private DecimalFormat value;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -31,8 +40,9 @@ public class PopupDialogFragmentBasket extends DialogFragment {
         LinearLayoutCompat lin = (LinearLayoutCompat)rootView.findViewById(R.id.titleBasketFragment);
         lin.setVisibility(View.VISIBLE);
         CircularProgressBar c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarBasket);
-        c3.setTitle("5,0");
-        c3.setProgress(50);
+        realm= Realm.getDefaultInstance();
+        value = new DecimalFormat("#.#");
+        idPLayer = getArguments().getInt("idPlayer");
 
 
         final BubbleSeekBar seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasVel);
@@ -48,29 +58,15 @@ public class PopupDialogFragmentBasket extends DialogFragment {
         final BubbleSeekBar seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasFin);
         setBubbleSeekBar(seekbar6);
 
+        PlayersModel model = realm.where(PlayersModel.class).equalTo("IdPlayer", idPLayer).findFirst();
+        c3.setTitle(value.format(model.getRatingBasket()));
+        Double d = model.getRatingBasket()*10;
+        c3.setProgress(Integer.valueOf(d.intValue()));
 
         return rootView;
     }
 
     public void setBubbleSeekBar(BubbleSeekBar seek){
-        seek.getConfigBuilder()
-                .min(1)
-                .max(10.0f)
-                .floatType()
-                .progress(5.0f)
-                .sectionCount(90)
-                .trackColor(ContextCompat.getColor(getContext(), R.color.colorButton))
-                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .showThumbText()
-                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbTextSize(18)
-                .bubbleColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .bubbleTextSize(18)
-                .seekBySection()
-                .showSectionMark()
-                .autoAdjustSectionMark()
-                .build();
         seek.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View v, MotionEvent event) {

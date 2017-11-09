@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,6 +29,8 @@ import com.ready.sport.inmatch.util.EditTextPlus;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
 import io.realm.Realm;
+import io.realm.SyncConfiguration;
+import io.realm.SyncManager;
 
 import static android.R.attr.value;
 
@@ -55,7 +58,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_player);
         realm= Realm.getDefaultInstance();
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewPagerNewPlayer);
-
+        mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabsNewPlayer);
@@ -157,6 +160,32 @@ public class CreatePlayerActivity extends AppCompatActivity {
 //                // Transaction failed and was automatically canceled.
 //            }
 //        });
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                try{
+                    realm.copyToRealmOrUpdate(model);
+                }catch(Exception e){
+                    Log.e("TAG", "addPlayer: " + e.getMessage(), e);
+                } finally {
+                    Log.d("TAG", "addPlayer: FINALLY");
+                    realm.close();
+                    finish();
+                }
+
+            }
+        });
+//        try {
+//            SyncConfiguration syncConfiguration = (SyncConfiguration) Realm.getDefaultConfiguration();
+//            SyncManager.getSession(syncConfiguration).uploadAllLocalChanges();
+//        } catch (InterruptedException e) {
+//            Log.e("TAG", "addPlayer: " + e.getMessage(), e);
+//        } finally {
+//            Log.d("TAG", "addPlayer: FINALLY");
+//            realm.close();
+//            finish();
+//        }
 
     }
 }

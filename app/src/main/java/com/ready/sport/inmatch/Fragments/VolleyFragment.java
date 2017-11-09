@@ -13,6 +13,7 @@ import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.BasketModel;
 import com.ready.sport.inmatch.RealmClass.VolleyModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
+import com.ready.sport.inmatch.util.TextViewPlus;
 import com.xw.repo.BubbleSeekBar;
 
 import java.text.DecimalFormat;
@@ -31,13 +32,16 @@ public class VolleyFragment extends Fragment {
     private BubbleSeekBar seekbar5;
     private BubbleSeekBar seekbar6;
     private CircularProgressBar c3;
+
+    private TextViewPlus label1, label2, label3, label4, label5, label6;
+
     private double ratingFinal;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.volley_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarVolley);
-        c3.setTitle("5,0");
-        c3.setProgress(50);
+        //c3.setTitle("5,0");
+        //c3.setProgress(50);
         try {
             isClickable = getArguments().getBoolean("isClick");
         }
@@ -51,16 +55,18 @@ public class VolleyFragment extends Fragment {
             scroller.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                    seekbar.correctOffsetWhenContainerOnScrolling();
-//                    seekbar2.correctOffsetWhenContainerOnScrolling();
-//                    seekbar3.correctOffsetWhenContainerOnScrolling();
-//                    seekbar4.correctOffsetWhenContainerOnScrolling();
-//                    seekbar5.correctOffsetWhenContainerOnScrolling();
-//                    seekbar6.correctOffsetWhenContainerOnScrolling();
+//
                     UpdateOffsetSeekBar();
                 }
             });
         }
+
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelVolBat);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelVolPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelVolPre);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelVolRic);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelVolDif);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelVolSc);
 
         seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolBat);
         setBubbleSeekBar(seekbar);
@@ -74,29 +80,12 @@ public class VolleyFragment extends Fragment {
         setBubbleSeekBar(seekbar5);
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolSc);
         setBubbleSeekBar(seekbar6);
-        UpdateOffsetSeekBar();
+
+        SetLayoutValue();
         return rootView;
     }
 
     public void setBubbleSeekBar(BubbleSeekBar seek){
-        seek.getConfigBuilder()
-                .min(1)
-                .max(10.0f)
-                .floatType()
-                .progress(5.0f)
-                .sectionCount(90)
-                .trackColor(ContextCompat.getColor(getContext(), R.color.colorButton))
-                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .showThumbText()
-                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .thumbTextSize(18)
-                .bubbleColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-                .bubbleTextSize(18)
-                .seekBySection()
-                .showSectionMark()
-                .autoAdjustSectionMark()
-                .build();
         if(!isClickable){
             seek.setOnTouchListener(new View.OnTouchListener(){
                 @Override
@@ -108,15 +97,31 @@ public class VolleyFragment extends Fragment {
             seek.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
                 @Override
                 public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-
+                    DecimalFormat value = new DecimalFormat("#.#");
+                    switch (bubbleSeekBar.getId()){
+                        case R.id.seekbarVolBat:
+                            label1.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarVolPot:
+                            label2.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarVolPre:
+                            label3.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarVolRic:
+                            label4.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarVolDif:
+                            label5.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarVolSc:
+                            label6.setText(value.format(progressFloat));
+                            break;
+                    }
                 }
 
                 @Override
                 public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                }
-
-                @Override
-                public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                     double tmp1 = seekbar.getProgressFloat();
                     double tmp2 = seekbar2.getProgressFloat();
                     double tmp3 = seekbar3.getProgressFloat();
@@ -125,9 +130,15 @@ public class VolleyFragment extends Fragment {
                     double tmp6 = seekbar6.getProgressFloat();
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
                     DecimalFormat value = new DecimalFormat("#.#");
-                    ratingFinal = fin;
                     c3.setTitle(value.format(fin));
+                    ratingFinal = fin;
                     c3.setProgress((int)fin*10);
+
+                }
+
+                @Override
+                public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
                 }
             });
         }
@@ -141,6 +152,20 @@ public class VolleyFragment extends Fragment {
         seekbar4.correctOffsetWhenContainerOnScrolling();
         seekbar5.correctOffsetWhenContainerOnScrolling();
         seekbar6.correctOffsetWhenContainerOnScrolling();
+    }
+
+    public void SetLayoutValue(){
+        double tmp1 = seekbar.getProgressFloat();
+        double tmp2 = seekbar2.getProgressFloat();
+        double tmp3 = seekbar3.getProgressFloat();
+        double tmp4 = seekbar4.getProgressFloat();
+        double tmp5 = seekbar5.getProgressFloat();
+        double tmp6 = seekbar6.getProgressFloat();
+        double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
+        DecimalFormat value = new DecimalFormat("#.#");
+        c3.setTitle(value.format(fin));
+        ratingFinal = fin;
+        c3.setProgress((int)fin*10);
     }
 
     public VolleyModel getDataVolley(){

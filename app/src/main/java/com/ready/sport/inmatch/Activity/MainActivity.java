@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //Initializing viewPager
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewpager_home);
-
+        mViewPager.setOffscreenPageLimit(4);
         navigation = (BottomNavigationViewEx) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //BottomNavigationViewHelper.disableShiftMode(navigation);

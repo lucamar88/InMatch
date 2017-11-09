@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,8 +41,8 @@ public class TennisFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tennis_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarTennis);
-        c3.setTitle("5,0");
-        c3.setProgress(50);
+        //c3.setTitle("5,0");
+        //c3.setProgress(50);
         try {
             isClickable = getArguments().getBoolean("isClick");
         }
@@ -85,30 +86,12 @@ public class TennisFragment extends Fragment {
         setBubbleSeekBar(seekbar5);
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenSc);
         setBubbleSeekBar(seekbar6);
+
+        SetLayoutValue();
         return rootView;
     }
 
     public void setBubbleSeekBar(BubbleSeekBar seek){
-//        seek.getConfigBuilder()
-//                .min(1)
-//                .max(10.0f)
-//                .floatType()
-//                .progress(0.5f)
-//                .sectionCount(90)
-//                .trackColor(ContextCompat.getColor(getContext(), R.color.colorButton))
-//                .secondTrackColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-//                .thumbColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-//                .showThumbText()
-//                .thumbTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary))
-//                .thumbTextSize(18)
-//                .hideBubble()
-//                .showSectionText()
-//                .sectionTextPosition(1)
-//                .seekBySection()
-//                .showSectionMark()
-//                .autoAdjustSectionMark()
-//                .touchToSeek()
-//                .build();
 
         if(!isClickable){
             seek.setOnTouchListener(new View.OnTouchListener(){
@@ -121,15 +104,31 @@ public class TennisFragment extends Fragment {
             seek.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
                 @Override
                 public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-
+                    DecimalFormat value = new DecimalFormat("#.#");
+                    switch (bubbleSeekBar.getId()){
+                        case R.id.seekbarTenAgi:
+                            label1.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarTenPot:
+                            label2.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarTenBat:
+                            label3.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarTenDri:
+                            label4.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarTenRov:
+                            label5.setText(value.format(progressFloat));
+                            break;
+                        case R.id.seekbarTenSc:
+                            label6.setText(value.format(progressFloat));
+                            break;
+                    }
                 }
 
                 @Override
                 public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                }
-
-                @Override
-                public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
                     double tmp1 = seekbar.getProgressFloat();
                     double tmp2 = seekbar2.getProgressFloat();
                     double tmp3 = seekbar3.getProgressFloat();
@@ -142,26 +141,10 @@ public class TennisFragment extends Fragment {
                     ratingFinal = fin;
                     c3.setProgress((int)fin*10);
 
-                    switch (bubbleSeekBar.getId()){
-                        case R.id.seekbarTenAgi:
-                            label1.setText(value.format(tmp1));
-                            break;
-                        case R.id.seekbarTenPot:
-                            label2.setText(value.format(tmp2));
-                            break;
-                        case R.id.seekbarTenBat:
-                            label3.setText(value.format(tmp3));
-                            break;
-                        case R.id.seekbarTenDri:
-                            label4.setText(value.format(tmp4));
-                            break;
-                        case R.id.seekbarTenRov:
-                            label5.setText(value.format(tmp5));
-                            break;
-                        case R.id.seekbarTenSc:
-                            label6.setText(value.format(tmp6));
-                            break;
-                    }
+                }
+
+                @Override
+                public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
 
                 }
             });
@@ -176,6 +159,20 @@ public class TennisFragment extends Fragment {
         seekbar4.correctOffsetWhenContainerOnScrolling();
         seekbar5.correctOffsetWhenContainerOnScrolling();
         seekbar6.correctOffsetWhenContainerOnScrolling();
+    }
+
+    public void SetLayoutValue(){
+        double tmp1 = seekbar.getProgressFloat();
+        double tmp2 = seekbar2.getProgressFloat();
+        double tmp3 = seekbar3.getProgressFloat();
+        double tmp4 = seekbar4.getProgressFloat();
+        double tmp5 = seekbar5.getProgressFloat();
+        double tmp6 = seekbar6.getProgressFloat();
+        double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
+        DecimalFormat value = new DecimalFormat("#.#");
+        c3.setTitle(value.format(fin));
+        ratingFinal = fin;
+        c3.setProgress((int)fin*10);
     }
 
     public TennisModel getDataTennis(){
