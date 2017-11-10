@@ -2,17 +2,31 @@ package com.ready.sport.inmatch.Activity;
 
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
+import com.ready.sport.inmatch.RealmClass.UserModel;
 import com.ready.sport.inmatch.util.Constants;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
 
+import io.realm.Realm;
+import io.realm.Sort;
+
 
 public class SplashActivity extends AwesomeSplash {
+    private Realm realm;
+    private UserModel model;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+        model = realm.where(UserModel.class).findFirst();
+    }
 
     @Override
     public void initSplash(ConfigSplash configSplash) {
@@ -24,6 +38,7 @@ public class SplashActivity extends AwesomeSplash {
         configSplash.setAnimCircularRevealDuration(1500); //int ms
         configSplash.setRevealFlagX(Flags.REVEAL_RIGHT);  //or Flags.REVEAL_LEFT
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM); //or Flags.REVEAL_TOP
+
 
         //Choose LOGO OR PATH; if you don't provide String value for path it's logo by default
 
@@ -60,10 +75,16 @@ public class SplashActivity extends AwesomeSplash {
 
         //transit to another activity here
         //or do whatever you want
+        if(model != null && model.getToken() != null){
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+            this.finish();
+        }else{
+            startActivity(new Intent(SplashActivity.this, SignLoginActivity.class));
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+            this.finish();
+        }
 
-        startActivity(new Intent(SplashActivity.this, SignLoginActivity.class));
-        overridePendingTransition(R.anim.enter, R.anim.exit);
-        this.finish();
     }
 
 }

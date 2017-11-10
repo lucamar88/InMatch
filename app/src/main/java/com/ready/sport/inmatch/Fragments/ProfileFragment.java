@@ -102,7 +102,7 @@ public class ProfileFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         Bundle args = new Bundle();
-        args.putBoolean("isClick", true);
+        args.putBoolean("isClick", false);
         socFrag=new SoccerFragment();
         basFrag=new BasketFragment();
         tenFrag=new TennisFragment();

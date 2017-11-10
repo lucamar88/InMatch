@@ -2,6 +2,8 @@ package com.ready.sport.inmatch.util;
 
 import android.app.Application;
 
+import com.androidnetworking.AndroidNetworking;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -19,5 +21,6 @@ public class MyApplication extends Application {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().build();
         Realm.setDefaultConfiguration(realmConfiguration);
         Realm.deleteRealm(realmConfiguration);
+        AndroidNetworking.initialize(getApplicationContext());
     }
 }
