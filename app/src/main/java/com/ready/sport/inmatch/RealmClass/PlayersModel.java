@@ -1,8 +1,11 @@
 package com.ready.sport.inmatch.RealmClass;
 
+import org.json.JSONObject;
+
 import java.util.Date;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -16,10 +19,16 @@ public class PlayersModel extends RealmObject {
     public int    getIdPlayer() { return IdPlayer; }
     public void   setIdPlayer(int idPlayer) { this.IdPlayer = idPlayer; }
 
-    public Date d_CreationDateUtc ;
+    @Ignore
+    public CreationUserModel CreationUser;
 
-    public Date    getCreationDateUTC() { return d_CreationDateUtc; }
-    public void   setCreationDateUTC(Date CreationDateUTC) { this.d_CreationDateUtc = CreationDateUTC; }
+    public CreationUserModel    getCreationUser() { return CreationUser; }
+    public void   setCreationUser(CreationUserModel creationUser) { this.CreationUser = creationUser; }
+
+    public String d_CreationDateUtc ;
+
+    public String    getCreationDateUTC() { return d_CreationDateUtc; }
+    public void   setCreationDateUTC(String CreationDateUTC) { this.d_CreationDateUtc = CreationDateUTC; }
 
     public String s_Name ;
 

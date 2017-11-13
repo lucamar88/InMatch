@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.LockableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
+
+import io.realm.Realm;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -27,6 +30,8 @@ public class ProfileFragment extends Fragment {
     private BasketFragment basFrag;
     private TennisFragment tenFrag;
     private VolleyFragment volFrag;
+    private int IdPlayerOwn;
+    private Realm realm;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -35,6 +40,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        realm= Realm.getDefaultInstance();
         setRetainInstance(true);
     }
 
@@ -100,9 +106,11 @@ public class ProfileFragment extends Fragment {
 
     }
     private void setupViewPager(ViewPager viewPager) {
+        IdPlayerOwn = realm.where(PlayersModel.class).equalTo("b_ownPlayer", true).findFirst().IdPlayer;
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         Bundle args = new Bundle();
         args.putBoolean("isClick", false);
+        args.putInt("idPlayer", IdPlayerOwn);
         socFrag=new SoccerFragment();
         basFrag=new BasketFragment();
         tenFrag=new TennisFragment();

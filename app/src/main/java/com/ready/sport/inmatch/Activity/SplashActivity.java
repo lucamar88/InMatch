@@ -3,15 +3,27 @@ package com.ready.sport.inmatch.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.daimajia.androidanimations.library.Techniques;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.UserModel;
+import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import io.realm.Realm;
 import io.realm.Sort;
@@ -20,12 +32,15 @@ import io.realm.Sort;
 public class SplashActivity extends AwesomeSplash {
     private Realm realm;
     private UserModel model;
+    private String token;
+    private PlayersModel pl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         realm = Realm.getDefaultInstance();
         model = realm.where(UserModel.class).findFirst();
+        token = model != null ? model.getToken(): "" ;
     }
 
     @Override
@@ -75,10 +90,11 @@ public class SplashActivity extends AwesomeSplash {
 
         //transit to another activity here
         //or do whatever you want
-        if(model != null && model.getToken() != null){
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-            overridePendingTransition(R.anim.enter, R.anim.exit);
-            this.finish();
+        if(token != ""){
+            GetDataUser();
+//            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+//            overridePendingTransition(R.anim.enter, R.anim.exit);
+//            this.finish();
         }else{
             startActivity(new Intent(SplashActivity.this, SignLoginActivity.class));
             overridePendingTransition(R.anim.enter, R.anim.exit);
@@ -86,5 +102,60 @@ public class SplashActivity extends AwesomeSplash {
         }
 
     }
+    public void GetDataUser() {
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_GET_ALL)
+                .addHeaders("Authorization", "bearer " + token)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
 
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                try{
+                                    JSONObject player = response.getJSONObject(i);
+                                    Gson gson = new GsonBuilder().create();
+                                    pl = gson.fromJson(player.toString(), PlayersModel.class);
+
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            try {
+                                                realm.copyToRealmOrUpdate(pl);
+                                            } catch (Exception e) {
+                                                Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                            } finally {
+                                                Log.d("TAG", "ADD_USER: FINALLY");
+
+                                            }
+
+                                        }
+                                    });
+                                }catch(Exception e){
+                                    Log.e("ErrorParse", e.getMessage());
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.e("ErrorParse", e.getMessage());
+                        }
+                        realm.close();
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        overridePendingTransition(R.anim.enter, R.anim.exit);
+                        finish();
+                        // do anything with response
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        try {
+                            JSONObject str = new JSONObject(error.getErrorBody().toString());
+                            Toast.makeText(getBaseContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("ErrorPost", e.getMessage());
+                        }
+                        // handle error
+                    }
+                });
+    }
 }

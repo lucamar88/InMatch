@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.SoccerModel;
 import com.ready.sport.inmatch.RealmClass.TennisModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
@@ -18,6 +19,8 @@ import com.ready.sport.inmatch.util.TextViewPlus;
 import com.xw.repo.BubbleSeekBar;
 
 import java.text.DecimalFormat;
+
+import io.realm.Realm;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -37,14 +40,19 @@ public class TennisFragment extends Fragment {
 
     private CircularProgressBar c3;
     private double ratingFinal;
+    private DecimalFormat value;
+    private int IdPlayer;
+    private PlayersModel pl;
+    private Realm realm;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tennis_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarTennis);
-        //c3.setTitle("5,0");
-        //c3.setProgress(50);
+        realm= Realm.getDefaultInstance();
+        value = new DecimalFormat("#.#");
         try {
             isClickable = getArguments().getBoolean("isClick");
+            IdPlayer = getArguments().getInt("idPlayer", 0);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -67,25 +75,7 @@ public class TennisFragment extends Fragment {
             });
         }
 
-        label1 = (TextViewPlus)rootView.findViewById(R.id.labelTenAgi);
-        label2 = (TextViewPlus)rootView.findViewById(R.id.labelTenPot);
-        label3 = (TextViewPlus)rootView.findViewById(R.id.labelTenBat);
-        label4 = (TextViewPlus)rootView.findViewById(R.id.labelTenDri);
-        label5 = (TextViewPlus)rootView.findViewById(R.id.labelTenRov);
-        label6 = (TextViewPlus)rootView.findViewById(R.id.labelTenSc);
-
-        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenAgi);
-        setBubbleSeekBar(seekbar);
-        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenPot);
-        setBubbleSeekBar(seekbar2);
-        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenBat);
-        setBubbleSeekBar(seekbar3);
-        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenDri);
-        setBubbleSeekBar(seekbar4);
-        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenRov);
-        setBubbleSeekBar(seekbar5);
-        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenSc);
-        setBubbleSeekBar(seekbar6);
+        SetAllSeek(rootView);
 
         SetLayoutValue();
         return rootView;
@@ -185,5 +175,42 @@ public class TennisFragment extends Fragment {
         model.setSchiacciataTennis(seekbar6.getProgressFloat());
         model.setRatingTennis(ratingFinal);
         return model;
+    }
+
+    public void SetAllSeek(View rootView){
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelTenAgi);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelTenPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelTenBat);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelTenDri);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelTenRov);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelTenSc);
+
+
+        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenAgi);
+        setBubbleSeekBar(seekbar);
+        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenPot);
+        setBubbleSeekBar(seekbar2);
+        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenBat);
+        setBubbleSeekBar(seekbar3);
+        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenDri);
+        setBubbleSeekBar(seekbar4);
+        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenRov);
+        setBubbleSeekBar(seekbar5);
+        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenSc);
+        setBubbleSeekBar(seekbar6);
+
+        label1.setText(String.valueOf(pl.i_AgilitaTennis));
+        label2.setText(String.valueOf(pl.i_PotenzaTennis));
+        label3.setText(String.valueOf(pl.i_BattutaTennis));
+        label4.setText(String.valueOf(pl.i_DrittoTennis));
+        label5.setText(String.valueOf(pl.i_RovescioTennis));
+        label6.setText(String.valueOf(pl.i_SchiacciataTennis));
+
+        seekbar.setProgress(Float.valueOf(value.format(pl.i_AgilitaTennis)));
+        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaTennis)));
+        seekbar3.setProgress(Float.valueOf(value.format(pl.i_BattutaTennis)));
+        seekbar4.setProgress(Float.valueOf(value.format(pl.i_DrittoTennis)));
+        seekbar5.setProgress(Float.valueOf(value.format(pl.i_RovescioTennis)));
+        seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataTennis)));
     }
 }

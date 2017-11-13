@@ -8,12 +8,12 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class UserModel extends RealmObject {
+
+//    private String IdUser;
+//
+//    public String    getIdUser() { return IdUser; }
+//    public void   setIdUser(String idUser) { this.IdUser = idUser; }
     @PrimaryKey
-    private String IdUser;
-
-    public String    getIdUser() { return IdUser; }
-    public void   setIdUser(String idUser) { this.IdUser = idUser; }
-
     private String EmailUser;
 
     public String    getEmailUser() { return EmailUser; }

@@ -15,7 +15,7 @@ public class CreatePlayerClass {
     public static PlayersModel setPlayerModel(boolean isOwner, SoccerModel soc, BasketModel bas, TennisModel ten , VolleyModel vol, String name, String surName){
 
         playersModel.setIdPlayer(new Random().nextInt());
-        playersModel.setCreationDateUTC(new Date());
+        playersModel.setCreationDateUTC(new Date().toString());
 
         playersModel.setName(name);
 

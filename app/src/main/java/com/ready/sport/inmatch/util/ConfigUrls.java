@@ -9,7 +9,7 @@ public class ConfigUrls {
     /*Base URL*/
 
     //public static final String BASE_URL = "http://192.168.1.26:8090/";
-    public static final String BASE_URL = "http://inmatch.azurewebsites.net/";
+    public static final String BASE_URL = "http://inmatchweb.azurewebsites.net/";
     /*public static final String BASE_URL = "http://feedreader.suroot.com:8090/";*/
 
     /*User URL*/

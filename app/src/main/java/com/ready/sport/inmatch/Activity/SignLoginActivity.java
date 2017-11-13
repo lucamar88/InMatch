@@ -22,6 +22,9 @@ import android.widget.TextView;
 import com.ready.sport.inmatch.Fragments.LoginFragment;
 import com.ready.sport.inmatch.Fragments.SignFragment;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.UserModel;
+
+import io.realm.Realm;
 
 public class SignLoginActivity extends AppCompatActivity {
 
@@ -65,6 +68,7 @@ public class SignLoginActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_sign_login, menu);
+
         return true;
     }
 

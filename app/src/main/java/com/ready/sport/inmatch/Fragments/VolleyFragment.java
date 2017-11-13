@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.BasketModel;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.VolleyModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.ready.sport.inmatch.util.TextViewPlus;
 import com.xw.repo.BubbleSeekBar;
 
 import java.text.DecimalFormat;
+
+import io.realm.Realm;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -36,14 +39,19 @@ public class VolleyFragment extends Fragment {
     private TextViewPlus label1, label2, label3, label4, label5, label6;
 
     private double ratingFinal;
+    private DecimalFormat value;
+    private int IdPlayer;
+    private PlayersModel pl;
+    private Realm realm;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.volley_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarVolley);
-        //c3.setTitle("5,0");
-        //c3.setProgress(50);
+        realm= Realm.getDefaultInstance();
+        value = new DecimalFormat("#.#");
         try {
             isClickable = getArguments().getBoolean("isClick");
+            IdPlayer = getArguments().getInt("idPlayer", 0);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -61,25 +69,7 @@ public class VolleyFragment extends Fragment {
             });
         }
 
-        label1 = (TextViewPlus)rootView.findViewById(R.id.labelVolBat);
-        label2 = (TextViewPlus)rootView.findViewById(R.id.labelVolPot);
-        label3 = (TextViewPlus)rootView.findViewById(R.id.labelVolPre);
-        label4 = (TextViewPlus)rootView.findViewById(R.id.labelVolRic);
-        label5 = (TextViewPlus)rootView.findViewById(R.id.labelVolDif);
-        label6 = (TextViewPlus)rootView.findViewById(R.id.labelVolSc);
-
-        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolBat);
-        setBubbleSeekBar(seekbar);
-        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolPot);
-        setBubbleSeekBar(seekbar2);
-        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolPre);
-        setBubbleSeekBar(seekbar3);
-        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolRic);
-        setBubbleSeekBar(seekbar4);
-        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolDif);
-        setBubbleSeekBar(seekbar5);
-        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolSc);
-        setBubbleSeekBar(seekbar6);
+        SetAllSeek(rootView);
 
         SetLayoutValue();
         return rootView;
@@ -178,5 +168,41 @@ public class VolleyFragment extends Fragment {
         model.setSchiacciataVolley(seekbar6.getProgressFloat());
         model.setRatingVolley(ratingFinal);
         return model;
+    }
+
+    public void SetAllSeek(View rootView){
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelVolBat);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelVolPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelVolPre);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelVolRic);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelVolDif);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelVolSc);
+
+        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolBat);
+        setBubbleSeekBar(seekbar);
+        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolPot);
+        setBubbleSeekBar(seekbar2);
+        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolPre);
+        setBubbleSeekBar(seekbar3);
+        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolRic);
+        setBubbleSeekBar(seekbar4);
+        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolDif);
+        setBubbleSeekBar(seekbar5);
+        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolSc);
+        setBubbleSeekBar(seekbar6);
+
+        label1.setText(String.valueOf(pl.i_BattutaVolley));
+        label2.setText(String.valueOf(pl.i_PotenzaVolley));
+        label3.setText(String.valueOf(pl.i_PrecisioneVolley));
+        label4.setText(String.valueOf(pl.i_RicezioneVolley));
+        label5.setText(String.valueOf(pl.i_DifesaVolley));
+        label6.setText(String.valueOf(pl.i_SchiacciataVolley));
+
+        seekbar.setProgress(Float.valueOf(value.format(pl.i_BattutaVolley)));
+        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaVolley)));
+        seekbar3.setProgress(Float.valueOf(value.format(pl.i_PrecisioneVolley)));
+        seekbar4.setProgress(Float.valueOf(value.format(pl.i_RicezioneVolley)));
+        seekbar5.setProgress(Float.valueOf(value.format(pl.i_DifesaVolley)));
+        seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataVolley)));
     }
 }

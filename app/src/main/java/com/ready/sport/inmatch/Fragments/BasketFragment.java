@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.BasketModel;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.TennisModel;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.ready.sport.inmatch.util.TextViewPlus;
@@ -21,6 +22,8 @@ import com.xw.repo.BubbleSeekBar;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.realm.Realm;
 
 /**
  * Created by Luca Martelloni on 26/08/2017.
@@ -40,14 +43,22 @@ public class BasketFragment extends Fragment {
 
     private CircularProgressBar c3;
     private double ratingFinal;
+    private DecimalFormat value;
+    private int IdPlayer;
+    private PlayersModel pl;
+    private Realm realm;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.basket_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarBasket);
+        realm= Realm.getDefaultInstance();
+        value = new DecimalFormat("#.#");
         //c3.setTitle("5,0");
         //c3.setProgress(50);
         try {
             isClickable = getArguments().getBoolean("isClick");
+            IdPlayer = getArguments().getInt("idPlayer", 0);
         }
         catch (Exception e){
             e.printStackTrace();
@@ -64,25 +75,7 @@ public class BasketFragment extends Fragment {
             });
         }
 
-        label1 = (TextViewPlus)rootView.findViewById(R.id.labelBasVel);
-        label2 = (TextViewPlus)rootView.findViewById(R.id.labelBasPot);
-        label3 = (TextViewPlus)rootView.findViewById(R.id.labelBasPas);
-        label4 = (TextViewPlus)rootView.findViewById(R.id.labelBasDif);
-        label5 = (TextViewPlus)rootView.findViewById(R.id.labelBasAtt);
-        label6 = (TextViewPlus)rootView.findViewById(R.id.labelBasFin);
-
-        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasVel);
-        setBubbleSeekBar(seekbar);
-        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasPot);
-        setBubbleSeekBar(seekbar2);
-        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasPas);
-        setBubbleSeekBar(seekbar3);
-        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasDif);
-        setBubbleSeekBar(seekbar4);
-        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasAtt);
-        setBubbleSeekBar(seekbar5);
-        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasFin);
-        setBubbleSeekBar(seekbar6);
+        SetAllSeek(rootView);
 
         SetLayoutValue();
         return rootView;
@@ -100,7 +93,7 @@ public class BasketFragment extends Fragment {
             seek.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
                 @Override
                 public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
-                    DecimalFormat value = new DecimalFormat("#.#");
+
                     switch (bubbleSeekBar.getId()){
                         case R.id.seekbarBasVel:
                             label1.setText(value.format(progressFloat));
@@ -132,7 +125,6 @@ public class BasketFragment extends Fragment {
                     double tmp5 = seekbar5.getProgressFloat();
                     double tmp6 = seekbar6.getProgressFloat();
                     double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
-                    DecimalFormat value = new DecimalFormat("#.#");
                     c3.setTitle(value.format(fin));
                     ratingFinal = fin;
                     c3.setProgress((int)fin*10);
@@ -165,7 +157,6 @@ public class BasketFragment extends Fragment {
         double tmp5 = seekbar5.getProgressFloat();
         double tmp6 = seekbar6.getProgressFloat();
         double fin =(tmp1 + tmp2 + tmp3 + tmp4 + tmp5 + tmp6)/6;
-        DecimalFormat value = new DecimalFormat("#.#");
         c3.setTitle(value.format(fin));
         ratingFinal = fin;
         c3.setProgress((int)fin*10);
@@ -181,5 +172,41 @@ public class BasketFragment extends Fragment {
         model.setFinalizzazioneBasket(seekbar6.getProgressFloat());
         model.setRatingBasket(ratingFinal);
         return model;
+    }
+
+    public void SetAllSeek(View rootView){
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelBasVel);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelBasPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelBasPas);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelBasDif);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelBasAtt);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelBasFin);
+
+        seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasVel);
+        setBubbleSeekBar(seekbar);
+        seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasPot);
+        setBubbleSeekBar(seekbar2);
+        seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasPas);
+        setBubbleSeekBar(seekbar3);
+        seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasDif);
+        setBubbleSeekBar(seekbar4);
+        seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasAtt);
+        setBubbleSeekBar(seekbar5);
+        seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasFin);
+        setBubbleSeekBar(seekbar6);
+
+        label1.setText(String.valueOf(pl.i_VelocitaBasket));
+        label2.setText(String.valueOf(pl.i_PotenzaBasket));
+        label3.setText(String.valueOf(pl.i_PassaggioBasket));
+        label4.setText(String.valueOf(pl.i_DifesaBasket));
+        label5.setText(String.valueOf(pl.i_AttaccoBasket));
+        label6.setText(String.valueOf(pl.i_FinalizzazioneBasket));
+
+        seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaBasket)));
+        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaBasket)));
+        seekbar3.setProgress(Float.valueOf(value.format(pl.i_PassaggioBasket)));
+        seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaBasket)));
+        seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoBasket)));
+        seekbar6.setProgress(Float.valueOf(value.format(pl.i_FinalizzazioneBasket)));
     }
 }

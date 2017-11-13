@@ -13,6 +13,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +22,29 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.ready.sport.inmatch.Activity.MainActivity;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
+import com.ready.sport.inmatch.RealmClass.UserModel;
 import com.ready.sport.inmatch.util.AutoCompleteTextViewPlus;
+import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.EditTextPlus;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
+
+import io.realm.Realm;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -36,7 +53,9 @@ import static android.Manifest.permission.READ_CONTACTS;
  */
 
 public class LoginFragment extends Fragment {
-
+    private Realm realm;
+    private UserModel model;
+    private String token;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -87,6 +106,9 @@ public class LoginFragment extends Fragment {
         });
 
         mProgressView = rootView.findViewById(R.id.login_progress);
+
+        realm = Realm.getDefaultInstance();
+
         return rootView;
     }
 
@@ -304,20 +326,13 @@ public class LoginFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
 
             // TODO: register the new account here.
             return true;
@@ -326,12 +341,71 @@ public class LoginFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
-            showProgress(false);
 
             if (success) {
-                startActivity(new Intent(getActivity(), MainActivity.class));
-                getActivity().finish();
+                try {
+                    // Simulate network access.
+                    //Thread.sleep(2000);
+
+                    AndroidNetworking.post(ConfigUrls.BASE_URL + ConfigUrls.TOKEN)
+                            .addBodyParameter("grant_type", "password")
+                            .addBodyParameter("password", mPassword)
+                            .addBodyParameter("email", mEmail)
+                            .setPriority(Priority.MEDIUM)
+                            .build()
+                            .getAsJSONObject(new JSONObjectRequestListener() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                    try {
+                                        token = response.get("access_token").toString();
+                                        model = new UserModel();
+                                        model.setEmailUser(mEmail);
+                                        model.setToken(token);
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                try {
+                                                    realm.copyToRealmOrUpdate(model);
+                                                } catch (Exception e) {
+                                                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                                } finally {
+                                                    Log.d("TAG", "ADD_USER: FINALLY");
+                                                    realm.close();
+                                                    startActivity(new Intent(getActivity(), MainActivity.class));
+                                                    getActivity().finish();
+                                                }
+
+                                            }
+                                        });
+
+                                        showProgress(false);
+                                    } catch (Exception e) {
+                                        Log.e("ErrorParse", e.getMessage());
+                                    }
+
+                                    // do anything with response
+                                }
+
+                                @Override
+                                public void onError(ANError error) {
+                                    try {
+                                        JSONObject str = new JSONObject(error.getErrorBody().toString());
+                                        Toast.makeText(getContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                                        showProgress(false);
+                                    } catch (Exception e) {
+                                        Log.e("ErrorPost", e.getMessage());
+                                    }
+                                    // handle error
+                                }
+                            });
+
+                } catch (Exception e) {
+                    Log.e("ErrorCallNetwork", e.getMessage());
+                }
+
             } else {
+                showProgress(false);
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
             }
@@ -343,4 +417,6 @@ public class LoginFragment extends Fragment {
             showProgress(false);
         }
     }
+
+
 }
