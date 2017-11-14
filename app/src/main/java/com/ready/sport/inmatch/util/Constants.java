@@ -5,6 +5,41 @@ public class Constants {
     private static final int SPLASH_DELAY = 5000;
     private static final String EMPTY = "";
 
+    public static enum Role {
+        PORTIERE("Portiere", 0),
+        DIFENSORE("Difensore", 1),
+        CENTROCAMPISTA("Centrocampista", 2),
+        ESTERNO("Esterno", 3),
+        ATTACCANTE("Attaccante", 4);
+
+        public static Role fromInteger(int x) {
+            switch(x) {
+                case 0:
+                    return PORTIERE;
+                case 1:
+                    return DIFENSORE;
+                case 2:
+                    return CENTROCAMPISTA;
+                case 3:
+                    return ESTERNO;
+                case 4:
+                    return ATTACCANTE;
+            }
+            return null;
+        }
+        private String stringValue;
+        private int intValue;
+        private Role(String toString, int value) {
+            stringValue = toString;
+            intValue = value;
+        }
+
+        @Override
+        public String toString() {
+            return stringValue;
+        }
+    }
+
     //Type
     public static final String MATCH_TYPE = "matchType";
     public static final int SOCCER_TYPE = 1;

@@ -49,14 +49,16 @@ public class PopupDialogFragmentSoccer extends DialogFragment {
         realm= Realm.getDefaultInstance();
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarSoccer);
         value = new DecimalFormat("#.#");
-        idPLayer = getArguments().getInt("idPlayer");
+        idPLayer = getArguments().getInt("idPlayer",0);
+        PlayersModel model = realm.where(PlayersModel.class).equalTo("IdPlayer", idPLayer).findFirst();
         AppCompatSpinner spinner = (AppCompatSpinner) rootView.findViewById(R.id.spinnerSoccer);
 
         List<String> categories = new ArrayList<String>();
-        categories.add("Portiere");
-        categories.add("Difensore");
-        categories.add("Centrocampista");
-        categories.add("Attaccante");
+        categories.add(Constants.Role.PORTIERE.toString());
+        categories.add(Constants.Role.DIFENSORE.toString());
+        categories.add(Constants.Role.CENTROCAMPISTA.toString());
+        categories.add(Constants.Role.ESTERNO.toString());
+        categories.add(Constants.Role.ATTACCANTE.toString());
         // Creating adapter for spinner
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.my_spinner, categories);
@@ -82,7 +84,7 @@ public class PopupDialogFragmentSoccer extends DialogFragment {
         final BubbleSeekBar seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
         setBubbleSeekBar(seekbar6);
 
-        PlayersModel model = realm.where(PlayersModel.class).equalTo("IdPlayer", idPLayer).findFirst();
+
         c3.setTitle(value.format(model.getRatingSoccer()));
         Double d = model.getRatingSoccer()*10;
         c3.setProgress(Integer.valueOf(d.intValue()));

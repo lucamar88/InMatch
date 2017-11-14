@@ -41,7 +41,7 @@ public class VolleyFragment extends Fragment {
     private double ratingFinal;
     private DecimalFormat value;
     private int IdPlayer;
-    private PlayersModel pl;
+    private PlayersModel pl = null;
     private Realm realm;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +67,10 @@ public class VolleyFragment extends Fragment {
                     UpdateOffsetSeekBar();
                 }
             });
+        }
+
+        if(IdPlayer != 0){
+            pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
         }
 
         SetAllSeek(rootView);
@@ -191,18 +195,20 @@ public class VolleyFragment extends Fragment {
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolSc);
         setBubbleSeekBar(seekbar6);
 
-        label1.setText(String.valueOf(pl.i_BattutaVolley));
-        label2.setText(String.valueOf(pl.i_PotenzaVolley));
-        label3.setText(String.valueOf(pl.i_PrecisioneVolley));
-        label4.setText(String.valueOf(pl.i_RicezioneVolley));
-        label5.setText(String.valueOf(pl.i_DifesaVolley));
-        label6.setText(String.valueOf(pl.i_SchiacciataVolley));
+        if(pl != null){
+            label1.setText(String.valueOf(pl.i_BattutaVolley));
+            label2.setText(String.valueOf(pl.i_PotenzaVolley));
+            label3.setText(String.valueOf(pl.i_PrecisioneVolley));
+            label4.setText(String.valueOf(pl.i_RicezioneVolley));
+            label5.setText(String.valueOf(pl.i_DifesaVolley));
+            label6.setText(String.valueOf(pl.i_SchiacciataVolley));
 
-        seekbar.setProgress(Float.valueOf(value.format(pl.i_BattutaVolley)));
-        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaVolley)));
-        seekbar3.setProgress(Float.valueOf(value.format(pl.i_PrecisioneVolley)));
-        seekbar4.setProgress(Float.valueOf(value.format(pl.i_RicezioneVolley)));
-        seekbar5.setProgress(Float.valueOf(value.format(pl.i_DifesaVolley)));
-        seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataVolley)));
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_BattutaVolley)));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaVolley)));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_PrecisioneVolley)));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_RicezioneVolley)));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_DifesaVolley)));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataVolley)));
+        }
     }
 }

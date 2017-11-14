@@ -91,6 +91,7 @@ public class SplashActivity extends AwesomeSplash {
         //transit to another activity here
         //or do whatever you want
         if(token != ""){
+
             GetDataUser();
 //            startActivity(new Intent(SplashActivity.this, MainActivity.class));
 //            overridePendingTransition(R.anim.enter, R.anim.exit);

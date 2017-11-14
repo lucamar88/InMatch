@@ -42,7 +42,7 @@ public class TennisFragment extends Fragment {
     private double ratingFinal;
     private DecimalFormat value;
     private int IdPlayer;
-    private PlayersModel pl;
+    private PlayersModel pl = null;
     private Realm realm;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +73,10 @@ public class TennisFragment extends Fragment {
 
                 }
             });
+        }
+
+        if(IdPlayer != 0){
+            pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
         }
 
         SetAllSeek(rootView);
@@ -199,18 +203,20 @@ public class TennisFragment extends Fragment {
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenSc);
         setBubbleSeekBar(seekbar6);
 
-        label1.setText(String.valueOf(pl.i_AgilitaTennis));
-        label2.setText(String.valueOf(pl.i_PotenzaTennis));
-        label3.setText(String.valueOf(pl.i_BattutaTennis));
-        label4.setText(String.valueOf(pl.i_DrittoTennis));
-        label5.setText(String.valueOf(pl.i_RovescioTennis));
-        label6.setText(String.valueOf(pl.i_SchiacciataTennis));
+        if(pl != null){
+            label1.setText(String.valueOf(pl.i_AgilitaTennis));
+            label2.setText(String.valueOf(pl.i_PotenzaTennis));
+            label3.setText(String.valueOf(pl.i_BattutaTennis));
+            label4.setText(String.valueOf(pl.i_DrittoTennis));
+            label5.setText(String.valueOf(pl.i_RovescioTennis));
+            label6.setText(String.valueOf(pl.i_SchiacciataTennis));
 
-        seekbar.setProgress(Float.valueOf(value.format(pl.i_AgilitaTennis)));
-        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaTennis)));
-        seekbar3.setProgress(Float.valueOf(value.format(pl.i_BattutaTennis)));
-        seekbar4.setProgress(Float.valueOf(value.format(pl.i_DrittoTennis)));
-        seekbar5.setProgress(Float.valueOf(value.format(pl.i_RovescioTennis)));
-        seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataTennis)));
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_AgilitaTennis)));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaTennis)));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_BattutaTennis)));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DrittoTennis)));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_RovescioTennis)));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataTennis)));
+        }
     }
 }

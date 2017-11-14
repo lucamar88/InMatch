@@ -26,6 +26,7 @@ import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.SoccerModel;
 import com.ready.sport.inmatch.util.ButtonPlus;
 import com.ready.sport.inmatch.util.CircularProgressBar;
+import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.TextViewPlus;
 import com.xw.repo.BubbleSeekBar;
 
@@ -53,7 +54,7 @@ public class SoccerFragment extends Fragment {
     private double ratingFinal;
     private DecimalFormat value;
     private int IdPlayer;
-    private PlayersModel pl;
+    private PlayersModel pl = null;
     private Realm realm;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -84,10 +85,15 @@ public class SoccerFragment extends Fragment {
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        categories.add("Portiere");
-        categories.add("Difensore");
-        categories.add("Centrocampista");
-        categories.add("Attaccante");
+        if(pl != null && !isClickable){
+            categories.add(Constants.Role.fromInteger(pl.i_RuoloSoccer).toString());
+        }else{
+            categories.add(Constants.Role.PORTIERE.toString());
+            categories.add(Constants.Role.DIFENSORE.toString());
+            categories.add(Constants.Role.CENTROCAMPISTA.toString());
+            categories.add(Constants.Role.ESTERNO.toString());
+            categories.add(Constants.Role.ATTACCANTE.toString());
+        }
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.my_spinner, categories);
@@ -193,40 +199,39 @@ public class SoccerFragment extends Fragment {
 
     public void SetAllSeek(View rootView){
         label1 = (TextViewPlus)rootView.findViewById(R.id.labelSocVel);
-        label1.setText(String.valueOf(pl.i_VelocitaSoccer));
         label2 = (TextViewPlus)rootView.findViewById(R.id.labelSocPot);
-        label2.setText(String.valueOf(pl.i_PotenzaSoccer));
         label3 = (TextViewPlus)rootView.findViewById(R.id.labelSocDri);
-        label3.setText(String.valueOf(pl.i_DribblingSoccer));
         label4 = (TextViewPlus)rootView.findViewById(R.id.labelSocDif);
-        label4.setText(String.valueOf(pl.i_DifesaSoccer));
         label5 = (TextViewPlus)rootView.findViewById(R.id.labelSocAtt);
-        label5.setText(String.valueOf(pl.i_AttaccoSoccer));
         label6 = (TextViewPlus)rootView.findViewById(R.id.labelSocAgi);
-        label6.setText(String.valueOf(pl.i_AgilitaSoccer));
 
         seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocVel);
         setBubbleSeekBar(seekbar);
-        seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaSoccer)));
-
         seekbar2 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocPot);
         setBubbleSeekBar(seekbar2);
-        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaSoccer)));
-
         seekbar3 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocDri);
         setBubbleSeekBar(seekbar3);
-        seekbar3.setProgress(Float.valueOf(value.format(pl.i_DribblingSoccer)));
-
         seekbar4 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocDif);
         setBubbleSeekBar(seekbar4);
-        seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaSoccer)));
-
         seekbar5 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAtt);
         setBubbleSeekBar(seekbar5);
-        seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoSoccer)));
-
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
         setBubbleSeekBar(seekbar6);
-        seekbar6.setProgress(Float.valueOf(value.format(pl.i_AgilitaSoccer)));
+
+        if(pl!= null){
+            label1.setText(String.valueOf(pl.i_VelocitaSoccer));
+            label2.setText(String.valueOf(pl.i_PotenzaSoccer));
+            label3.setText(String.valueOf(pl.i_DribblingSoccer));
+            label4.setText(String.valueOf(pl.i_DifesaSoccer));
+            label5.setText(String.valueOf(pl.i_AttaccoSoccer));
+            label6.setText(String.valueOf(pl.i_AgilitaSoccer));
+
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaSoccer)));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaSoccer)));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_DribblingSoccer)));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaSoccer)));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoSoccer)));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_AgilitaSoccer)));
+        }
     }
 }

@@ -45,7 +45,7 @@ public class BasketFragment extends Fragment {
     private double ratingFinal;
     private DecimalFormat value;
     private int IdPlayer;
-    private PlayersModel pl;
+    private PlayersModel pl = null;
     private Realm realm;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +73,10 @@ public class BasketFragment extends Fragment {
                     UpdateOffsetSeekBar();
                 }
             });
+        }
+
+        if(IdPlayer != 0){
+            pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
         }
 
         SetAllSeek(rootView);
@@ -195,18 +199,20 @@ public class BasketFragment extends Fragment {
         seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasFin);
         setBubbleSeekBar(seekbar6);
 
-        label1.setText(String.valueOf(pl.i_VelocitaBasket));
-        label2.setText(String.valueOf(pl.i_PotenzaBasket));
-        label3.setText(String.valueOf(pl.i_PassaggioBasket));
-        label4.setText(String.valueOf(pl.i_DifesaBasket));
-        label5.setText(String.valueOf(pl.i_AttaccoBasket));
-        label6.setText(String.valueOf(pl.i_FinalizzazioneBasket));
+        if(pl != null){
+            label1.setText(String.valueOf(pl.i_VelocitaBasket));
+            label2.setText(String.valueOf(pl.i_PotenzaBasket));
+            label3.setText(String.valueOf(pl.i_PassaggioBasket));
+            label4.setText(String.valueOf(pl.i_DifesaBasket));
+            label5.setText(String.valueOf(pl.i_AttaccoBasket));
+            label6.setText(String.valueOf(pl.i_FinalizzazioneBasket));
 
-        seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaBasket)));
-        seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaBasket)));
-        seekbar3.setProgress(Float.valueOf(value.format(pl.i_PassaggioBasket)));
-        seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaBasket)));
-        seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoBasket)));
-        seekbar6.setProgress(Float.valueOf(value.format(pl.i_FinalizzazioneBasket)));
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaBasket)));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaBasket)));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_PassaggioBasket)));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaBasket)));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoBasket)));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_FinalizzazioneBasket)));
+        }
     }
 }
