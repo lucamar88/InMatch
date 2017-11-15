@@ -1,6 +1,7 @@
 package com.ready.sport.inmatch.RealmClass;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by l.martelloni on 14/11/2017.
@@ -8,6 +9,7 @@ import io.realm.RealmObject;
 
 public class MatchModel extends RealmObject {
 
+    @PrimaryKey
     public int IdMatch;
 
     public int    getIdMatch() { return IdMatch; }

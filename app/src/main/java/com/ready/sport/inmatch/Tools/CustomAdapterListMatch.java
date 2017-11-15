@@ -3,6 +3,7 @@ package com.ready.sport.inmatch.Tools;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,25 +12,33 @@ import android.widget.LinearLayout;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayerCardMatchModel;
+import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.util.AdapterInterface;
 import com.ready.sport.inmatch.util.CircularProgressBar;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
+import io.realm.OrderedRealmCollection;
+import io.realm.RealmRecyclerViewAdapter;
 
 /**
  * Created by l.martelloni on 14/11/2017.
  */
 
-public class CustomAdapterListMatch extends RecyclerView.Adapter<CustomAdapterListMatch.MyViewHolder> {
+public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel, CustomAdapterListMatch.MyViewHolder> {
     private Context mContext;
-    private ArrayList<MatchModel> lista;
+    private OrderedRealmCollection<MatchModel> lista;
 
-    public CustomAdapterListMatch(Context mContext, ArrayList<MatchModel> albumList) {
-        this.mContext = mContext;
-        this.lista = albumList;
+    public CustomAdapterListMatch(OrderedRealmCollection<MatchModel> data, Context context) {
+        super(data, true);
+        this.mContext = context;
+        this.lista = data;
         setHasStableIds(true);
     }
 
@@ -65,10 +74,26 @@ public class CustomAdapterListMatch extends RecyclerView.Adapter<CustomAdapterLi
         }
 
         String firstRes = obj.getResult().substring(0, obj.getResult().indexOf('_'));
-        String secondRes = obj.getResult().substring(obj.getResult().indexOf('_'), obj.getResult().length() - 1);
+        String secondRes = obj.getResult().substring(obj.getResult().indexOf('_')+1, obj.getResult().length() - 1);
 
         holder.secondResult.setText(secondRes);
         holder.firstResult.setText(firstRes);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+        try{
+            Date date = dateFormat.parse(obj.getStartDateUtc());//You will get date object relative to server/client timezone wherever it is parsed
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); //If you need time just put specific format for time like 'HH:mm:ss'
+            String dateStr = formatter.format(date);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            String time = sdf.format(obj.getStartDateUtc());
+            holder.dateMatch.setText(time);
+        }catch(Exception e){
+            Log.e("Error Data:" , e.getMessage());
+        }
+
+
+
+
 
 //        holder.itemPlayer.setOnClickListener(new View.OnClickListener() {
 //            @Override

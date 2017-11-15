@@ -56,6 +56,7 @@ public class LoginFragment extends Fragment {
     private Realm realm;
     private UserModel model;
     private String token;
+    private boolean IsSuccessSave = false;
     /**
      * Id to identity READ_CONTACTS permission request.
      */
@@ -371,15 +372,15 @@ public class LoginFragment extends Fragment {
                                                     Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
                                                 } finally {
                                                     Log.d("TAG", "ADD_USER: FINALLY");
-                                                    realm.close();
-                                                    startActivity(new Intent(getActivity(), MainActivity.class));
-                                                    getActivity().finish();
+                                                    IsSuccessSave = true;
                                                 }
 
                                             }
                                         });
 
                                         showProgress(false);
+
+
                                     } catch (Exception e) {
                                         Log.e("ErrorParse", e.getMessage());
                                     }
@@ -402,6 +403,13 @@ public class LoginFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e("ErrorCallNetwork", e.getMessage());
+                }
+                realm.close();
+                if(IsSuccessSave){
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+                }else{
+                    Toast.makeText(getContext(), "Errore di salvataggio. Riprova", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
