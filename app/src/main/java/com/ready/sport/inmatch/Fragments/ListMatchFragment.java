@@ -18,7 +18,12 @@ import com.ready.sport.inmatch.Tools.CustomAdapterListMatch;
 import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.CountDownView;
+import com.ready.sport.inmatch.util.TextViewPlus;
 import com.ready.sport.inmatch.util.TimerListener;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import cn.iwgang.countdownview.CountdownView;
 import cn.iwgang.countdownview.DynamicConfig;
@@ -35,17 +40,50 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
 
     private static RecyclerView.Adapter adapter;
     private static RecyclerView recyclerView;
+    private TextViewPlus tv_countdown;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list_match_layout, container, false);
+        tv_countdown = (TextViewPlus) rootView.findViewById(R.id.tv_countdown);
+//        codv = (CountdownView) rootView.findViewById(R.id.cv_countdownViewTest1);
+//        DynamicConfig.Builder dynamicConfigBuilder = new DynamicConfig.Builder();
+//        dynamicConfigBuilder.setShowDay(false);
+//        dynamicConfigBuilder.setShowHour(true);
+//        codv.dynamicShow(dynamicConfigBuilder.build());
+//        codv.start(10000); // Millisecond
+        Calendar start_calendar = Calendar.getInstance();
+        Calendar end_calendar = Calendar.getInstance();
+        end_calendar.set(2017,11,15);
+        long start_millis = start_calendar.getTimeInMillis(); //get the start time in milliseconds
+        long end_millis = end_calendar.getTimeInMillis(); //get the end time in milliseconds
+        long total_millis = (end_millis - start_millis); //total time in milliseconds
 
-        codv = (CountdownView) rootView.findViewById(R.id.cv_countdownViewTest1);
-        DynamicConfig.Builder dynamicConfigBuilder = new DynamicConfig.Builder();
-        dynamicConfigBuilder.setShowDay(false);
-        dynamicConfigBuilder.setShowHour(true);
-        codv.dynamicShow(dynamicConfigBuilder.build());
-        codv.start(10000); // Millisecond
+
+
+        CountDownTimer cdt = new CountDownTimer(total_millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+
+                long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
+
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+
+                tv_countdown.setText(days + " g " + hours + " h " + minutes + " m " + seconds + " s"); //You can compute the millisUntilFinished on hours/minutes/seconds
+            }
+
+            @Override
+            public void onFinish() {
+                tv_countdown.setText("Finish!");
+            }
+        };
+        cdt.start();
 
         realm = Realm.getDefaultInstance();
         //Creo dati

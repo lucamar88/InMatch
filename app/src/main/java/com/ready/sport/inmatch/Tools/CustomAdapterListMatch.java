@@ -72,27 +72,22 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
                 holder.selectLayout.setBackground(mContext.getDrawable(R.drawable.shape_match_list_volley));
                 break;
         }
+        String[] risultati = obj.getResult().split("_");
 
-        String firstRes = obj.getResult().substring(0, obj.getResult().indexOf('_'));
-        String secondRes = obj.getResult().substring(obj.getResult().indexOf('_')+1, obj.getResult().length() - 1);
+        holder.secondResult.setText(risultati[1]);
+        holder.firstResult.setText(risultati[0]);
 
-        holder.secondResult.setText(secondRes);
-        holder.firstResult.setText(firstRes);
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-        try{
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        try {
             Date date = dateFormat.parse(obj.getStartDateUtc());//You will get date object relative to server/client timezone wherever it is parsed
-            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy"); //If you need time just put specific format for time like 'HH:mm:ss'
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); //If you need time just put specific format for time like 'HH:mm:ss'
             String dateStr = formatter.format(date);
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-            String time = sdf.format(obj.getStartDateUtc());
-            holder.dateMatch.setText(time);
-        }catch(Exception e){
-            Log.e("Error Data:" , e.getMessage());
+            String time = sdf.format(date);
+            holder.dateMatch.setText(dateStr + " ore " + time);
+        } catch (Exception e) {
+            Log.e("Error Data:", e.getMessage());
         }
-
-
-
 
 
 //        holder.itemPlayer.setOnClickListener(new View.OnClickListener() {

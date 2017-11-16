@@ -56,27 +56,35 @@
                     android:layout_gravity="center"
                     custom:cardUseCompatPadding="false"
                     custom:cardElevation="0dp">
-                    <cn.iwgang.countdownview.CountdownView
-                        android:id="@+id/cv_countdownViewTest1"
+                    <com.ready.sport.inmatch.util.TextViewPlus
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:isHideTimeBackground="true"
-                        app:isShowDay="true"
-                        app:isShowHour="true"
-                        app:isShowMinute="true"
-                        app:isShowSecond="true"
-                        app:timeTextColor="@android:color/white"
-                        app:timeTextSize="22sp"
-                        app:isTimeTextBold="false"
-                        app:suffixGravity="bottom"
-                        app:suffixTextColor="@android:color/white"
-                        app:suffixTextSize="14sp"
-                        custom:suffixDay="g"
-                        app:suffixHour="h"
-                        app:suffixMinute="m"
-                        app:suffixSecond="s"
-                        custom:isShowMillisecond="false"/>
+                        android:id="@+id/tv_countdown"
+                        android:text="02 g 01 h 34 m 45 s"
+                        android:textSize="22dp"
+                        android:textColor="@android:color/white"/>
+                    <!--<cn.iwgang.countdownview.CountdownView-->
+                        <!--android:id="@+id/cv_countdownViewTest1"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--app:isHideTimeBackground="true"-->
+                        <!--app:isShowDay="true"-->
+                        <!--app:isShowHour="true"-->
+                        <!--app:isShowMinute="true"-->
+                        <!--app:isShowSecond="true"-->
+                        <!--app:timeTextColor="@android:color/white"-->
+                        <!--app:timeTextSize="22sp"-->
+                        <!--app:isTimeTextBold="false"-->
+                        <!--app:suffixGravity="bottom"-->
+                        <!--app:suffixTextColor="@android:color/white"-->
+                        <!--app:suffixTextSize="14sp"-->
+                        <!--custom:suffixDay="g"-->
+                        <!--app:suffixHour="h"-->
+                        <!--app:suffixMinute="m"-->
+                        <!--app:suffixSecond="s"-->
+                        <!--custom:isShowMillisecond="false"/>-->
                 </android.support.v7.widget.CardView>
 
                 </FrameLayout>
