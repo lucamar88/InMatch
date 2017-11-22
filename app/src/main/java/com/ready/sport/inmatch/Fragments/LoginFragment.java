@@ -32,6 +32,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ready.sport.inmatch.Activity.MainActivity;
+import com.ready.sport.inmatch.Activity.SplashActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.UserModel;
@@ -56,6 +57,7 @@ public class LoginFragment extends Fragment {
     private Realm realm;
     private UserModel model;
     private String token;
+    private PlayersModel pl;
     private boolean IsSuccessSave = false;
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -370,9 +372,11 @@ public class LoginFragment extends Fragment {
                                                     realm.copyToRealmOrUpdate(model);
                                                 } catch (Exception e) {
                                                     Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                                    Toast.makeText(getContext(), "Errore di salvataggio. Riprova", Toast.LENGTH_SHORT).show();
                                                 } finally {
                                                     Log.d("TAG", "ADD_USER: FINALLY");
-                                                    IsSuccessSave = true;
+                                                    //IsSuccessSave = true;
+                                                    onSuccessRealm();
                                                 }
 
                                             }
@@ -404,13 +408,8 @@ public class LoginFragment extends Fragment {
                 } catch (Exception e) {
                     Log.e("ErrorCallNetwork", e.getMessage());
                 }
-                realm.close();
-                if(IsSuccessSave){
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                }else{
-                    Toast.makeText(getContext(), "Errore di salvataggio. Riprova", Toast.LENGTH_SHORT).show();
-                }
+
+
 
             } else {
                 showProgress(false);
@@ -423,6 +422,63 @@ public class LoginFragment extends Fragment {
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+
+        public void onSuccessRealm() {
+            AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_GET_ALL)
+                    .addHeaders("Authorization", "bearer " + token)
+                    .setPriority(Priority.MEDIUM)
+                    .build()
+                    .getAsJSONArray(new JSONArrayRequestListener() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+
+                            try {
+                                for (int i = 0; i < response.length(); i++) {
+                                    try{
+                                        JSONObject player = response.getJSONObject(i);
+                                        Gson gson = new GsonBuilder().create();
+                                        pl = gson.fromJson(player.toString(), PlayersModel.class);
+
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                try {
+                                                    realm.copyToRealmOrUpdate(pl);
+                                                } catch (Exception e) {
+                                                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                                } finally {
+                                                    Log.d("TAG", "ADD_USER: FINALLY");
+
+                                                }
+
+                                            }
+                                        });
+                                        realm.close();
+                                        startActivity(new Intent(getActivity(), MainActivity.class));
+                                        getActivity().finish();
+                                    }catch(Exception e){
+                                        Log.e("ErrorParse", e.getMessage());
+                                    }
+                                }
+                            } catch (Exception e) {
+                                Log.e("ErrorParse", e.getMessage());
+                            }
+
+                            // do anything with response
+                        }
+
+                        @Override
+                        public void onError(ANError error) {
+                            try {
+                                JSONObject str = new JSONObject(error.getErrorBody().toString());
+                                Toast.makeText(getContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                Log.e("ErrorPost", e.getMessage());
+                            }
+                            // handle error
+                        }
+                    });
         }
     }
 

@@ -156,5 +156,6 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
         adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAll(), getContext());
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+        recyclerView.smoothScrollToPosition(0);
     }
 }

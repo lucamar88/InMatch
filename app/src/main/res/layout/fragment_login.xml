@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorButton"
-        android:text="@string/action_sign_in"
+        android:text="@string/action_login"
         android:textColor="@android:color/white"
         android:textColorHint="@color/colorButton"
         android:textStyle="bold" />
