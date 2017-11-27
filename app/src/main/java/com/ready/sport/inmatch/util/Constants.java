@@ -5,7 +5,7 @@ public class Constants {
     private static final int SPLASH_DELAY = 5000;
     private static final String EMPTY = "";
 
-    public static enum Role {
+    public enum Role {
         PORTIERE("Portiere", 0),
         DIFENSORE("Difensore", 1),
         CENTROCAMPISTA("Centrocampista", 2),
@@ -34,6 +34,9 @@ public class Constants {
             intValue = value;
         }
 
+        public int getValue() {
+            return intValue;
+        }
         @Override
         public String toString() {
             return stringValue;
