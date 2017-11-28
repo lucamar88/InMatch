@@ -203,12 +203,12 @@ public class VolleyFragment extends Fragment {
             label5.setText(String.valueOf(pl.i_DifesaVolley));
             label6.setText(String.valueOf(pl.i_SchiacciataVolley));
 
-            seekbar.setProgress(Float.valueOf(value.format(pl.i_BattutaVolley)));
-            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaVolley)));
-            seekbar3.setProgress(Float.valueOf(value.format(pl.i_PrecisioneVolley)));
-            seekbar4.setProgress(Float.valueOf(value.format(pl.i_RicezioneVolley)));
-            seekbar5.setProgress(Float.valueOf(value.format(pl.i_DifesaVolley)));
-            seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataVolley)));
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_BattutaVolley).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaVolley).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_PrecisioneVolley).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_RicezioneVolley).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_DifesaVolley).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataVolley).replace(',','.')));
         }
     }
 }

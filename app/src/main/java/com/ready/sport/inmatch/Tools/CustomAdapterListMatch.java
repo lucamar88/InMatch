@@ -1,6 +1,8 @@
 package com.ready.sport.inmatch.Tools;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.ready.sport.inmatch.Activity.MainActivity;
+import com.ready.sport.inmatch.Activity.MatchDetailActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayerCardMatchModel;
@@ -89,7 +93,12 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
             Log.e("Error Data:", e.getMessage());
         }
 
-
+        holder.content.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent(mContext, MatchDetailActivity.class));
+            }
+        });
 //        holder.itemPlayer.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -122,7 +131,7 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
         TextViewPlus secondResult;
         TextViewPlus dateMatch;
         LinearLayoutCompat selectLayout;
-
+        CardView content;
 
         MyViewHolder(View view) {
             super(view);
@@ -132,6 +141,7 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
             secondResult = (TextViewPlus) view.findViewById(R.id.secondResult);
             selectLayout = (LinearLayoutCompat) view.findViewById(R.id.typeMatchList);
             dateMatch = (TextViewPlus) view.findViewById(R.id.dataMatch);
+            content = (CardView)view.findViewById(R.id.cardPlayers);
         }
     }
 

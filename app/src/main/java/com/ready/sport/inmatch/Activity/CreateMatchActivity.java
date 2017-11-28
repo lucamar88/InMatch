@@ -33,6 +33,7 @@ import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
 import com.ready.sport.inmatch.util.EditTextTint;
 import com.ready.sport.inmatch.util.TextViewPlus;
+import com.shawnlin.numberpicker.NumberPicker;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -48,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class CreateMatchActivity extends AppCompatActivity implements AdapterInterface , DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
+public class CreateMatchActivity extends AppCompatActivity implements AdapterInterface , DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener, NumberPicker.OnValueChangeListener {
     private AppBarLayout bar;
     private TextViewPlus title;
     private TextViewPlus numSelectPl;
@@ -56,6 +57,8 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private EditTextPlus locationText;
     private EditTextPlus team1Text;
     private EditTextPlus team2Text;
+    private TextViewPlus numTotPl;
+    private NumberPicker numberPicker;
     private int colorSet;
     private int count = 0;
 
@@ -85,6 +88,14 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         locationText = (EditTextPlus)findViewById(R.id.locationNewMatch);
         team1Text = (EditTextPlus)findViewById(R.id.team1NewMatch);
         team2Text = (EditTextPlus)findViewById(R.id.team2NewMatch);
+        numberPicker = (NumberPicker)findViewById(R.id.number_picker);
+        numTotPl = (TextViewPlus)findViewById(R.id.numberTotPlayer);
+
+        numberPicker.setOnValueChangedListener(this);
+
+        numberPicker.setValue(1);
+
+        numTotPl.setText("2");
 
         // Date picker 1
         simpleDateFormat = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
@@ -276,6 +287,18 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 dataText.setText("");
             }
         });
+    }
+
+    @Override
+    public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+        if(newVal*2 < count){
+            numberPicker.setValue(oldVal);
+            numTotPl.setText(String.valueOf(oldVal*2));
+            Toast.makeText(this,"Deseleziona alcuni giocatori"+newVal, Toast.LENGTH_SHORT).show();
+        }else{
+            numTotPl.setText(String.valueOf(newVal*2));
+        }
+
     }
 
 

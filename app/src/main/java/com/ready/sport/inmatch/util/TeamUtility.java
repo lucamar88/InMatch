@@ -4,6 +4,7 @@ import android.support.v4.util.Pair;
 
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -15,26 +16,38 @@ import io.realm.RealmResults;
  * Created by l.martelloni on 27/11/2017.
  */
 
-public class GenerateTeam {
+public class TeamUtility {
     private static List<Pair<Integer,Double>> listKey;
     private static List<Pair<Integer,Double>> firstTeam;
     private static List<Pair<Integer,Double>> secondTeam;
-    private static List<PlayersModel> totalListPlayers;
+    private static double rateAllPlayers = 0;
+    private static double rateFirstTeam = 0;
+    private static double rateSecondTeam = 0;
+    //private static List<PlayersModel> totalListPlayers;
 
     private static double ratioTeamTemp = 0;
 
-    public static List<String> GenerateTeam(RealmResults<PlayersModel> players, int typeMatch)
+    public static List<String> GenerateTeam(List<PlayersModel> totalListPlayers, int typeMatch)
     {
-        totalListPlayers = players.subList(0,players.size()-1);
-        List<String> listPlayers = null; //lista di stringhe contenenti gli ID delle squadre divisi da '_'
-        listKey = null;
+        //totalListPlayers = players.subList(0,players.size()-1);
+        List<String> listPlayers = new ArrayList<String>(); //lista di stringhe contenenti gli ID delle squadre divisi da '_'
+        listKey = new ArrayList<Pair<Integer,Double>>();
 
-        firstTeam = null;
-        secondTeam = null;
+        firstTeam = new ArrayList<Pair<Integer,Double>>();
+        secondTeam = new ArrayList<Pair<Integer,Double>>();
 
         if (typeMatch == Constants.SOCCER_TYPE)
         {
-            RealmResults<PlayersModel> golKeaper = players.where().equalTo("i_RuoloSoccer", Constants.Role.PORTIERE.getValue()).findAll();
+            List<PlayersModel> golKeaper = new ArrayList<PlayersModel>();
+            //RealmResults<PlayersModel> golKeaper = players.where().equalTo("i_RuoloSoccer", Constants.Role.PORTIERE.getValue()).findAll();
+
+            for(PlayersModel pla:totalListPlayers){
+                if(pla.i_RuoloSoccer == Constants.Role.PORTIERE.getValue()){
+                    golKeaper.add(pla);
+                }
+                rateAllPlayers = rateAllPlayers + pla.i_RatingTotSoccer;
+            }
+            rateAllPlayers = rateAllPlayers/totalListPlayers.size();
             if (golKeaper.size() >= 2) // aggiungo i due portieri se sono presenti tra i giocatori
             {
                 firstTeam.add(new Pair<Integer, Double>(golKeaper.get(0).IdPlayer, golKeaper.get(0).i_RatingTotSoccer));
@@ -43,10 +56,10 @@ public class GenerateTeam {
                 totalListPlayers.remove(golKeaper.get(0));
             }else // se non ci sono portieri aggiungo due players casuali
             {
-                int indexRand = new Random().nextInt(players.size());
+                int indexRand = new Random().nextInt(totalListPlayers.size());
                 firstTeam.add(new Pair<Integer, Double>(totalListPlayers.get(indexRand).IdPlayer, totalListPlayers.get(indexRand).i_RatingTotSoccer));
                 totalListPlayers.remove(totalListPlayers.get(indexRand));
-                indexRand = new Random().nextInt(players.size());
+                indexRand = new Random().nextInt(totalListPlayers.size());
                 secondTeam.add(new Pair<Integer, Double>(totalListPlayers.get(indexRand).IdPlayer, totalListPlayers.get(indexRand).i_RatingTotSoccer));
                 totalListPlayers.remove(totalListPlayers.get(indexRand));
             }
@@ -73,8 +86,13 @@ public class GenerateTeam {
         }
         else if (typeMatch == Constants.VOLLEY_TYPE)
         {
+            for(PlayersModel pla:totalListPlayers){
+
+                rateAllPlayers = rateAllPlayers + pla.i_RatingTotVolley;
+            }
+            rateAllPlayers = rateAllPlayers/totalListPlayers.size();
             //aggiungo due players casuali
-            int indexRand = new Random().nextInt(players.size());
+            int indexRand = new Random().nextInt(totalListPlayers.size());
             firstTeam.add(new Pair<Integer, Double>(totalListPlayers.get(indexRand).IdPlayer, totalListPlayers.get(indexRand).i_RatingTotVolley));
             totalListPlayers.remove(totalListPlayers.get(indexRand));
             indexRand = new Random().nextInt(totalListPlayers.size());
@@ -106,6 +124,11 @@ public class GenerateTeam {
         }
         else if (typeMatch == Constants.BASKET_TYPE)
         {
+            for(PlayersModel pla:totalListPlayers){
+
+                rateAllPlayers = rateAllPlayers + pla.i_RatingTotBasket;
+            }
+            rateAllPlayers = rateAllPlayers/totalListPlayers.size();
             //aggiungo due players casuali
             int indexRand = new Random().nextInt(totalListPlayers.size());
             firstTeam.add(new Pair<Integer, Double>(totalListPlayers.get(indexRand).IdPlayer, totalListPlayers.get(indexRand).i_RatingTotBasket));
@@ -133,6 +156,11 @@ public class GenerateTeam {
         }
         else if (typeMatch == Constants.TENNIS_TYPE)
         {
+            for(PlayersModel pla:totalListPlayers){
+
+                rateAllPlayers = rateAllPlayers + pla.i_RatingTotTennis;
+            }
+            rateAllPlayers = rateAllPlayers/totalListPlayers.size();
             //aggiungo due players casuali
             int indexRand = new Random().nextInt(totalListPlayers.size());
             firstTeam.add(new Pair<Integer, Double>(totalListPlayers.get(indexRand).IdPlayer, totalListPlayers.get(indexRand).i_RatingTotTennis));
@@ -172,12 +200,21 @@ public class GenerateTeam {
         for (Pair<Integer,Double> el : firstTeam)
         {
             listStringFirst = listStringFirst + '_' + el.second.toString();
+            rateFirstTeam = rateFirstTeam + el.second;
         }
 
         for (Pair<Integer,Double> el : secondTeam)
         {
             listStringSecond = listStringSecond+ '_' + el.second.toString();
+            rateSecondTeam = rateSecondTeam + el.second;
         }
+        rateFirstTeam = rateFirstTeam / firstTeam.size();
+        rateSecondTeam = rateSecondTeam / secondTeam.size();
+        //Calcolo percentuale di precisione media
+
+        listStringFirst = listStringFirst + '_' + PercentageRate(rateFirstTeam, rateAllPlayers);
+        listStringSecond = listStringSecond+ '_' + PercentageRate(rateSecondTeam, rateAllPlayers);
+
 
         listPlayers.add(listStringFirst);
         listPlayers.add(listStringSecond);
@@ -245,6 +282,17 @@ public class GenerateTeam {
         for(Pair<Integer,Double> p : el){
             res = res + p.second;
         }
+        return res;
+    }
+
+    private static double PercentageRate(double rate1, double rate2){
+        double res = 0;
+        if(rate1 > rate2){
+            res = 100-(100*(rate1-rate2)/rate2);
+        }else{
+            res = 100-(100*(rate2-rate1)/rate2);
+        }
+
         return res;
     }
 }

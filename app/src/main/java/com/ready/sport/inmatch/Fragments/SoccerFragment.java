@@ -226,12 +226,12 @@ public class SoccerFragment extends Fragment {
             label5.setText(String.valueOf(pl.i_AttaccoSoccer));
             label6.setText(String.valueOf(pl.i_AgilitaSoccer));
 
-            seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaSoccer)));
-            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaSoccer)));
-            seekbar3.setProgress(Float.valueOf(value.format(pl.i_DribblingSoccer)));
-            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaSoccer)));
-            seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoSoccer)));
-            seekbar6.setProgress(Float.valueOf(value.format(pl.i_AgilitaSoccer)));
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaSoccer).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaSoccer).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_DribblingSoccer).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DifesaSoccer).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoSoccer).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_AgilitaSoccer).replace(',','.')));
         }
     }
 }

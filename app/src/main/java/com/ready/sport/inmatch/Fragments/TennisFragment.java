@@ -211,12 +211,12 @@ public class TennisFragment extends Fragment {
             label5.setText(String.valueOf(pl.i_RovescioTennis));
             label6.setText(String.valueOf(pl.i_SchiacciataTennis));
 
-            seekbar.setProgress(Float.valueOf(value.format(pl.i_AgilitaTennis)));
-            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaTennis)));
-            seekbar3.setProgress(Float.valueOf(value.format(pl.i_BattutaTennis)));
-            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DrittoTennis)));
-            seekbar5.setProgress(Float.valueOf(value.format(pl.i_RovescioTennis)));
-            seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataTennis)));
+            seekbar.setProgress(Float.valueOf(value.format(pl.i_AgilitaTennis).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaTennis).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(pl.i_BattutaTennis).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(pl.i_DrittoTennis).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(pl.i_RovescioTennis).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataTennis).replace(',','.')));
         }
     }
 }
