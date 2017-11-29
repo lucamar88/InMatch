@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
+import com.ready.sport.inmatch.util.ButtonPlus;
 import com.ready.sport.inmatch.util.TeamUtility;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
@@ -26,6 +28,8 @@ import uk.co.markormesher.android_fab.SpeedDialMenuItem;
 public class MatchDetailActivity extends AppCompatActivity {
 
     private FloatingActionButton fab;
+    private AppBarLayout bar;
+    private ButtonPlus btn;
     private SpeedDialMenuAdapter speedDialMenuAdapter = new SpeedDialMenuAdapter() {
         @Override
         public int getCount() {
@@ -63,9 +67,9 @@ public class MatchDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_detail);
+        bar = (AppBarLayout)findViewById(R.id.appbarMatchDetail);
 
-        TextViewPlus text1 = (TextViewPlus)findViewById(R.id.firstTeamList);
-        TextViewPlus text2 = (TextViewPlus)findViewById(R.id.secondTeamList);
+        btn = (ButtonPlus)findViewById(R.id.btn_generate_teams);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -117,8 +121,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         List<String> list = new ArrayList<String>();
         list = TeamUtility.GenerateTeam(pl, 1);
-        text1.setText(list.get(0));
-        text2.setText(list.get(1));
+
     }
 
     public void onClickWhatsApp() {

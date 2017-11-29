@@ -1,36 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.ready.sport.inmatch.Activity.MatchDetailActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <com.ready.sport.inmatch.util.TextViewPlus
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Lista 1"
-            android:id="@+id/firstTeamList"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <com.ready.sport.inmatch.util.TextViewPlus
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Lista 2"
-            android:id="@+id/secondTeamList"/>
-    </LinearLayout>
+    android:background="?android:attr/windowBackground"
+    android:orientation="vertical">
 
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollMatchDetail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/containerMatchDetail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="com.ready.sport.inmatch.Activity.MatchDetailActivity">
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbarMatchDetail"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:theme="@style/AwesomeSplashTheme.AppBarOverlay">
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginLeft="5dp">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/backBtnCreateMatch"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_back"
+                        android:layout_weight="0.15"
+                        android:clickable="true"/>
+                    <com.ready.sport.inmatch.util.TextViewPlus
+                        android:id="@+id/titleMatchDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Match - Calcio"
+                        android:textSize="18dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="1"/>
+
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="45dp"
+                        android:layout_height="25dp"
+                        android:src="@drawable/icon_check"
+                        android:clickable="true"/>
+                </android.support.v7.widget.LinearLayoutCompat>
+
+
+            </android.support.design.widget.AppBarLayout>
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="1"
+                android:orientation="horizontal"
+                android:background="@color/soccerColor">
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:orientation="vertical">
+                    <com.ready.sport.inmatch.util.TextViewPlus
+                        android:id="@+id/locationMatchDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="Via Cassia 10"
+                        android:drawableLeft="@drawable/location_icon_rid"
+                        android:textAlignment="center"
+                        android:layout_marginLeft="22dp"
+                        android:drawablePadding="7dp"
+                        android:textColor="@android:color/white"
+                        android:gravity="center_vertical|right"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"/>
+                    <com.ready.sport.inmatch.util.TextViewPlus
+                        android:id="@+id/dateMatchDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="22dp"
+                        android:textAlignment="center"
+                        android:drawablePadding="7dp"
+                        android:textColor="@android:color/white"
+                        android:gravity="center_vertical|right"
+                        android:drawableLeft="@drawable/data_icon_rid"
+                        android:text="10/12/2017 ore 20.30"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentBottom="true"
+                        />
+                </android.support.v7.widget.LinearLayoutCompat>
+                <android.support.v7.widget.LinearLayoutCompat
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignParentTop="true">
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:src="@drawable/soccer_icon"/>
+                </android.support.v7.widget.LinearLayoutCompat>
+            </GridLayout>
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center">
+                <com.ready.sport.inmatch.util.ButtonPlus
+                    android:id="@+id/btn_generate_teams"
+                    android:layout_width="170dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/generate_teams"
+                    android:textAlignment="center"
+                    android:clickable="true"
+                    android:background="@drawable/btn_generate_teams"
+                    />
+            </android.support.v7.widget.LinearLayoutCompat>
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/separatorColor">
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:columnCount="5"
+                    android:rowCount="1"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+                    <android.support.v7.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <com.ready.sport.inmatch.util.TextViewPlus
+                            android:layout_width="90dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:textAlignment="center"
+                            android:text="SQUADRA 1"/>
+                        <com.ready.sport.inmatch.util.TextViewPlus
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="30dp"
+                            android:layout_marginRight="10dp"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical|center"/>
+                    </android.support.v7.widget.LinearLayoutCompat>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/team_1_icon"/>
+                    <com.ready.sport.inmatch.util.TextViewPlus
+                        android:layout_height="70dp"
+                        android:layout_width="wrap_content"
+                        android:text="VS"
+                        android:textAlignment="center"
+                        android:gravity="center_vertical|right"/>
+                    <android.support.v7.widget.AppCompatImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/team_2_icon"/>
+                    <android.support.v7.widget.LinearLayoutCompat
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <com.ready.sport.inmatch.util.TextViewPlus
+                            android:layout_width="90dp"
+                            android:textAlignment="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:text="SQUADRA 2"/>
+                        <com.ready.sport.inmatch.util.TextViewPlus
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textSize="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:gravity="center_vertical|center"/>
+                    </android.support.v7.widget.LinearLayoutCompat>
+                </GridLayout>
+                </android.support.v7.widget.CardView>
+            </android.support.v7.widget.LinearLayoutCompat>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/separatorColor">
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="2"
+                        android:rowCount="1"
+                        android:layout_gravity="center">
+
+                        <android.support.v7.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:layout_column="0"
+                            app:layout_columnWeight="1">
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/listFirstTeamDetail"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left"></android.support.v7.widget.RecyclerView>
+                        </android.support.v7.widget.LinearLayoutCompat>
+                        <android.support.v7.widget.LinearLayoutCompat
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_column="1"
+                            app:layout_columnWeight="1">
+                            <android.support.v7.widget.RecyclerView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/listSecondTeamDetail"></android.support.v7.widget.RecyclerView>
+                        </android.support.v7.widget.LinearLayoutCompat>
+                    </GridLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
     <uk.co.markormesher.android_fab.FloatingActionButton
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fab"
@@ -38,7 +270,5 @@
         android:layout_height="match_parent"
         app:buttonPosition="bottom|end"
         app:buttonBackgroundColour="@color/soccerColor"
-        app:buttonIcon="@drawable/plus_icon"
-    />
-
-</LinearLayout>
+        app:buttonIcon="@drawable/plus_icon"/>
+</android.support.design.widget.CoordinatorLayout>

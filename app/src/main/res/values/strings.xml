@@ -32,6 +32,7 @@
     <string name="tennis_label">TENNIS</string>
     <string name="volley_label">VOLLEY</string>
     <string name="next_match">PROSSIMA PARTITA</string>
+    <string name="generate_teams">GENERA FORMAZIONI</string>
 
     // Attributes
     <string name="role">Ruolo</string>
