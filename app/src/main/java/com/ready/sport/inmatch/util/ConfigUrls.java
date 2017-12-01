@@ -8,8 +8,8 @@ public class ConfigUrls {
 
     /*Base URL*/
 
-    public static final String BASE_URL = "http://10.0.2.2:41131/";
-    //public static final String BASE_URL = "http://inmatchweb.azurewebsites.net/";
+    //public static final String BASE_URL = "http://10.0.2.2:41131/";
+    public static final String BASE_URL = "http://inmatchweb.azurewebsites.net/";
 
     /*User URL*/
 
