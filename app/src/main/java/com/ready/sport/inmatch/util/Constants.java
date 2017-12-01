@@ -2,6 +2,8 @@ package com.ready.sport.inmatch.util;
 
 public class Constants {
 
+    public static String TOKEN = "";
+
     private static final int SPLASH_DELAY = 5000;
     private static final String EMPTY = "";
 

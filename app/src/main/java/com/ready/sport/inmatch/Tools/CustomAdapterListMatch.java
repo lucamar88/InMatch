@@ -2,6 +2,7 @@ package com.ready.sport.inmatch.Tools;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -96,7 +97,9 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
         holder.content.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext, MatchDetailActivity.class));
+                Intent ap = new Intent(mContext, MatchDetailActivity.class);
+                ap.putExtra("idMatch",(int)getItemId(position));
+                mContext.startActivity(ap);
             }
         });
 //        holder.itemPlayer.setOnClickListener(new View.OnClickListener() {

@@ -7,20 +7,33 @@ import android.content.pm.PackageManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
+import com.ready.sport.inmatch.Tools.CustomAdapterListPlayerDetail;
+import com.ready.sport.inmatch.Tools.CustomAdaptersPlayersMatch;
 import com.ready.sport.inmatch.util.ButtonPlus;
 import com.ready.sport.inmatch.util.TeamUtility;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import io.realm.OrderedRealmCollection;
+import io.realm.Realm;
+import io.realm.RealmObject;
 import uk.co.markormesher.android_fab.FloatingActionButton;
 import uk.co.markormesher.android_fab.SpeedDialMenuAdapter;
 import uk.co.markormesher.android_fab.SpeedDialMenuItem;
@@ -30,6 +43,16 @@ public class MatchDetailActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private AppBarLayout bar;
     private ButtonPlus btn;
+    private int IdMatch = 0;
+    private Realm realm;
+    private MatchModel match;
+    private OrderedRealmCollection<PlayersModel> firstList;
+    private OrderedRealmCollection<PlayersModel> secondList;
+    private List<PlayersModel> totList;
+    private RecyclerView recyclerViewFirst;
+    private RecyclerView recyclerViewSecond;
+    private static RecyclerView.Adapter adapterFirst;
+    private static RecyclerView.Adapter adapterSecond;
     private SpeedDialMenuAdapter speedDialMenuAdapter = new SpeedDialMenuAdapter() {
         @Override
         public int getCount() {
@@ -66,7 +89,9 @@ public class MatchDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
         setContentView(R.layout.activity_match_detail);
+        realm= Realm.getDefaultInstance();
         bar = (AppBarLayout)findViewById(R.id.appbarMatchDetail);
 
         btn = (ButtonPlus)findViewById(R.id.btn_generate_teams);
@@ -75,6 +100,58 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         fab.setSpeedDialMenuAdapter(speedDialMenuAdapter);
 
+        recyclerViewFirst = (RecyclerView) findViewById(R.id.listFirstTeamDetail);
+
+        recyclerViewSecond = (RecyclerView) findViewById(R.id.listSecondTeamDetail);
+
+        TextViewPlus location = (TextViewPlus)findViewById(R.id.locationMatchDetail);
+        TextViewPlus data = (TextViewPlus)findViewById(R.id.dateMatchDetail);
+
+        try{
+            IdMatch = intent.getExtras().getInt("idMatch");
+        }catch(Exception e){
+            Toast.makeText(this,"Errore di rete",Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        if(IdMatch != 0){
+            match = realm.where(MatchModel.class).equalTo("IdMatch",IdMatch).findFirst();
+        }
+
+        location.setText(match.getLocation());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        try {
+            Date date = dateFormat.parse(match.getStartDateUtc());//You will get date object relative to server/client timezone wherever it is parsed
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); //If you need time just put specific format for time like 'HH:mm:ss'
+            String dateStr = formatter.format(date);
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            String time = sdf.format(date);
+            data.setText(dateStr + " ore " + time);
+        } catch (Exception e) {
+            Log.e("Error Data:", e.getMessage());
+        }
+
+        String[] firstTeamList = match.getListPlayersFirstTeam().split("_");
+        String[] secondTeamList = match.getListPlayersSecondTeam().split("_");
+
+        for(String str:firstTeamList){
+            int id = Integer.parseInt(str);
+            PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+            firstList.add(player);
+            totList.add(player);
+        }
+
+        for(String str:secondTeamList){
+            int id = Integer.parseInt(str);
+            PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+            secondList.add(player);
+            totList.add(player);
+        }
+
+        setUpRecyclerView();
+
+        //TEST
         List<PlayersModel> pl = new ArrayList<PlayersModel>();
         PlayersModel pla1 = new PlayersModel();
         pla1.setRatingSoccer(4.5);
@@ -145,6 +222,27 @@ public class MatchDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                     .show();
         }
+
+    }
+
+    private void setUpRecyclerView() {
+        adapterFirst = new CustomAdapterListPlayerDetail(firstList, match.getMatchType(),this);
+        adapterSecond = new CustomAdapterListPlayerDetail(secondList, match.getMatchType(),this);
+        //First list
+        recyclerViewFirst.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewFirst.setAdapter(adapterFirst);
+
+        recyclerViewFirst.setHasFixedSize(true);
+        recyclerViewFirst.setNestedScrollingEnabled(false);
+
+
+        //Second list
+        recyclerViewSecond.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewSecond.setAdapter(adapterSecond);
+
+        recyclerViewSecond.setHasFixedSize(true);
+        recyclerViewSecond.setNestedScrollingEnabled(false);
+
 
     }
 }

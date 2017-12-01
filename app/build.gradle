@@ -53,6 +53,7 @@ dependencies {
     compile 'com.github.iwgang:countdownview:2.1.6'
     compile 'com.amitshekhar.android:android-networking:1.0.0'
     compile 'uk.co.markormesher:android-fab:2.0.0'
+    compile 'com.github.franmontiel:FullScreenDialog:1.0.1'
     testCompile 'junit:junit:4.12'
 }
 realm {

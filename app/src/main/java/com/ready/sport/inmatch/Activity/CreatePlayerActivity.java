@@ -1,17 +1,32 @@
 package com.ready.sport.inmatch.Activity;
 
+import android.app.DialogFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.Fragments.BasketFragment;
+import com.ready.sport.inmatch.Fragments.ProgressFragment;
 import com.ready.sport.inmatch.Fragments.SoccerFragment;
 import com.ready.sport.inmatch.Fragments.TennisFragment;
 import com.ready.sport.inmatch.Fragments.VolleyFragment;
@@ -25,8 +40,13 @@ import com.ready.sport.inmatch.RealmClass.VolleyModel;
 import com.ready.sport.inmatch.Tools.LockableViewPager;
 import com.ready.sport.inmatch.Tools.NoSwipableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
+import com.ready.sport.inmatch.util.ConfigUrls;
+import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
 import com.ready.sport.inmatch.util.TextViewPlus;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import io.realm.Realm;
 import io.realm.SyncConfiguration;
@@ -47,6 +67,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
     private EditTextPlus surName;
     private Realm realm;
     private PlayersModel model;
+    private ProgressFragment frag;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -60,6 +81,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewPagerNewPlayer);
         mViewPager.setOffscreenPageLimit(4);
         setupViewPager(mViewPager);
+
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabsNewPlayer);
         tabLayout.setupWithViewPager(mViewPager);
@@ -136,6 +158,12 @@ public class CreatePlayerActivity extends AppCompatActivity {
     }
 
     private void createPlayer(){
+        //Loading Fragment
+
+        frag = new ProgressFragment();
+        frag.show(getSupportFragmentManager(), "OpenPopup");
+        frag.setCancelable(false);
+
         SoccerModel soccerModel = socFrag.getDataSoccer();
         BasketModel basketModel = basFrag.getDataBasket();
         TennisModel tennisModel = tenFrag.getDataTennis();
@@ -161,7 +189,47 @@ public class CreatePlayerActivity extends AppCompatActivity {
 //            }
 //        });
 
-        realm.executeTransaction(new Realm.Transaction() {
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_CREATE)
+                .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsParsed(new TypeToken<PlayersModel>() {}, new ParsedRequestListener<PlayersModel>() {
+                    @Override
+                    public void onResponse(PlayersModel user) {
+                        // do anything with response
+                        model.setIdPlayer(user.IdPlayer);
+
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                try {
+                                    realm.copyToRealmOrUpdate(model);
+                                } catch (Exception e) {
+                                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                } finally {
+                                    Log.d("TAG", "ADD_USER: FINALLY");
+                                    Toast.makeText(getBaseContext(), "Operazione eseguita: ", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        realm.close();
+                        finish();
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        try {
+                            frag.dismiss();
+                            JSONObject str = new JSONObject(anError.getErrorBody().toString());
+                            Toast.makeText(getBaseContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("ErrorPost", e.getMessage());
+                        }
+                    }
+                });
+
+
+        /*realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 try{
@@ -175,17 +243,19 @@ public class CreatePlayerActivity extends AppCompatActivity {
                 }
 
             }
-        });
-//        try {
-//            SyncConfiguration syncConfiguration = (SyncConfiguration) Realm.getDefaultConfiguration();
-//            SyncManager.getSession(syncConfiguration).uploadAllLocalChanges();
-//        } catch (InterruptedException e) {
-//            Log.e("TAG", "addPlayer: " + e.getMessage(), e);
-//        } finally {
-//            Log.d("TAG", "addPlayer: FINALLY");
-//            realm.close();
-//            finish();
-//        }
-
+        });*/
+    }
+    @Override
+    public void onBackPressed() {
+        if (frag != null && frag.isAdded()) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
     }
 }

@@ -38,6 +38,7 @@ import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.UserModel;
 import com.ready.sport.inmatch.util.AutoCompleteTextViewPlus;
 import com.ready.sport.inmatch.util.ConfigUrls;
+import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
 
 import org.json.JSONArray;
@@ -362,6 +363,7 @@ public class LoginFragment extends Fragment {
 
                                     try {
                                         token = response.get("access_token").toString();
+                                        Constants.TOKEN = token;
                                         model = new UserModel();
                                         model.setEmailUser(mEmail);
                                         model.setToken(token);

@@ -19,6 +19,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
@@ -90,6 +91,8 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         team2Text = (EditTextPlus)findViewById(R.id.team2NewMatch);
         numberPicker = (NumberPicker)findViewById(R.id.number_picker);
         numTotPl = (TextViewPlus)findViewById(R.id.numberTotPlayer);
+
+
 
         numberPicker.setOnValueChangedListener(this);
 
