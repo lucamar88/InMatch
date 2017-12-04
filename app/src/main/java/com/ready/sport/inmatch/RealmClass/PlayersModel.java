@@ -202,5 +202,54 @@ public class PlayersModel extends RealmObject {
 
     public double    getRatingVolley() { return i_RatingTotVolley; }
     public void   setRatingVolley(double ratingVolley) { this.i_RatingTotVolley = ratingVolley; }
+
+
+    public JSONObject toJSON() {
+        JSONObject jo = new JSONObject();
+        try{
+
+            jo.put("d_CreationDateUtc", d_CreationDateUtc);
+            jo.put("s_Name", s_Name);
+            jo.put("s_Surename", s_Surename);
+            jo.put("b_ownPlayer",b_ownPlayer);
+            //Soccer
+            jo.put("i_RuoloSoccer", i_RuoloSoccer);
+            jo.put("i_VelocitaSoccer", i_VelocitaSoccer);
+            jo.put("i_PotenzaSoccer", i_PotenzaSoccer);
+            jo.put("i_DribblingSoccer" , i_DribblingSoccer);
+            jo.put("i_DifesaSoccer", i_DifesaSoccer);
+            jo.put("i_AttaccoSoccer", i_AttaccoSoccer);
+            jo.put("i_AgilitaSoccer", i_AgilitaSoccer);
+            jo.put("i_RatingTotSoccer", i_RatingTotSoccer);
+            //Basket
+            jo.put("i_PassaggioBasket", i_PassaggioBasket);
+            jo.put("i_FinalizzazioneBasket", i_FinalizzazioneBasket);
+            jo.put("i_RatingTotBasket", i_RatingTotBasket);
+            jo.put("i_AttaccoBasket", i_AttaccoBasket);
+            jo.put("i_DifesaBasket", i_DifesaBasket);
+            jo.put("i_VelocitaBasket", i_VelocitaBasket);
+            jo.put("i_PotenzaBasket", i_PotenzaBasket);
+            //Tennis
+            jo.put("i_AgilitaTennis", i_AgilitaTennis);
+            jo.put("i_BattutaTennis", i_BattutaTennis);
+            jo.put("i_DrittoTennis", i_DrittoTennis);
+            jo.put("i_PotenzaTennis", i_PotenzaTennis);
+            jo.put("i_RatingTotTennis", i_RatingTotTennis);
+            jo.put("i_RovescioTennis", i_RovescioTennis);
+            jo.put("i_SchiacciataTennis", i_SchiacciataTennis);
+            //Volley
+            jo.put("i_BattutaVolley", i_BattutaVolley);
+            jo.put("i_DifesaVolley", i_DifesaVolley);
+            jo.put("i_PotenzaVolley", i_PotenzaVolley);
+            jo.put("i_PrecisioneVolley", i_PrecisioneVolley);
+            jo.put("i_RatingTotVolley", i_RatingTotVolley);
+            jo.put("i_RicezioneVolley", i_RicezioneVolley);
+            jo.put("i_SchiacciataVolley", i_SchiacciataVolley);
+
+
+        }catch(Exception e){}
+
+        return jo;
+    }
 }
 

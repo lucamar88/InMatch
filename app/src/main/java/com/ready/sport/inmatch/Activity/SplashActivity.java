@@ -150,8 +150,9 @@ public class SplashActivity extends AwesomeSplash {
                     @Override
                     public void onError(ANError error) {
                         try {
-                            JSONObject str = new JSONObject(error.getErrorBody().toString());
-                            Toast.makeText(getBaseContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SplashActivity.this, SignLoginActivity.class));
+                            //JSONObject str = new JSONObject(error.getErrorBody().toString());
+                            //Toast.makeText(getBaseContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Log.e("ErrorPost", e.getMessage());
                         }

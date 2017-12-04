@@ -46,7 +46,11 @@ import com.ready.sport.inmatch.util.EditTextPlus;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.util.Date;
 
 import io.realm.Realm;
 import io.realm.SyncConfiguration;
@@ -170,6 +174,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
         VolleyModel volleyModel = volFrag.getDataVolley();
 
         model = CreatePlayerClass.setPlayerModel(false, soccerModel,basketModel,tennisModel,volleyModel, name.getText().toString(), surName.getText().toString() );
+
 //        realm.executeTransactionAsync(new Realm.Transaction() {
 //            @Override
 //            public void execute(Realm realm) {
@@ -189,8 +194,21 @@ public class CreatePlayerActivity extends AppCompatActivity {
 //            }
 //        });
 
-        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_CREATE)
+        /*JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("s_Name", "Rohit");
+            jsonObject.put("s_Surename", "Kumar");
+            jsonObject.put("b_ownPlayer", 0);
+            jsonObject.put("i_RuoloSoccer", 1);
+            jsonObject.put("d_CreationDateUtc", "2017-10-10 08:50:22");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+
+        AndroidNetworking.post(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_CREATE)
                 .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .addHeaders("contentType","application/json")
+                .addJSONObjectBody(model.toJSON())
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsParsed(new TypeToken<PlayersModel>() {}, new ParsedRequestListener<PlayersModel>() {
@@ -221,7 +239,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
                         try {
                             frag.dismiss();
                             JSONObject str = new JSONObject(anError.getErrorBody().toString());
-                            Toast.makeText(getBaseContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
                             Log.e("ErrorPost", e.getMessage());
                         }
@@ -258,4 +276,6 @@ public class CreatePlayerActivity extends AppCompatActivity {
     {
         super.onResume();
     }
+
+
 }
