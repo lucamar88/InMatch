@@ -41,27 +41,27 @@ public class PlayersFragment extends Fragment {
          //recyclerView.setHasFixedSize(true);
          data = new ArrayList<PlayersModel>();
          //Creo dati
-//         realm.executeTransaction(new Realm.Transaction() {
-//             @Override
-//             public void execute(Realm realm) {
-//                 for(int i = 1; i<10 ;i++){
-//                     PlayersModel model = new PlayersModel();
-//                     model.setSurName("Martelloni");
-//                     model.setName("Luca");
-//                     model.setIdPlayer(i);
-//                     model.setRatingSoccer(7.5);
-//                     model.setRatingBasket(5.5);
-//                     model.setRatingTennis(4.5);
-//                     model.setRatingVolley(3.5);
-//
-//                     realm.createObject(PlayersModel.class,i);
-//                     realm.copyToRealmOrUpdate(model);
-//
-//                 }
-//
-//
-//             }
-//         });
+         realm.executeTransaction(new Realm.Transaction() {
+             @Override
+             public void execute(Realm realm) {
+                 for(int i = 1; i<10 ;i++){
+                     PlayersModel model = new PlayersModel();
+                     model.setSurName("Martelloni"+i);
+                     model.setName("Luca");
+                     model.setIdPlayer(i+30);
+                     model.setRatingSoccer(7.5);
+                     model.setRatingBasket(5.5);
+                     model.setRatingTennis(4.5);
+                     model.setRatingVolley(3.5);
+
+                     //realm.createObject(PlayersModel.class,i+30);
+                     realm.copyToRealmOrUpdate(model);
+
+                 }
+
+
+             }
+         });
 
 
 
@@ -93,7 +93,7 @@ public class PlayersFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAllSorted("IdPlayer", Sort.DESCENDING),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);

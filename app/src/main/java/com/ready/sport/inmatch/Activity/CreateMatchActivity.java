@@ -17,6 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -144,6 +145,13 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             }
         });
 
+        AppCompatImageView add = (AppCompatImageView)findViewById(R.id.add_match_btn);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                validate();
+            }
+        });
         NestedScrollView scroller = (NestedScrollView) findViewById(R.id.scrollNewMatch);
 
         realm= Realm.getDefaultInstance();
@@ -171,6 +179,64 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             dataFin.add(plFin);
         }
         setUpRecyclerView();
+    }
+
+    private void validate() {
+
+        // Reset errors.
+        locationText.setError(null);
+        dataText.setError(null);
+        team1Text.setError(null);
+        team2Text.setError(null);
+
+        // Store values at the time of the login attempt.
+        String locationStr = locationText.getText().toString();
+        String dataStr = dataText.getText().toString();
+        String team1Str = team1Text.getText().toString();
+        String team2Str = team2Text.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+
+        if (!cancel && TextUtils.isEmpty(locationStr)) {
+            Toast.makeText(this, getString(R.string.error_location_match), Toast.LENGTH_SHORT).show();
+            //name.setError(getString(R.string.error_name_player));
+            focusView = locationText;
+            cancel = true;
+        }
+        if (!cancel && TextUtils.isEmpty(dataStr)) {
+            Toast.makeText(this, getString(R.string.error_data_match), Toast.LENGTH_SHORT).show();
+            //name.setError(getString(R.string.error_name_player));
+            focusView = dataText;
+            cancel = true;
+        }
+        if (!cancel && TextUtils.isEmpty(team1Str)) {
+            Toast.makeText(this, getString(R.string.error_first_team_match), Toast.LENGTH_SHORT).show();
+            //name.setError(getString(R.string.error_name_player));
+            focusView = team1Text;
+            cancel = true;
+        }
+        if (!cancel && TextUtils.isEmpty(team2Str)) {
+            Toast.makeText(this, getString(R.string.error_second_team_match), Toast.LENGTH_SHORT).show();
+            //name.setError(getString(R.string.error_name_player));
+            focusView = team2Text;
+            cancel = true;
+        }
+
+        if(!cancel && Integer.parseInt(numTotPl.getText().toString()) != count){
+            Toast.makeText(this, getString(R.string.error_second_team_match).replace("{0}",numTotPl.getText().toString()), Toast.LENGTH_SHORT).show();
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+
+        }
     }
 
     public void setColorBar(int index){
@@ -253,6 +319,8 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     // Date picker 2 method
 
     public void datePicker(){
+        Locale locale = getResources().getConfiguration().locale;
+        Locale.setDefault(locale);
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 this,
@@ -297,7 +365,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         if(newVal*2 < count){
             numberPicker.setValue(oldVal);
             numTotPl.setText(String.valueOf(oldVal*2));
-            Toast.makeText(this,"Deseleziona alcuni giocatori"+newVal, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Deseleziona alcuni giocatori", Toast.LENGTH_SHORT).show();
         }else{
             numTotPl.setText(String.valueOf(newVal*2));
         }
