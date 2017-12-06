@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.Fragments.BasketFragment;
+import com.ready.sport.inmatch.Fragments.LoginFragment;
 import com.ready.sport.inmatch.Fragments.ProgressFragment;
 import com.ready.sport.inmatch.Fragments.SoccerFragment;
 import com.ready.sport.inmatch.Fragments.TennisFragment;
@@ -134,7 +136,8 @@ public class CreatePlayerActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createPlayer();
+                validate();
+                //createPlayer();
             }
         });
     }
@@ -161,6 +164,38 @@ public class CreatePlayerActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    private void validate() {
+
+        // Reset errors.
+        name.setError(null);
+        surName.setError(null);
+
+        // Store values at the time of the login attempt.
+        String nameStr = name.getText().toString();
+        String surnameStr = surName.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        // Check for a valid password, if the user entered one.
+        if (TextUtils.isEmpty(nameStr)) {
+            Toast.makeText(this, getString(R.string.error_name_player), Toast.LENGTH_SHORT).show();
+            //name.setError(getString(R.string.error_name_player));
+            focusView = name;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            createPlayer();
+        }
+    }
+
     private void createPlayer(){
         //Loading Fragment
 
@@ -174,41 +209,12 @@ public class CreatePlayerActivity extends AppCompatActivity {
         VolleyModel volleyModel = volFrag.getDataVolley();
 
         model = CreatePlayerClass.setPlayerModel(false, soccerModel,basketModel,tennisModel,volleyModel, name.getText().toString(), surName.getText().toString() );
-
-//        realm.executeTransactionAsync(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                realm.createObject(PlayersModel.class, model);
-//
-//            }
-//        }, new Realm.Transaction.OnSuccess() {
-//            @Override
-//            public void onSuccess() {
-//                finish();
-//                // Transaction was a success.
-//            }
-//        }, new Realm.Transaction.OnError() {
-//            @Override
-//            public void onError(Throwable error) {
-//                // Transaction failed and was automatically canceled.
-//            }
-//        });
-
-        /*JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("s_Name", "Rohit");
-            jsonObject.put("s_Surename", "Kumar");
-            jsonObject.put("b_ownPlayer", 0);
-            jsonObject.put("i_RuoloSoccer", 1);
-            jsonObject.put("d_CreationDateUtc", "2017-10-10 08:50:22");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
+        JSONObject obj = model.toJSON();
 
         AndroidNetworking.post(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_CREATE)
                 .addHeaders("Authorization", "bearer " + Constants.TOKEN)
                 .addHeaders("contentType","application/json")
-                .addJSONObjectBody(model.toJSON())
+                .addJSONObjectBody(obj)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsParsed(new TypeToken<PlayersModel>() {}, new ParsedRequestListener<PlayersModel>() {
@@ -226,7 +232,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
                                     Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
                                 } finally {
                                     Log.d("TAG", "ADD_USER: FINALLY");
-                                    Toast.makeText(getBaseContext(), "Operazione eseguita: ", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -246,22 +252,6 @@ public class CreatePlayerActivity extends AppCompatActivity {
                     }
                 });
 
-
-        /*realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                try{
-                    realm.copyToRealmOrUpdate(model);
-                }catch(Exception e){
-                    Log.e("TAG", "addPlayer: " + e.getMessage(), e);
-                } finally {
-                    Log.d("TAG", "addPlayer: FINALLY");
-                    realm.close();
-                    finish();
-                }
-
-            }
-        });*/
     }
     @Override
     public void onBackPressed() {

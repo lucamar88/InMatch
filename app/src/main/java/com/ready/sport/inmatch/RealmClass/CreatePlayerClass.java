@@ -2,6 +2,7 @@ package com.ready.sport.inmatch.RealmClass;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -16,8 +17,10 @@ public class CreatePlayerClass {
 
     public static PlayersModel setPlayerModel(boolean isOwner, SoccerModel soc, BasketModel bas, TennisModel ten , VolleyModel vol, String name, String surName){
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
         playersModel.setIdPlayer(new Random().nextInt());
-        playersModel.setCreationDateUTC(new Date().toString());
+        playersModel.setCreationDateUTC(dateFormat.format(new Date()));//"2017-10-12 08:08:00");
 
         playersModel.setName(name);
 

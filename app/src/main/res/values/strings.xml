@@ -50,4 +50,9 @@
     <string name="schiacciata">Schiacciata</string>
     <string name="ricezione">Ricezione</string>
     <string name="precisione">Precisione</string>
+
+
+    //Error
+    <string name="error_name_player">Devi inserire il nome del giocatore</string>
+    <string name="error_surnname_player">Devi inserire il cognome del giocatore</string>
 </resources>
