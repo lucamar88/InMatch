@@ -1,5 +1,7 @@
 package com.ready.sport.inmatch.RealmClass;
 
+import org.json.JSONObject;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -89,4 +91,26 @@ public class MatchModel extends RealmObject {
 
     public String    getIdUser() { return s_IdUser; }
     public void   setIdUser(String idUser) { this.s_IdUser = idUser; }
+
+    public JSONObject toJSON() {
+        JSONObject jo = new JSONObject();
+        try {
+            jo.put("d_CreationDateUtc", d_CreationDateUtc);
+            jo.put("d_StartDateUtc", d_StartDateUtc);
+            jo.put("b_IsFinish", b_IsFinish);
+            jo.put("i_MatchType", i_MatchType);
+            jo.put("s_Location", s_Location);
+            jo.put("i_NumberForTeam", i_NumberForTeam);
+            jo.put("s_NameFirstTeam", s_NameFirstTeam);
+            jo.put("s_NameSecondTeam", s_NameSecondTeam);
+            jo.put("s_ListPlayersFirstTeam", s_ListPlayersFirstTeam);
+            jo.put("s_ListPlayersSecondTeam", s_ListPlayersSecondTeam);
+            jo.put("d_FirstTeamRating", d_FirstTeamRating);
+            jo.put("d_SecondTeamRating", d_SecondTeamRating);
+            jo.put("s_ListTotalPlayers", s_ListTotalPlayers);
+            jo.put("s_Result", s_Result);
+        } catch (Exception e) {
+        }
+        return jo;
+    }
 }

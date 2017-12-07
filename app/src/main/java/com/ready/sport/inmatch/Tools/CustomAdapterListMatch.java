@@ -77,14 +77,21 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
                 holder.selectLayout.setBackground(mContext.getDrawable(R.drawable.shape_match_list_volley));
                 break;
         }
-        String[] risultati = obj.getResult().split("_");
 
-        holder.secondResult.setText(risultati[1]);
-        holder.firstResult.setText(risultati[0]);
+        if(obj.getResult() != null && obj.getResult().toString() != ""){
+            String[] risultati = obj.getResult().split("_");
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+            holder.secondResult.setText(risultati[1]);
+            holder.firstResult.setText(risultati[0]);
+        }else{
+            holder.secondResult.setText("-");
+            holder.firstResult.setText("-");
+        }
+
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
         try {
-            Date date = dateFormat.parse(obj.getStartDateUtc());//You will get date object relative to server/client timezone wherever it is parsed
+            Date date = dateFormat.parse(obj.getStartDateUtc().replace("-","/"));//You will get date object relative to server/client timezone wherever it is parsed
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); //If you need time just put specific format for time like 'HH:mm:ss'
             String dateStr = formatter.format(date);
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");

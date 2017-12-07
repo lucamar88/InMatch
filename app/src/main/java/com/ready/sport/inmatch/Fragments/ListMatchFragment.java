@@ -88,7 +88,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
         realm = Realm.getDefaultInstance();
         //Creo dati
 
-        realm.executeTransaction(new Realm.Transaction() {
+        /*realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 try {
@@ -116,7 +116,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
 
             }
         });
-        realm.close();
+        realm.close();*/
         recyclerView = (RecyclerView) rootView.findViewById(R.id.listMatch);
         setUpRecyclerView();
         return rootView;

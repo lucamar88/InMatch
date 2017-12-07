@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.ready.sport.inmatch.Activity.CreateMatchActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayerCardMatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
@@ -78,14 +79,17 @@ public class CustomAdaptersPlayersMatch extends  RecyclerView.Adapter<CustomAdap
             public void onClick(View view) {
                 int a = holder.selectLayout.getVisibility();
                 if (a == View.INVISIBLE) {
-                    holder.selectLayout.setVisibility(View.VISIBLE);
-                    ((AdapterInterface) mContext).setPlayerForMatch((int)getItemId(position),1);
+                    if(((CreateMatchActivity)mContext).numberPlayerRemain() != 0) {
+                        holder.selectLayout.setVisibility(View.VISIBLE);
+                        ((AdapterInterface) mContext).setPlayerForMatch((int) getItemId(position), 1);
+                    }else{
+                        Toast.makeText(mContext, R.string.error_max_player,Toast.LENGTH_SHORT).show();
+                    }
 
                 }else{
                     holder.selectLayout.setVisibility(View.INVISIBLE);
                     ((AdapterInterface) mContext).setPlayerForMatch((int)getItemId(position),0);
                 }
-
             }
         });
     }

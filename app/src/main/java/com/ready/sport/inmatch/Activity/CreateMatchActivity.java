@@ -18,6 +18,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -27,6 +28,7 @@ import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayerCardMatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.CustomAdaptersPlayersMatch;
@@ -63,6 +65,12 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private NumberPicker numberPicker;
     private int colorSet;
     private int count = 0;
+    private String locationStr;
+    private String dataStr;
+    private String team1Str;
+    private String team2Str;
+    private int type;
+    private String dataToSave;
 
     // Date picker 1
     private SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -122,7 +130,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             e.printStackTrace();
         }
 
-        int type;
+
         Bundle extras = getIntent().getExtras();
 
         try {
@@ -190,10 +198,10 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         team2Text.setError(null);
 
         // Store values at the time of the login attempt.
-        String locationStr = locationText.getText().toString();
-        String dataStr = dataText.getText().toString();
-        String team1Str = team1Text.getText().toString();
-        String team2Str = team2Text.getText().toString();
+        locationStr = locationText.getText().toString();
+        dataStr = dataText.getText().toString();
+        team1Str = team1Text.getText().toString();
+        team2Str = team2Text.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -235,12 +243,12 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-
+            createMatch();
         }
     }
 
     public void setColorBar(int index){
-        Toast.makeText(getBaseContext(),"Tipo:"+index, Toast.LENGTH_LONG).show();
+
         switch (index){
             case Constants.SOCCER_TYPE:
                 bar.setBackgroundColor(getResources().getColor(R.color.soccerColor));
@@ -427,8 +435,11 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     }
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = dayOfMonth+"/"+(++monthOfYear)+"/"+year;
+        String day = "";
+        if(String.valueOf(dayOfMonth).length() == 1)day = "0"+dayOfMonth;
+        String date = day +"/"+(++monthOfYear)+"/"+year;
         dataText.setText(date);
+        dataToSave = year + "/"+(monthOfYear)+"/"+day+" ";
         timePicker();
     }
     @Override
@@ -438,6 +449,43 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         String secondString = second < 10 ? "0"+second : ""+second;
         String time = hourString+":"+minuteString;
         dataText.setText(dataText.getText() +" " + time);
+        dataToSave = dataToSave+time+":00.503";
+    }
+
+    public void createMatch(){
+        String listaPlayerStr = listaPlayer.get(0).toString()+"_";
+        for(int i = 1;i<listaPlayer.size();i++){
+            listaPlayerStr += "_"+listaPlayer.get(i).toString();
+        }
+
+        final MatchModel model = new MatchModel();
+        model.setStartDateUtc(dataToSave);
+        model.setNameFirstTeam(team1Str);
+        model.setNameSecondTeam(team2Str);
+        model.setLocation(locationStr);
+        model.setIsFinish(false);
+        model.setMatchType(type);
+        model.setListTotalPlayers(listaPlayerStr);
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                try {
+                    realm.copyToRealmOrUpdate(model);
+                } catch (Exception e) {
+                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                } finally {
+                    Log.d("TAG", "ADD_USER: FINALLY");
+                    Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        realm.close();
+        finish();
+    }
+
+    public int numberPlayerRemain(){
+        return Integer.parseInt(numTotPl.getText().toString()) - count;
     }
 }
 
