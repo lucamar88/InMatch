@@ -473,9 +473,9 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 try {
                     realm.copyToRealmOrUpdate(model);
                 } catch (Exception e) {
-                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                    Log.e("TAG", "ADD_MATCH: " + e.getMessage(), e);
                 } finally {
-                    Log.d("TAG", "ADD_USER: FINALLY");
+                    Log.d("TAG", "ADD_MATCH: FINALLY");
                     Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
                 }
             }

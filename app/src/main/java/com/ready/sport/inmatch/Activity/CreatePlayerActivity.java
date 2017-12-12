@@ -11,8 +11,10 @@ import android.support.v7.widget.AppCompatImageView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -140,6 +142,16 @@ public class CreatePlayerActivity extends AppCompatActivity {
                 //createPlayer();
             }
         });
+
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast_new_player,
+                (ViewGroup) findViewById(R.id.toast_layout_root));
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -229,9 +241,9 @@ public class CreatePlayerActivity extends AppCompatActivity {
                                 try {
                                     realm.copyToRealmOrUpdate(model);
                                 } catch (Exception e) {
-                                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                    Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
                                 } finally {
-                                    Log.d("TAG", "ADD_USER: FINALLY");
+                                    Log.d("TAG", "ADD_PLAYER: FINALLY");
                                     Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
                                 }
                             }
