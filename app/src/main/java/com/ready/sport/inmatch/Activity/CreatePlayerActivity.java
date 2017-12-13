@@ -1,10 +1,7 @@
 package com.ready.sport.inmatch.Activity;
 
-import android.app.DialogFragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
@@ -15,21 +12,14 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.ParsedRequestListener;
-import com.franmontiel.fullscreendialog.FullScreenDialogFragment;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.Fragments.BasketFragment;
-import com.ready.sport.inmatch.Fragments.LoginFragment;
 import com.ready.sport.inmatch.Fragments.ProgressFragment;
 import com.ready.sport.inmatch.Fragments.SoccerFragment;
 import com.ready.sport.inmatch.Fragments.TennisFragment;
@@ -41,26 +31,16 @@ import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.SoccerModel;
 import com.ready.sport.inmatch.RealmClass.TennisModel;
 import com.ready.sport.inmatch.RealmClass.VolleyModel;
-import com.ready.sport.inmatch.Tools.LockableViewPager;
 import com.ready.sport.inmatch.Tools.NoSwipableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
 import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
-import com.ready.sport.inmatch.util.TextViewPlus;
+import com.ready.sport.inmatch.util.ToastCustom;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import java.util.Date;
 
 import io.realm.Realm;
-import io.realm.SyncConfiguration;
-import io.realm.SyncManager;
-
-import static android.R.attr.value;
 
 /**
  * Created by l.martelloni on 29/08/2017.
@@ -143,15 +123,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
             }
         });
 
-        LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.toast_new_player,
-                (ViewGroup) findViewById(R.id.toast_layout_root));
 
-        Toast toast = new Toast(getApplicationContext());
-        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
-        toast.setDuration(Toast.LENGTH_LONG);
-        toast.setView(layout);
-        toast.show();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -175,6 +147,8 @@ public class CreatePlayerActivity extends AppCompatActivity {
         adapter.addFragment(volFrag);
         viewPager.setAdapter(adapter);
     }
+
+
 
     private void validate() {
 
@@ -244,7 +218,10 @@ public class CreatePlayerActivity extends AppCompatActivity {
                                     Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
                                 } finally {
                                     Log.d("TAG", "ADD_PLAYER: FINALLY");
-                                    Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
+                                    ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.player_add),getString(R.string.operation_success));
+                                    toast.show();
+
+                                    //Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

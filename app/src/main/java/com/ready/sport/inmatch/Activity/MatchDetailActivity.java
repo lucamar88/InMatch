@@ -116,6 +116,8 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         if(IdMatch != 0){
             match = realm.where(MatchModel.class).equalTo("IdMatch",IdMatch).findFirst();
+        }else{
+            finish();
         }
 
         location.setText(match.getLocation());

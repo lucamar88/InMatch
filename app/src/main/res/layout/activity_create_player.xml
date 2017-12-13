@@ -23,6 +23,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@drawable/icon_back"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:layout_weight="0.15"
                 android:clickable="true"/>
             <com.ready.sport.inmatch.util.TextViewPlus
@@ -38,6 +39,7 @@
                 android:layout_width="45dp"
                 android:layout_height="25dp"
                 android:src="@drawable/icon_check"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"/>
         </android.support.v7.widget.LinearLayoutCompat>
 

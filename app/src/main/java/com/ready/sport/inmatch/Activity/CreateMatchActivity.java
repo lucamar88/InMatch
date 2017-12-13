@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
@@ -24,23 +25,32 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
 import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
+import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayerCardMatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.CustomAdaptersPlayersMatch;
 import com.ready.sport.inmatch.util.AdapterInterface;
+import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
 import com.ready.sport.inmatch.util.EditTextTint;
 import com.ready.sport.inmatch.util.TextViewPlus;
+import com.ready.sport.inmatch.util.ToastCustom;
 import com.shawnlin.numberpicker.NumberPicker;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,6 +81,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private String team2Str;
     private int type;
     private String dataToSave;
+    private Drawable iconForToast;
 
     // Date picker 1
     private SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -144,6 +155,22 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             e.printStackTrace();
             type= Constants.SOCCER_TYPE;
         }
+
+        switch (type){
+            case Constants.SOCCER_TYPE:
+                iconForToast = getResources().getDrawable(R.drawable.soccer_add);
+                break;
+            case Constants.BASKET_TYPE:
+                iconForToast = getResources().getDrawable(R.drawable.basket_add);
+                break;
+            case Constants.TENNIS_TYPE:
+                iconForToast = getResources().getDrawable(R.drawable.tennis_add);
+                break;
+            case Constants.VOLLEY_TYPE:
+                iconForToast = getResources().getDrawable(R.drawable.volley_add);
+                break;
+        }
+
         setColorBar(type);
         AppCompatImageView back = (AppCompatImageView)findViewById(R.id.backBtnCreateMatch);
         back.setOnClickListener(new View.OnClickListener() {
@@ -176,7 +203,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             plFin.SurnamePlayer = pl.getSurName();
             if(type == Constants.SOCCER_TYPE){
                 plFin.RatingPlayer = pl.getRatingSoccer();
-                plFin.RoleSoccer = "CENTROVAMPISTA";
+                plFin.RoleSoccer = "CENTROCAMPISTA";
             }else if(type == Constants.BASKET_TYPE){
                 plFin.RatingPlayer = pl.getRatingBasket();
             }else if(type == Constants.TENNIS_TYPE){
@@ -187,6 +214,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             dataFin.add(plFin);
         }
         setUpRecyclerView();
+
     }
 
     private void validate() {
@@ -327,8 +355,8 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     // Date picker 2 method
 
     public void datePicker(){
-        Locale locale = getResources().getConfiguration().locale;
-        Locale.setDefault(locale);
+        /*Locale locale = getResources().getConfiguration().locale;
+        Locale.setDefault(locale);*/
         Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 this,
@@ -435,7 +463,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     }
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String day = "";
+        String day = String.valueOf(dayOfMonth);
         if(String.valueOf(dayOfMonth).length() == 1)day = "0"+dayOfMonth;
         String date = day +"/"+(++monthOfYear)+"/"+year;
         dataText.setText(date);
@@ -465,9 +493,56 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         model.setLocation(locationStr);
         model.setIsFinish(false);
         model.setMatchType(type);
+        model.setNumberForTeam(listaPlayer.size()/2);
         model.setListTotalPlayers(listaPlayerStr);
 
-        realm.executeTransaction(new Realm.Transaction() {
+        JSONObject obj = model.toJSON();
+
+        AndroidNetworking.post(ConfigUrls.BASE_URL + ConfigUrls.MATCH_CREATE)
+                .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .addHeaders("contentType","application/json")
+                .addJSONObjectBody(obj)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsParsed(new TypeToken<MatchModel>() {}, new ParsedRequestListener<MatchModel>() {
+                    @Override
+                    public void onResponse(MatchModel match) {
+                        // do anything with response
+                        model.setIdMatch(match.IdMatch);
+
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                try {
+                                    realm.copyToRealmOrUpdate(model);
+                                } catch (Exception e) {
+                                    Log.e("TAG", "ADD_MATCH: " + e.getMessage(), e);
+                                } finally {
+                                    Log.d("TAG", "ADD_MATCH: FINALLY");
+                                    ToastCustom toast = new ToastCustom(getBaseContext(), iconForToast,getString(R.string.operation_success));
+                                    toast.show();
+
+                                    //Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        realm.close();
+                        finish();
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        try {
+                            JSONObject str = new JSONObject(anError.getErrorBody().toString());
+                            Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Log.e("ErrorPost", e.getMessage());
+                        }
+                    }
+                });
+
+
+        /*realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 try {
@@ -476,12 +551,16 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                     Log.e("TAG", "ADD_MATCH: " + e.getMessage(), e);
                 } finally {
                     Log.d("TAG", "ADD_MATCH: FINALLY");
-                    Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
+
+                    ToastCustom toast = new ToastCustom(getBaseContext(), iconForToast,getString(R.string.operation_success));
+                    toast.show();
+
                 }
             }
         });
         realm.close();
-        finish();
+        finish();*/
     }
 
     public int numberPlayerRemain(){

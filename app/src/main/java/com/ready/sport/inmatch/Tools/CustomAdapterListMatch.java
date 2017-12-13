@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ready.sport.inmatch.Activity.MainActivity;
 import com.ready.sport.inmatch.Activity.MatchDetailActivity;
@@ -105,8 +106,13 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
             @Override
             public void onClick(View view) {
                 Intent ap = new Intent(mContext, MatchDetailActivity.class);
-                ap.putExtra("idMatch",(int)getItemId(position));
-                mContext.startActivity(ap);
+                ap.putExtra("idMatch",obj.IdMatch);
+                if(obj.IdMatch != 0){
+                    mContext.startActivity(ap);
+                }else{
+                    Toast.makeText(mContext, "Errore",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 //        holder.itemPlayer.setOnClickListener(new View.OnClickListener() {

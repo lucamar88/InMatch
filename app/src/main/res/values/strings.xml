@@ -27,6 +27,7 @@
     <string name="title_activity_sign_login">SignLoginActivity</string>
     <string name="action_settings">Opzioni</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="operation_success">Operazione eseguita</string>
     <string name="soccer_label">CALCIO</string>
     <string name="basket_label">BASKET</string>
     <string name="tennis_label">TENNIS</string>
