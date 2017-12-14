@@ -56,6 +56,7 @@ public class SoccerFragment extends Fragment {
     private int IdPlayer;
     private PlayersModel pl = null;
     private Realm realm;
+    private int roleSelect = 0;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,19 +82,33 @@ public class SoccerFragment extends Fragment {
         AppCompatSpinner spinner = (AppCompatSpinner) rootView.findViewById(R.id.spinnerSoccer);
 
         // Spinner click listener
-        //spinner.setOnItemSelectedListener();
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
-        if(pl != null && !isClickable){
-            categories.add(Constants.Role.fromInteger(pl.i_RuoloSoccer).toString());
+        /*if(pl != null && !isClickable){
+            int str = getResources().getIdentifier("role_soccer_"+pl.i_RuoloSoccer, "string", getContext().getPackageName());
+            //categories.add(Constants.Role.fromInteger(pl.i_RuoloSoccer).toString());
+            categories.add(getString(str));
         }else{
-            categories.add(Constants.Role.PORTIERE.toString());
+            *//*categories.add(Constants.Role.PORTIERE.toString());
             categories.add(Constants.Role.DIFENSORE.toString());
             categories.add(Constants.Role.CENTROCAMPISTA.toString());
             categories.add(Constants.Role.ESTERNO.toString());
-            categories.add(Constants.Role.ATTACCANTE.toString());
-        }
+            categories.add(Constants.Role.ATTACCANTE.toString());*//*
+            categories.add(getString(R.string.role_soccer_0));
+            categories.add(getString(R.string.role_soccer_1));
+            categories.add(getString(R.string.role_soccer_2));
+            categories.add(getString(R.string.role_soccer_3));
+            categories.add(getString(R.string.role_soccer_4));
+        }*/
+
+        categories.add(getString(R.string.role_soccer_0));
+        categories.add(getString(R.string.role_soccer_1));
+        categories.add(getString(R.string.role_soccer_2));
+        categories.add(getString(R.string.role_soccer_3));
+        categories.add(getString(R.string.role_soccer_4));
+
+
 
         // Creating adapter for spinner
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), R.layout.my_spinner, categories);
@@ -103,7 +118,24 @@ public class SoccerFragment extends Fragment {
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
+        if(pl != null){
+            spinner.setSelection(pl.getRuoloSoccer());
+        }
         spinner.setClickable(isClickable);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                roleSelect = position;
+                // your code here
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
         SetAllSeek(rootView);
 
@@ -187,6 +219,7 @@ public class SoccerFragment extends Fragment {
 
     public SoccerModel getDataSoccer(){
         SoccerModel model = new SoccerModel();
+        model.setRuoloSoccer(roleSelect);
         model.setAgilitaSoccer(Float.valueOf(value.format(seekbar6.getProgressFloat())));
         model.setAttaccoSoccer(Float.valueOf(value.format(seekbar5.getProgressFloat())));
         model.setDifesaSoccer(Float.valueOf(value.format(seekbar4.getProgressFloat())));

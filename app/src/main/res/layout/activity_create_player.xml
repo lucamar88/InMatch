@@ -37,8 +37,8 @@
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/add_player_button"
                 android:layout_width="45dp"
-                android:layout_height="25dp"
-                android:src="@drawable/icon_check"
+                android:layout_height="45dp"
+                android:src="@drawable/ic_icon_check"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"/>
         </android.support.v7.widget.LinearLayoutCompat>

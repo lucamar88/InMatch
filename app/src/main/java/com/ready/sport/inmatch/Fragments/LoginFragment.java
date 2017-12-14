@@ -40,6 +40,7 @@ import com.ready.sport.inmatch.util.AutoCompleteTextViewPlus;
 import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.EditTextPlus;
+import com.ready.sport.inmatch.util.ToastCustom;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -397,10 +398,15 @@ public class LoginFragment extends Fragment {
                                 @Override
                                 public void onError(ANError error) {
                                     try {
-                                        JSONObject str = new JSONObject(error.getErrorBody().toString());
-                                        Toast.makeText(getContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
                                         showProgress(false);
+                                        JSONObject str = new JSONObject(error.getErrorBody().toString());
+                                        //Toast.makeText(getContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                                        ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                                        toast.show();
                                     } catch (Exception e) {
+                                        showProgress(false);
+                                        ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                                        toast.show();
                                         Log.e("ErrorPost", e.getMessage());
                                     }
                                     // handle error
@@ -473,9 +479,15 @@ public class LoginFragment extends Fragment {
                         @Override
                         public void onError(ANError error) {
                             try {
+                                showProgress(false);
                                 JSONObject str = new JSONObject(error.getErrorBody().toString());
-                                Toast.makeText(getContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(getContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
+                                ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                                toast.show();
                             } catch (Exception e) {
+                                showProgress(false);
+                                ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                                toast.show();
                                 Log.e("ErrorPost", e.getMessage());
                             }
                             // handle error

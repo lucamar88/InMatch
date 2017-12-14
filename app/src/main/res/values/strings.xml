@@ -45,13 +45,21 @@
     <string name="dribbling">Dribbling</string>
     <string name="passage">Passaggio</string>
     <string name="finality">Finalizzazione</string>
-    <string name="battuta">Battuta</string>
+    <string name="battuta">Servizio</string>
     <string name="dritto">Dritto</string>
     <string name="rovescio">Rovescio</string>
     <string name="schiacciata">Schiacciata</string>
     <string name="ricezione">Ricezione</string>
     <string name="precisione">Precisione</string>
 
+
+    //Ruoli
+
+    <string name="role_soccer_0">Portiere</string>
+    <string name="role_soccer_1">Difensore</string>
+    <string name="role_soccer_2">Centrocampista</string>
+    <string name="role_soccer_3">Esterno</string>
+    <string name="role_soccer_4">Attaccante</string>
 
     //Error
     <string name="error_name_player">Devi inserire il nome del giocatore</string>
@@ -62,4 +70,11 @@
     <string name="error_second_team_match">Devi inserire il nome della seconda squadra</string>
     <string name="error_number_player_match">Devi selezionare {0} giocatori</string>
     <string name="error_max_player">Hai già selezionato tutti i giocatori</string>
+    <string name="error_default">Errore di rete</string>
+
+    //Elimina
+
+    <string name="delete">Elimina</string>
+    <string name="delete_player">Vuoi eliminare questo giocatore?</string>
+    <string name="delete_match">Vuoi eliminare questa partita?</string>
 </resources>

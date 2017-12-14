@@ -22,6 +22,7 @@ public class ConfigUrls {
     public static final String PLAYER_GET_ALL = "api/Players/getPlayers";
     public static final String PLAYER_CREATE = "api/Players/createPlayer";
     public static final String PLAYER_DETAIL = "api/Players/getPlayerDetail";
+    public static final String PLAYER_DELETE = "api/Players/deletePlayer";
 
     /*Match URL*/
 
@@ -29,6 +30,7 @@ public class ConfigUrls {
     public static final String MATCH_DETAIL = "api/Match/getMatchDetail";
     public static final String MATCH_CREATE = "api/Match/createMatch";
     public static final String MATCH_EDIT = "api/Match/editMatch";
+    public static final String MATCH_DELETE = "api/Match/deleteMatch";
 
     /*Complete url*/
 

@@ -41,7 +41,7 @@ public class PlayersFragment extends Fragment {
          //recyclerView.setHasFixedSize(true);
          data = new ArrayList<PlayersModel>();
          //Creo dati
-         realm.executeTransaction(new Realm.Transaction() {
+         /*realm.executeTransaction(new Realm.Transaction() {
              @Override
              public void execute(Realm realm) {
                  for(int i = 1; i<10 ;i++){
@@ -61,7 +61,7 @@ public class PlayersFragment extends Fragment {
 
 
              }
-         });
+         });*/
 
 
 
@@ -85,6 +85,7 @@ public class PlayersFragment extends Fragment {
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
             //DataHelper.deleteItemAsync(realm, viewHolder.getItemId());
         }
+
 
         @Override
         public boolean isLongPressDragEnabled() {
@@ -113,7 +114,7 @@ public class PlayersFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAll(),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
     }

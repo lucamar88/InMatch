@@ -521,8 +521,6 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                                     Log.d("TAG", "ADD_MATCH: FINALLY");
                                     ToastCustom toast = new ToastCustom(getBaseContext(), iconForToast,getString(R.string.operation_success));
                                     toast.show();
-
-                                    //Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -534,33 +532,16 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                         // handle error
                         try {
                             JSONObject str = new JSONObject(anError.getErrorBody().toString());
-                            Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            toast.show();
                         } catch (Exception e) {
+                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            toast.show();
                             Log.e("ErrorPost", e.getMessage());
                         }
                     }
                 });
-
-
-        /*realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                try {
-                    realm.copyToRealmOrUpdate(model);
-                } catch (Exception e) {
-                    Log.e("TAG", "ADD_MATCH: " + e.getMessage(), e);
-                } finally {
-                    Log.d("TAG", "ADD_MATCH: FINALLY");
-                    //Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
-
-                    ToastCustom toast = new ToastCustom(getBaseContext(), iconForToast,getString(R.string.operation_success));
-                    toast.show();
-
-                }
-            }
-        });
-        realm.close();
-        finish();*/
     }
 
     public int numberPlayerRemain(){

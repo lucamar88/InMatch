@@ -220,8 +220,6 @@ public class CreatePlayerActivity extends AppCompatActivity {
                                     Log.d("TAG", "ADD_PLAYER: FINALLY");
                                     ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.player_add),getString(R.string.operation_success));
                                     toast.show();
-
-                                    //Toast.makeText(getBaseContext(), "Operazione eseguita", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -234,8 +232,12 @@ public class CreatePlayerActivity extends AppCompatActivity {
                         try {
                             frag.dismiss();
                             JSONObject str = new JSONObject(anError.getErrorBody().toString());
-                            Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            toast.show();
                         } catch (Exception e) {
+                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            toast.show();
                             Log.e("ErrorPost", e.getMessage());
                         }
                     }

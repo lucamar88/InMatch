@@ -18,6 +18,7 @@ import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.UserModel;
 import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
+import com.ready.sport.inmatch.util.ToastCustom;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
@@ -150,10 +151,15 @@ public class SplashActivity extends AwesomeSplash {
                     @Override
                     public void onError(ANError error) {
                         try {
+                            JSONObject str = new JSONObject(error.getErrorBody().toString());
                             startActivity(new Intent(SplashActivity.this, SignLoginActivity.class));
+                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            toast.show();
                             //JSONObject str = new JSONObject(error.getErrorBody().toString());
                             //Toast.makeText(getBaseContext(), "Errore: " + str.get("error_description"), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {
+                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            toast.show();
                             Log.e("ErrorPost", e.getMessage());
                         }
                         // handle error

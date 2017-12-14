@@ -67,7 +67,9 @@
     <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
     <item name="android:textColor">@android:color/white</item>
     </style>
-
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:colorAccent">@color/colorTextFill</item>
+    </style>
 
     <!--Spinner-->
     <style name="SpinnerAppTheme" parent="android:Widget.Spinner">
