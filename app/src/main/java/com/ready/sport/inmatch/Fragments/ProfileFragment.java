@@ -1,6 +1,8 @@
 package com.ready.sport.inmatch.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.ready.sport.inmatch.Activity.CreatePlayerActivity;
+import com.ready.sport.inmatch.Activity.MainActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.LockableViewPager;
@@ -32,6 +36,7 @@ public class ProfileFragment extends Fragment {
     private VolleyFragment volFrag;
     private int IdPlayerOwn;
     private Realm realm;
+    private FloatingActionButton floatBtn;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -49,7 +54,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_profile_layout, container, false);
         //mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
-
+        IdPlayerOwn = realm.where(PlayersModel.class).equalTo("b_ownPlayer", true).findFirst().IdPlayer;
         // Set up the ViewPager with the sections adapter.
         mViewPager = (LockableViewPager) rootView.findViewById(R.id.viewPagerProfile);
 
@@ -65,7 +70,17 @@ public class ProfileFragment extends Fragment {
         tabLayout.getTabAt(2).setIcon(R.drawable.tennis_icon);
         tabLayout.getTabAt(3).setIcon(R.drawable.volley_icon);
 
+        floatBtn = (FloatingActionButton)rootView.findViewById(R.id.edit_player_own);
 
+        floatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent in = new Intent(getActivity(), CreatePlayerActivity.class);
+                in.putExtra("IdPlayer",IdPlayerOwn);
+                startActivity(in);
+            }
+        });
 
         return rootView;
     }
@@ -106,7 +121,7 @@ public class ProfileFragment extends Fragment {
 
     }
     private void setupViewPager(ViewPager viewPager) {
-        IdPlayerOwn = realm.where(PlayersModel.class).equalTo("b_ownPlayer", true).findFirst().IdPlayer;
+
         ViewPagerAdapter adapter = new ViewPagerAdapter(getChildFragmentManager());
         Bundle args = new Bundle();
         args.putBoolean("isClick", false);

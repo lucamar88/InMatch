@@ -1,5 +1,6 @@
 package com.ready.sport.inmatch.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -27,6 +28,7 @@ import com.ready.sport.inmatch.Fragments.VolleyFragment;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.BasketModel;
 import com.ready.sport.inmatch.RealmClass.CreatePlayerClass;
+import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.SoccerModel;
 import com.ready.sport.inmatch.RealmClass.TennisModel;
@@ -56,6 +58,8 @@ public class CreatePlayerActivity extends AppCompatActivity {
     private Realm realm;
     private PlayersModel model;
     private ProgressFragment frag;
+    private int playerId = 0;
+    private PlayersModel player;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -68,8 +72,19 @@ public class CreatePlayerActivity extends AppCompatActivity {
         realm= Realm.getDefaultInstance();
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewPagerNewPlayer);
         mViewPager.setOffscreenPageLimit(4);
-        setupViewPager(mViewPager);
+        Intent intent = getIntent();
 
+        try{
+            playerId = intent.getExtras().getInt("IdPlayer",0);
+        }catch (Exception e){
+
+        }
+
+        name = (EditTextPlus) findViewById(R.id.nameNewPlayer);
+        surName = (EditTextPlus) findViewById(R.id.surnameNewPlayer);
+
+
+        setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabsNewPlayer);
         tabLayout.setupWithViewPager(mViewPager);
@@ -78,6 +93,8 @@ public class CreatePlayerActivity extends AppCompatActivity {
         tabLayout.getTabAt(1).setIcon(R.drawable.basket_icon);
         tabLayout.getTabAt(2).setIcon(R.drawable.tennis_icon);
         tabLayout.getTabAt(3).setIcon(R.drawable.volley_icon);
+
+
         mViewPager.setOnTouchListener(new View.OnTouchListener()
         {
             @Override
@@ -103,8 +120,6 @@ public class CreatePlayerActivity extends AppCompatActivity {
             }
         });
 
-        name = (EditTextPlus) findViewById(R.id.nameNewPlayer);
-        surName = (EditTextPlus) findViewById(R.id.surnameNewPlayer);
 
         AppCompatImageView back = (AppCompatImageView)findViewById(R.id.backBtnCreatePlayer);
         back.setOnClickListener(new View.OnClickListener() {
@@ -130,7 +145,13 @@ public class CreatePlayerActivity extends AppCompatActivity {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         Bundle args = new Bundle();
         args.putBoolean("isClick", true);
+        if(playerId != 0){
+            args.putInt("idPlayer",playerId);
+            player = realm.where(PlayersModel.class).equalTo("IdPlayer",playerId).findFirst();
 
+            name.setText(player.getName());
+            surName.setText(player.getSurName());
+        }
         socFrag=new SoccerFragment();
         basFrag=new BasketFragment();
         tenFrag=new TennisFragment();
@@ -195,6 +216,10 @@ public class CreatePlayerActivity extends AppCompatActivity {
         VolleyModel volleyModel = volFrag.getDataVolley();
 
         model = CreatePlayerClass.setPlayerModel(false, soccerModel,basketModel,tennisModel,volleyModel, name.getText().toString(), surName.getText().toString() );
+        if(playerId != 0){
+            model.IdPlayer = playerId;
+            model.setIsOwn(player.getIsOwn());
+        }
         JSONObject obj = model.toJSON();
 
         AndroidNetworking.post(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_CREATE)
