@@ -1,12 +1,14 @@
 package com.ready.sport.inmatch.Activity;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
@@ -34,6 +36,7 @@ import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePick
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.CounterMatchModel;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayerCardMatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
@@ -82,6 +85,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private int type;
     private String dataToSave;
     private Drawable iconForToast;
+    private Activity activity;
 
     // Date picker 1
     private SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -101,6 +105,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
         setContentView(R.layout.activity_create_match);
         bar = (AppBarLayout)findViewById(R.id.appbarCreateMatch);
         title = (TextViewPlus)findViewById(R.id.titleNewMatch);
@@ -508,7 +513,30 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                     @Override
                     public void onResponse(MatchModel match) {
                         // do anything with response
+
                         model.setIdMatch(match.IdMatch);
+
+                        // Aggiungo counter match
+                        final CounterMatchModel counter = new CounterMatchModel();
+                        counter.setCreationDateUtc(new Date().toString());
+                        counter.setIdCounter(model.getIdMatch());
+                        counter.setIdMatch(model.getIdMatch());
+                        counter.setIdUser(model.getIdUser());
+                        counter.setStartDateUtc(model.getStartDateUtc());
+
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                try {
+                                    realm.copyToRealmOrUpdate(counter);
+                                } catch (Exception e) {
+                                    Log.e("TAG", "ADD_COUNTER: " + e.getMessage(), e);
+                                } finally {
+                                    Log.d("TAG", "ADD_COUNTER: FINALLY");
+
+                                }
+                            }
+                        });
 
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -519,12 +547,20 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                                     Log.e("TAG", "ADD_MATCH: " + e.getMessage(), e);
                                 } finally {
                                     Log.d("TAG", "ADD_MATCH: FINALLY");
-                                    ToastCustom toast = new ToastCustom(getBaseContext(), iconForToast,getString(R.string.operation_success));
-                                    toast.show();
+                                    new Handler().postDelayed(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ToastCustom toast = new ToastCustom(activity, iconForToast,getString(R.string.operation_success));
+                                            toast.show();
+                                        }
+                                    }, 1000);
+
                                 }
                             }
                         });
                         realm.close();
+
                         finish();
                     }
                     @Override
@@ -533,10 +569,10 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                         try {
                             JSONObject str = new JSONObject(anError.getErrorBody().toString());
                             //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
-                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
                             toast.show();
                         } catch (Exception e) {
-                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
                             toast.show();
                             Log.e("ErrorPost", e.getMessage());
                         }

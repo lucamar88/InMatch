@@ -1,7 +1,9 @@
 package com.ready.sport.inmatch.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -60,6 +62,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
     private ProgressFragment frag;
     private int playerId = 0;
     private PlayersModel player;
+    private Activity activity;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -68,6 +71,7 @@ public class CreatePlayerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = this;
         setContentView(R.layout.activity_create_player);
         realm= Realm.getDefaultInstance();
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewPagerNewPlayer);
@@ -137,7 +141,6 @@ public class CreatePlayerActivity extends AppCompatActivity {
                 //createPlayer();
             }
         });
-
 
     }
 
@@ -243,12 +246,20 @@ public class CreatePlayerActivity extends AppCompatActivity {
                                     Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
                                 } finally {
                                     Log.d("TAG", "ADD_PLAYER: FINALLY");
-                                    ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.player_add),getString(R.string.operation_success));
-                                    toast.show();
+                                    new Handler().postDelayed(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.player_add),getString(R.string.operation_success));
+                                            toast.show();
+                                        }
+                                    }, 1000);
+
                                 }
                             }
                         });
                         realm.close();
+
                         finish();
                     }
                     @Override
@@ -258,10 +269,10 @@ public class CreatePlayerActivity extends AppCompatActivity {
                             frag.dismiss();
                             JSONObject str = new JSONObject(anError.getErrorBody().toString());
                             //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
-                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
                             toast.show();
                         } catch (Exception e) {
-                            ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
                             toast.show();
                             Log.e("ErrorPost", e.getMessage());
                         }

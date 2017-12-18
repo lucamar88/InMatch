@@ -18,6 +18,7 @@ import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
 import java.util.ArrayList;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -41,6 +42,8 @@ public class PlayersFragment extends Fragment {
          //recyclerView.setHasFixedSize(true);
          data = new ArrayList<PlayersModel>();
          //Creo dati
+
+
          /*realm.executeTransaction(new Realm.Transaction() {
              @Override
              public void execute(Realm realm) {
@@ -94,7 +97,7 @@ public class PlayersFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).equalTo("b_ownPlayer",Boolean.FALSE).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -105,6 +108,7 @@ public class PlayersFragment extends Fragment {
         touchHelper.attachToRecyclerView(recyclerView);*/
 
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -114,7 +118,7 @@ public class PlayersFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).equalTo("b_ownPlayer",Boolean.FALSE).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
     }

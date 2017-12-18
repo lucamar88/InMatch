@@ -31,6 +31,7 @@ public class PopupDialogFragmentVolley extends DialogFragment {
     private int idPLayer;
     private CircularProgressBar c3;
     private DecimalFormat value;
+    private TextViewPlus label1, label2, label3, label4, label5, label6;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +45,12 @@ public class PopupDialogFragmentVolley extends DialogFragment {
         value = new DecimalFormat("#.#");
         idPLayer = getArguments().getInt("idPlayer");
 
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelVolBat);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelVolPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelVolPre);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelVolRic);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelVolDif);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelVolSc);
 
         final BubbleSeekBar seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarVolDif);
         setBubbleSeekBar(seekbar);
@@ -62,6 +69,22 @@ public class PopupDialogFragmentVolley extends DialogFragment {
         c3.setTitle(value.format(model.getRatingVolley()));
         Double d = model.getRatingVolley()*10;
         c3.setProgress(Integer.valueOf(d.intValue()));
+
+        if(model!= null){
+            label1.setText(String.valueOf(value.format(model.i_BattutaVolley)));
+            label2.setText(String.valueOf(value.format(model.i_PotenzaVolley)));
+            label3.setText(String.valueOf(value.format(model.i_PrecisioneVolley)));
+            label4.setText(String.valueOf(value.format(model.i_RicezioneVolley)));
+            label5.setText(String.valueOf(value.format(model.i_DifesaVolley)));
+            label6.setText(String.valueOf(value.format(model.i_SchiacciataVolley)));
+
+            seekbar.setProgress(Float.valueOf(value.format(model.i_BattutaVolley).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(model.i_PotenzaVolley).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(model.i_PrecisioneVolley).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(model.i_RicezioneVolley).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(model.i_DifesaVolley).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(model.i_SchiacciataVolley).replace(',','.')));
+        }
 
         return rootView;
     }

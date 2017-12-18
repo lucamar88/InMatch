@@ -31,6 +31,7 @@ public class PopupDialogFragmentBasket extends DialogFragment {
     private int idPLayer;
     private CircularProgressBar c3;
     private DecimalFormat value;
+    private TextViewPlus label1, label2, label3, label4, label5, label6;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +45,12 @@ public class PopupDialogFragmentBasket extends DialogFragment {
         value = new DecimalFormat("#.#");
         idPLayer = getArguments().getInt("idPlayer");
 
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelBasVel);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelBasPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelBasPas);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelBasDif);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelBasAtt);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelBasFin);
 
         final BubbleSeekBar seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarBasVel);
         setBubbleSeekBar(seekbar);
@@ -62,6 +69,22 @@ public class PopupDialogFragmentBasket extends DialogFragment {
         c3.setTitle(value.format(model.getRatingBasket()));
         Double d = model.getRatingBasket()*10;
         c3.setProgress(Integer.valueOf(d.intValue()));
+
+        if(model!= null){
+            label1.setText(String.valueOf(value.format(model.i_VelocitaBasket)));
+            label2.setText(String.valueOf(value.format(model.i_PotenzaBasket)));
+            label3.setText(String.valueOf(value.format(model.i_PassaggioBasket)));
+            label4.setText(String.valueOf(value.format(model.i_DifesaBasket)));
+            label5.setText(String.valueOf(value.format(model.i_AttaccoBasket)));
+            label6.setText(String.valueOf(value.format(model.i_FinalizzazioneBasket)));
+
+            seekbar.setProgress(Float.valueOf(value.format(model.i_VelocitaBasket).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(model.i_PotenzaBasket).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(model.i_PassaggioBasket).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(model.i_DifesaBasket).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(model.i_AttaccoBasket).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(model.i_FinalizzazioneBasket).replace(',','.')));
+        }
 
         return rootView;
     }

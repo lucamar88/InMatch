@@ -3,6 +3,7 @@ package com.ready.sport.inmatch.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,15 +12,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.CounterMatchModel;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.CustomAdapterListMatch;
 import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
+import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.CountDownView;
 import com.ready.sport.inmatch.util.TextViewPlus;
 import com.ready.sport.inmatch.util.TimerListener;
+import com.ready.sport.inmatch.util.ToastCustom;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +56,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     private static RecyclerView.Adapter adapter;
     private static RecyclerView recyclerView;
     private TextViewPlus tv_countdown;
+    private CounterMatchModel count;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -131,7 +147,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     }
 
     private void setUpRecyclerView() {
-        adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAll(), getContext());
+        adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING), getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -141,6 +157,61 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
         ItemTouchHelper touchHelper = new ItemTouchHelper(touchHelperCallback);
         touchHelper.attachToRecyclerView(recyclerView);*/
 
+    }
+
+    public void getCounter(){
+
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.MATCH_COUNTER)
+                .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // do anything with response
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject counters = response.getJSONObject(i);
+                                    Gson gson = new GsonBuilder().create();
+                                    count = gson.fromJson(counters.toString(), CounterMatchModel.class);
+
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            try {
+                                                realm.copyToRealmOrUpdate(count);
+                                            } catch (Exception e) {
+                                                Log.e("TAG", "ADD_COUNTER: " + e.getMessage(), e);
+                                            } finally {
+                                                Log.d("TAG", "ADD_COUNTER: FINALLY");
+
+                                            }
+                                        }
+                                    });
+                                } catch (Exception e) {
+                                    Log.e("ErrorParse", e.getMessage());
+                                }
+                            }
+                        }catch(Exception e){
+                            Log.e("ErrorParse", e.getMessage());
+                        }
+
+                        realm.close();
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        try {
+                            JSONObject str = new JSONObject(anError.getErrorBody().toString());
+                            //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+
+                        } catch (Exception e) {
+
+                            Log.e("ErrorGet", e.getMessage());
+                        }
+                    }
+                });
     }
 
     @Override
@@ -153,7 +224,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     public void onResume() {
         super.onResume();
 
-        adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAll(), getContext());
+        adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING), getContext());
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         recyclerView.smoothScrollToPosition(0);

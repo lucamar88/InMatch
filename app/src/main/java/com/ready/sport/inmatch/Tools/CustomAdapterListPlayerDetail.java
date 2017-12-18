@@ -17,6 +17,8 @@ import com.ready.sport.inmatch.util.PopupDialogFragmentTennis;
 import com.ready.sport.inmatch.util.PopupDialogFragmentVolley;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
+import java.text.DecimalFormat;
+
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -27,6 +29,7 @@ import io.realm.RealmRecyclerViewAdapter;
 public class CustomAdapterListPlayerDetail extends RealmRecyclerViewAdapter<PlayersModel ,CustomAdapterListPlayerDetail.MyViewHolder> {
     private Context mContext;
     private int mTypeMatch;
+    private DecimalFormat value;
 
     public CustomAdapterListPlayerDetail(OrderedRealmCollection<PlayersModel> data, int typeMatch,Context context) {
         super(data, true);
@@ -48,19 +51,20 @@ public class CustomAdapterListPlayerDetail extends RealmRecyclerViewAdapter<Play
     public void onBindViewHolder(CustomAdapterListPlayerDetail.MyViewHolder holder, int position) {
         final PlayersModel obj = getItem(position);
         String rating = "";
+        value = new DecimalFormat("#.#");
 
         switch (mTypeMatch){
             case Constants.SOCCER_TYPE:
-                rating = String.valueOf(obj.i_RatingTotSoccer);
+                rating = String.valueOf(value.format(obj.i_RatingTotSoccer));
                 break;
             case Constants.BASKET_TYPE:
-                rating = String.valueOf(obj.i_RatingTotBasket);
+                rating = String.valueOf(value.format(obj.i_RatingTotBasket));
                 break;
             case Constants.TENNIS_TYPE:
-                rating = String.valueOf(obj.i_RatingTotTennis);
+                rating = String.valueOf(value.format(obj.i_RatingTotTennis));
                 break;
             case Constants.VOLLEY_TYPE:
-                rating = String.valueOf(obj.i_RatingTotVolley);
+                rating = String.valueOf(value.format(obj.i_RatingTotVolley));
                 break;
 
         }

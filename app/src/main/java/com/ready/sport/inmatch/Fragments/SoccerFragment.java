@@ -57,10 +57,12 @@ public class SoccerFragment extends Fragment {
     private PlayersModel pl = null;
     private Realm realm;
     private int roleSelect = 0;
+    private AppCompatSpinner spinner;
+    private View rootView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.soccer_fragment, container, false);
+        rootView = inflater.inflate(R.layout.soccer_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarSoccer);
         realm= Realm.getDefaultInstance();
         //c3.setTitle("5,0");
@@ -79,7 +81,7 @@ public class SoccerFragment extends Fragment {
         }
 
         // Spinner element
-        AppCompatSpinner spinner = (AppCompatSpinner) rootView.findViewById(R.id.spinnerSoccer);
+        spinner = (AppCompatSpinner) rootView.findViewById(R.id.spinnerSoccer);
 
         // Spinner click listener
 
@@ -252,12 +254,12 @@ public class SoccerFragment extends Fragment {
         setBubbleSeekBar(seekbar6);
 
         if(pl!= null){
-            label1.setText(String.valueOf(pl.i_VelocitaSoccer));
-            label2.setText(String.valueOf(pl.i_PotenzaSoccer));
-            label3.setText(String.valueOf(pl.i_DribblingSoccer));
-            label4.setText(String.valueOf(pl.i_DifesaSoccer));
-            label5.setText(String.valueOf(pl.i_AttaccoSoccer));
-            label6.setText(String.valueOf(pl.i_AgilitaSoccer));
+            label1.setText(String.valueOf(value.format(pl.i_VelocitaSoccer)));
+            label2.setText(String.valueOf(value.format(pl.i_PotenzaSoccer)));
+            label3.setText(String.valueOf(value.format(pl.i_DribblingSoccer)));
+            label4.setText(String.valueOf(value.format(pl.i_DifesaSoccer)));
+            label5.setText(String.valueOf(value.format(pl.i_AttaccoSoccer)));
+            label6.setText(String.valueOf(value.format(pl.i_AgilitaSoccer)));
 
             seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaSoccer).replace(',','.')));
             seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaSoccer).replace(',','.')));
@@ -266,5 +268,13 @@ public class SoccerFragment extends Fragment {
             seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoSoccer).replace(',','.')));
             seekbar6.setProgress(Float.valueOf(value.format(pl.i_AgilitaSoccer).replace(',','.')));
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
+        spinner.setSelection(pl.getRuoloSoccer());
+        SetAllSeek(rootView);
+        SetLayoutValue();
     }
 }

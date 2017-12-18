@@ -44,9 +44,11 @@ public class TennisFragment extends Fragment {
     private int IdPlayer;
     private PlayersModel pl = null;
     private Realm realm;
+    private View rootView;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tennis_fragment, container, false);
+        rootView = inflater.inflate(R.layout.tennis_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarTennis);
         realm= Realm.getDefaultInstance();
         value = new DecimalFormat("#.#");
@@ -204,12 +206,12 @@ public class TennisFragment extends Fragment {
         setBubbleSeekBar(seekbar6);
 
         if(pl != null){
-            label1.setText(String.valueOf(pl.i_AgilitaTennis));
-            label2.setText(String.valueOf(pl.i_PotenzaTennis));
-            label3.setText(String.valueOf(pl.i_BattutaTennis));
-            label4.setText(String.valueOf(pl.i_DrittoTennis));
-            label5.setText(String.valueOf(pl.i_RovescioTennis));
-            label6.setText(String.valueOf(pl.i_SchiacciataTennis));
+            label1.setText(String.valueOf(value.format(pl.i_AgilitaTennis)));
+            label2.setText(String.valueOf(value.format(pl.i_PotenzaTennis)));
+            label3.setText(String.valueOf(value.format(pl.i_BattutaTennis)));
+            label4.setText(String.valueOf(value.format(pl.i_DrittoTennis)));
+            label5.setText(String.valueOf(value.format(pl.i_RovescioTennis)));
+            label6.setText(String.valueOf(value.format(pl.i_SchiacciataTennis)));
 
             seekbar.setProgress(Float.valueOf(value.format(pl.i_AgilitaTennis).replace(',','.')));
             seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaTennis).replace(',','.')));
@@ -218,5 +220,13 @@ public class TennisFragment extends Fragment {
             seekbar5.setProgress(Float.valueOf(value.format(pl.i_RovescioTennis).replace(',','.')));
             seekbar6.setProgress(Float.valueOf(value.format(pl.i_SchiacciataTennis).replace(',','.')));
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
+        SetAllSeek(rootView);
+        SetLayoutValue();
     }
 }

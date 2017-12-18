@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -141,5 +142,11 @@ public class ProfileFragment extends Fragment {
         adapter.addFragment(tenFrag);
         adapter.addFragment(volFrag);
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
     }
 }

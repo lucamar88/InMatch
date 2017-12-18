@@ -31,6 +31,7 @@ public class ConfigUrls {
     public static final String MATCH_CREATE = "api/Match/createMatch";
     public static final String MATCH_EDIT = "api/Match/editMatch";
     public static final String MATCH_DELETE = "api/Match/deleteMatch";
+    public static final String MATCH_COUNTER = "api/Match/getCounter";
 
     /*Complete url*/
 

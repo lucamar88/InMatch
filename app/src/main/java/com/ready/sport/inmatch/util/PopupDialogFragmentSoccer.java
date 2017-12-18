@@ -38,6 +38,7 @@ public class PopupDialogFragmentSoccer extends DialogFragment {
     private int idPLayer;
     private CircularProgressBar c3;
     private DecimalFormat value;
+    private TextViewPlus label1, label2, label3, label4, label5, label6;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -84,10 +85,37 @@ public class PopupDialogFragmentSoccer extends DialogFragment {
         final BubbleSeekBar seekbar6 = (BubbleSeekBar)rootView.findViewById(R.id.seekbarSocAgi);
         setBubbleSeekBar(seekbar6);
 
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelSocVel);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelSocPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelSocDri);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelSocDif);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelSocAtt);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelSocAgi);
 
         c3.setTitle(value.format(model.getRatingSoccer()));
         Double d = model.getRatingSoccer()*10;
         c3.setProgress(Integer.valueOf(d.intValue()));
+
+        if(model!= null){
+
+            spinner.setSelection(model.getRuoloSoccer());
+
+
+            label1.setText(String.valueOf(value.format(model.i_VelocitaSoccer)));
+            label2.setText(String.valueOf(value.format(model.i_PotenzaSoccer)));
+            label3.setText(String.valueOf(value.format(model.i_DribblingSoccer)));
+            label4.setText(String.valueOf(value.format(model.i_DifesaSoccer)));
+            label5.setText(String.valueOf(value.format(model.i_AttaccoSoccer)));
+            label6.setText(String.valueOf(value.format(model.i_AgilitaSoccer)));
+
+            seekbar.setProgress(Float.valueOf(value.format(model.i_VelocitaSoccer).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(model.i_PotenzaSoccer).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(model.i_DribblingSoccer).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(model.i_DifesaSoccer).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(model.i_AttaccoSoccer).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(model.i_AgilitaSoccer).replace(',','.')));
+        }
+
         return rootView;
     }
 

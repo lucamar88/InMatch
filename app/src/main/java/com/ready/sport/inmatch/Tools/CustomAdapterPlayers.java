@@ -23,6 +23,8 @@ import com.ready.sport.inmatch.util.TextViewPlus;
 import com.ready.sport.inmatch.util.ToastCustom;
 
 
+import java.text.DecimalFormat;
+
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
 
@@ -32,6 +34,7 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel, CustomAdapterPlayers.MyViewHolder> {
     private Context mContext;
+    private DecimalFormat value;
 
     public CustomAdapterPlayers(OrderedRealmCollection<PlayersModel> data, Context context) {
         super(data, true);
@@ -52,11 +55,12 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
     public void onBindViewHolder(MyViewHolder holder, int position) {
         final PlayersModel obj = getItem(position);
         final Bundle args = new Bundle();
+        value = new DecimalFormat("#.#");
         args.putInt("idPlayer", (int)getItemId(position));
-        holder.soccerRating.setText(String.valueOf(obj.i_RatingTotSoccer));
-        holder.basketRating.setText(String.valueOf(obj.i_RatingTotBasket));
-        holder.tennisRating.setText(String.valueOf(obj.i_RatingTotTennis));
-        holder.volleyRating.setText(String.valueOf(obj.i_RatingTotVolley));
+        holder.soccerRating.setText(String.valueOf(value.format(obj.i_RatingTotSoccer)));
+        holder.basketRating.setText(String.valueOf(value.format(obj.i_RatingTotBasket)));
+        holder.tennisRating.setText(String.valueOf(value.format(obj.i_RatingTotTennis)));
+        holder.volleyRating.setText(String.valueOf(value.format(obj.i_RatingTotVolley)));
         holder.listPlayersTitle.setText(obj.s_Name + " " + obj.s_Surename);
 
         holder.cardSoccer.setOnClickListener(new View.OnClickListener() {

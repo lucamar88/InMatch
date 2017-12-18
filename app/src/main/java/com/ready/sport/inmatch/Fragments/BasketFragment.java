@@ -47,10 +47,11 @@ public class BasketFragment extends Fragment {
     private int IdPlayer;
     private PlayersModel pl = null;
     private Realm realm;
+    private View rootView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.basket_fragment, container, false);
+        rootView = inflater.inflate(R.layout.basket_fragment, container, false);
         c3 = (CircularProgressBar) rootView.findViewById(R.id.circularprogressbarBasket);
         realm= Realm.getDefaultInstance();
         value = new DecimalFormat("#.#");
@@ -200,12 +201,12 @@ public class BasketFragment extends Fragment {
         setBubbleSeekBar(seekbar6);
 
         if(pl != null){
-            label1.setText(String.valueOf(pl.i_VelocitaBasket));
-            label2.setText(String.valueOf(pl.i_PotenzaBasket));
-            label3.setText(String.valueOf(pl.i_PassaggioBasket));
-            label4.setText(String.valueOf(pl.i_DifesaBasket));
-            label5.setText(String.valueOf(pl.i_AttaccoBasket));
-            label6.setText(String.valueOf(pl.i_FinalizzazioneBasket));
+            label1.setText(String.valueOf(value.format(pl.i_VelocitaBasket)));
+            label2.setText(String.valueOf(value.format(pl.i_PotenzaBasket)));
+            label3.setText(String.valueOf(value.format(pl.i_PassaggioBasket)));
+            label4.setText(String.valueOf(value.format(pl.i_DifesaBasket)));
+            label5.setText(String.valueOf(value.format(pl.i_AttaccoBasket)));
+            label6.setText(String.valueOf(value.format(pl.i_FinalizzazioneBasket)));
 
             seekbar.setProgress(Float.valueOf(value.format(pl.i_VelocitaBasket).replace(',','.')));
             seekbar2.setProgress(Float.valueOf(value.format(pl.i_PotenzaBasket).replace(',','.')));
@@ -214,5 +215,12 @@ public class BasketFragment extends Fragment {
             seekbar5.setProgress(Float.valueOf(value.format(pl.i_AttaccoBasket).replace(',','.')));
             seekbar6.setProgress(Float.valueOf(value.format(pl.i_FinalizzazioneBasket).replace(',','.')));
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
+        SetAllSeek(rootView);
+        SetLayoutValue();
     }
 }

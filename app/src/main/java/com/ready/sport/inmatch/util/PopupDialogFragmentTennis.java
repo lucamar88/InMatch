@@ -31,6 +31,7 @@ public class PopupDialogFragmentTennis extends DialogFragment {
     private int idPLayer;
     private CircularProgressBar c3;
     private DecimalFormat value;
+    private TextViewPlus label1, label2, label3, label4, label5, label6;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -44,6 +45,12 @@ public class PopupDialogFragmentTennis extends DialogFragment {
         value = new DecimalFormat("#.#");
         idPLayer = getArguments().getInt("idPlayer");
 
+        label1 = (TextViewPlus)rootView.findViewById(R.id.labelTenAgi);
+        label2 = (TextViewPlus)rootView.findViewById(R.id.labelTenPot);
+        label3 = (TextViewPlus)rootView.findViewById(R.id.labelTenBat);
+        label4 = (TextViewPlus)rootView.findViewById(R.id.labelTenDri);
+        label5 = (TextViewPlus)rootView.findViewById(R.id.labelTenRov);
+        label6 = (TextViewPlus)rootView.findViewById(R.id.labelTenSc);
 
         final BubbleSeekBar seekbar = (BubbleSeekBar)rootView.findViewById(R.id.seekbarTenAgi);
         setBubbleSeekBar(seekbar);
@@ -62,6 +69,22 @@ public class PopupDialogFragmentTennis extends DialogFragment {
         c3.setTitle(value.format(model.getRatingTennis()));
         Double d = model.getRatingTennis()*10;
         c3.setProgress(Integer.valueOf(d.intValue()));
+
+        if(model!= null){
+            label1.setText(String.valueOf(value.format(model.i_AgilitaTennis)));
+            label2.setText(String.valueOf(value.format(model.i_PotenzaTennis)));
+            label3.setText(String.valueOf(value.format(model.i_BattutaTennis)));
+            label4.setText(String.valueOf(value.format(model.i_DrittoTennis)));
+            label5.setText(String.valueOf(value.format(model.i_RovescioTennis)));
+            label6.setText(String.valueOf(value.format(model.i_SchiacciataTennis)));
+
+            seekbar.setProgress(Float.valueOf(value.format(model.i_AgilitaTennis).replace(',','.')));
+            seekbar2.setProgress(Float.valueOf(value.format(model.i_PotenzaTennis).replace(',','.')));
+            seekbar3.setProgress(Float.valueOf(value.format(model.i_BattutaTennis).replace(',','.')));
+            seekbar4.setProgress(Float.valueOf(value.format(model.i_DrittoTennis).replace(',','.')));
+            seekbar5.setProgress(Float.valueOf(value.format(model.i_RovescioTennis).replace(',','.')));
+            seekbar6.setProgress(Float.valueOf(value.format(model.i_SchiacciataTennis).replace(',','.')));
+        }
 
         return rootView;
     }

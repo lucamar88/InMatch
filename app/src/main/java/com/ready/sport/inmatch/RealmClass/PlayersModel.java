@@ -208,6 +208,10 @@ public class PlayersModel extends RealmObject {
         JSONObject jo = new JSONObject();
         try{
 
+            if(IdPlayer != 0){
+                jo.put("IdPlayer", IdPlayer);
+            }
+
             jo.put("d_CreationDateUtc", d_CreationDateUtc);
             jo.put("s_Name", s_Name);
             jo.put("s_Surename", s_Surename);
