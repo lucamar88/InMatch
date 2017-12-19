@@ -1,5 +1,6 @@
 package com.ready.sport.inmatch.Fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,6 +22,7 @@ import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.ready.sport.inmatch.Activity.MainActivity;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.CounterMatchModel;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
@@ -47,6 +49,7 @@ import java.util.concurrent.TimeUnit;
 import cn.iwgang.countdownview.CountdownView;
 import cn.iwgang.countdownview.DynamicConfig;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import io.realm.Sort;
 
 /**
@@ -118,7 +121,18 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
         });
         realm.close();*/
         recyclerView = (RecyclerView) rootView.findViewById(R.id.listMatch);
-        setUpRecyclerView();
+
+        RealmResults match =realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING);
+
+        if(match == null){
+            new Thread(new Runnable() {
+                public void run() {
+                    getMatchList();
+                }
+            }).start();
+        }
+
+
         return rootView;
     }
 
@@ -131,6 +145,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     }
 
     private void setUpRecyclerView() {
+
         adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING), getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
@@ -264,8 +279,69 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
         }
 
         adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING), getContext());
-        adapter.notifyDataSetChanged();
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
-        recyclerView.smoothScrollToPosition(0);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setNestedScrollingEnabled(false);
+
+    }
+
+    public void getMatchList() {
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.MATCH_LIST)
+                .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONArray(new JSONArrayRequestListener() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                try{
+                                    JSONObject player = response.getJSONObject(i);
+                                    Gson gson = new GsonBuilder().create();
+                                    final MatchModel pl = gson.fromJson(player.toString(), MatchModel.class);
+
+                                    realm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            try {
+                                                realm.copyToRealmOrUpdate(pl);
+                                            } catch (Exception e) {
+                                                Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
+                                            } finally {
+                                                Log.d("TAG", "ADD_PLAYER: FINALLY");
+
+                                            }
+
+                                        }
+                                    });
+
+                                }catch(Exception e){
+                                    Log.e("ErrorParse", e.getMessage());
+                                }
+                            }
+
+                            realm.close();
+                            setUpRecyclerView();
+                        } catch (Exception e) {
+                            Log.e("ErrorParse", e.getMessage());
+                        }
+
+                        // do anything with response
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        try {
+                            JSONObject str = new JSONObject(error.getErrorBody().toString());
+
+                        } catch (Exception e) {
+
+                            Log.e("ErrorPost", e.getMessage());
+                        }
+                        // handle error
+                    }
+                });
     }
 }
