@@ -454,21 +454,23 @@ public class LoginFragment extends Fragment {
                                                 try {
                                                     realm.copyToRealmOrUpdate(pl);
                                                 } catch (Exception e) {
-                                                    Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                                    Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
                                                 } finally {
-                                                    Log.d("TAG", "ADD_USER: FINALLY");
+                                                    Log.d("TAG", "ADD_PLAYER: FINALLY");
 
                                                 }
 
                                             }
                                         });
-                                        realm.close();
-                                        startActivity(new Intent(getActivity(), MainActivity.class));
-                                        getActivity().finish();
+
                                     }catch(Exception e){
                                         Log.e("ErrorParse", e.getMessage());
                                     }
                                 }
+
+                                realm.close();
+                                startActivity(new Intent(getActivity(), MainActivity.class));
+                                getActivity().finish();
                             } catch (Exception e) {
                                 Log.e("ErrorParse", e.getMessage());
                             }

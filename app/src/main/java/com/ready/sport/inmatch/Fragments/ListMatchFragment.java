@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
 import com.ready.sport.inmatch.util.ConfigUrls;
 import com.ready.sport.inmatch.util.Constants;
 import com.ready.sport.inmatch.util.CountDownView;
+import com.ready.sport.inmatch.util.DataUtil;
 import com.ready.sport.inmatch.util.TextViewPlus;
 import com.ready.sport.inmatch.util.TimerListener;
 import com.ready.sport.inmatch.util.ToastCustom;
@@ -36,6 +38,8 @@ import com.ready.sport.inmatch.util.ToastCustom;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -57,51 +61,31 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     private static RecyclerView recyclerView;
     private TextViewPlus tv_countdown;
     private CounterMatchModel count;
+    private Date dateDefault;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list_match_layout, container, false);
         tv_countdown = (TextViewPlus) rootView.findViewById(R.id.tv_countdown);
+        realm = Realm.getDefaultInstance();
 //        codv = (CountdownView) rootView.findViewById(R.id.cv_countdownViewTest1);
 //        DynamicConfig.Builder dynamicConfigBuilder = new DynamicConfig.Builder();
 //        dynamicConfigBuilder.setShowDay(false);
 //        dynamicConfigBuilder.setShowHour(true);
 //        codv.dynamicShow(dynamicConfigBuilder.build());
 //        codv.start(10000); // Millisecond
-        Calendar start_calendar = Calendar.getInstance();
-        Calendar end_calendar = Calendar.getInstance();
-        end_calendar.set(2017,11,15);
-        long start_millis = start_calendar.getTimeInMillis(); //get the start time in milliseconds
-        long end_millis = end_calendar.getTimeInMillis(); //get the end time in milliseconds
-        long total_millis = (end_millis - start_millis); //total time in milliseconds
 
 
+        CounterMatchModel count = realm.where(CounterMatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING).first(null);
 
-        CountDownTimer cdt = new CountDownTimer(total_millis, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
-                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+        if(count == null){
+            new Thread(new Runnable() {
+                public void run() {
+                    getCounter();
+                }
+            }).start();
+        }
 
-                long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
-                millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
-
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
-                millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
-
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
-
-                tv_countdown.setText(days + " g " + hours + " h " + minutes + " m " + seconds + " s"); //You can compute the millisUntilFinished on hours/minutes/seconds
-            }
-
-            @Override
-            public void onFinish() {
-                tv_countdown.setText("Finish!");
-            }
-        };
-        cdt.start();
-
-        realm = Realm.getDefaultInstance();
         //Creo dati
 
         /*realm.executeTransaction(new Realm.Transaction() {
@@ -159,6 +143,40 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
 
     }
 
+    public void setCalendar(Date startDate){
+        Calendar start_calendar = Calendar.getInstance();
+        Calendar end_calendar = Calendar.getInstance();
+        end_calendar.set(DataUtil.getYear(startDate),DataUtil.getMonth(startDate),DataUtil.getDay(startDate),DataUtil.getHour(startDate),DataUtil.getMinute(startDate));
+        long start_millis = start_calendar.getTimeInMillis(); //get the start time in milliseconds
+        long end_millis = end_calendar.getTimeInMillis(); //get the end time in milliseconds
+        long total_millis = (end_millis - start_millis); //total time in milliseconds
+
+        CountDownTimer cdt = new CountDownTimer(total_millis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+
+                long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
+
+                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+                millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
+
+                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+
+                tv_countdown.setText(days + " g " + hours + " h " + minutes + " m " + seconds + " s"); //You can compute the millisUntilFinished on hours/minutes/seconds
+            }
+
+            @Override
+            public void onFinish() {
+                tv_countdown.setText("Finish!");
+            }
+        };
+        cdt.start();
+
+    }
+
     public void getCounter(){
 
         AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.MATCH_COUNTER)
@@ -170,29 +188,46 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
                     public void onResponse(JSONArray response) {
                         // do anything with response
                         try {
-                            for (int i = 0; i < response.length(); i++) {
-                                try {
-                                    JSONObject counters = response.getJSONObject(i);
-                                    Gson gson = new GsonBuilder().create();
-                                    count = gson.fromJson(counters.toString(), CounterMatchModel.class);
-
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm realm) {
+                            if(response.length() != 0){
+                                for (int i = 0; i < response.length(); i++) {
+                                    try {
+                                        JSONObject counters = response.getJSONObject(i);
+                                        if(i == 0){
+                                            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss.SSS");
                                             try {
-                                                realm.copyToRealmOrUpdate(count);
+                                                Date date = dateFormat.parse(counters.get("d_StartMatchUtc").toString().replace("-","/"));//You will get date object relative to server/client timezone wherever it is parsed
+                                                dateDefault = date;
                                             } catch (Exception e) {
-                                                Log.e("TAG", "ADD_COUNTER: " + e.getMessage(), e);
-                                            } finally {
-                                                Log.d("TAG", "ADD_COUNTER: FINALLY");
-
+                                                Log.e("Error Data:", e.getMessage());
                                             }
                                         }
-                                    });
-                                } catch (Exception e) {
-                                    Log.e("ErrorParse", e.getMessage());
+
+                                        Gson gson = new GsonBuilder().create();
+                                        count = gson.fromJson(counters.toString(), CounterMatchModel.class);
+
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                try {
+                                                    realm.copyToRealmOrUpdate(count);
+                                                } catch (Exception e) {
+                                                    Log.e("TAG", "ADD_COUNTER: " + e.getMessage(), e);
+                                                } finally {
+                                                    Log.d("TAG", "ADD_COUNTER: FINALLY");
+
+                                                }
+                                            }
+                                        });
+                                    } catch (Exception e) {
+                                        Log.e("ErrorParse", e.getMessage());
+                                    }
                                 }
+                                setCalendar(dateDefault);
+
+                            }else{
+                                tv_countdown.setText("-- : -- : --");
                             }
+
                         }catch(Exception e){
                             Log.e("ErrorParse", e.getMessage());
                         }
@@ -223,6 +258,10 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     @Override
     public void onResume() {
         super.onResume();
+        CounterMatchModel count = realm.where(CounterMatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING).first(null);
+        if(count != null){
+            setCalendar(count.d_StartDateUtc);
+        }
 
         adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING), getContext());
         adapter.notifyDataSetChanged();

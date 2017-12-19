@@ -2,18 +2,31 @@ package com.ready.sport.inmatch.Fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.androidnetworking.interfaces.StringRequestListener;
+import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.Tools.CustomAdapterPlayers;
+import com.ready.sport.inmatch.util.ConfigUrls;
+import com.ready.sport.inmatch.util.Constants;
+import com.ready.sport.inmatch.util.ToastCustom;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -97,7 +110,7 @@ public class PlayersFragment extends Fragment {
     }
 
     private void setUpRecyclerView() {
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).equalTo("b_ownPlayer",Boolean.FALSE).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).equalTo("b_ownPlayer",Boolean.FALSE).findAllSorted("IdPlayer", Sort.ASCENDING),getContext(), PlayersFragment.this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
@@ -118,8 +131,57 @@ public class PlayersFragment extends Fragment {
     public void onResume(){
         super.onResume();
 
-        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).equalTo("b_ownPlayer",Boolean.FALSE).findAllSorted("IdPlayer", Sort.ASCENDING),getContext());
+        adapter = new CustomAdapterPlayers(realm.where(PlayersModel.class).equalTo("b_ownPlayer",Boolean.FALSE).findAllSorted("IdPlayer", Sort.ASCENDING),getContext(),PlayersFragment.this);
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
+    }
+
+    public void deletePlayer(int id){
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_DELETE + "?idPlayer=" + id)
+                .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .addHeaders("contentType","application/json")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String idPlayer) {
+                        // do anything with response
+                        int idToRemove = Integer.parseInt(idPlayer);
+                        final PlayersModel model = realm.where(PlayersModel.class).equalTo("IdPlayer",idToRemove).findFirst();
+
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                try {
+                                    model.deleteFromRealm();
+                                } catch (Exception e) {
+                                    Log.e("TAG", "DELETE_PLAYER: " + e.getMessage(), e);
+                                } finally {
+                                    Log.d("TAG", "DELETE_PLAYER: FINALLY");
+
+                                    ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.operation_success));
+                                    toast.show();
+
+                                }
+                            }
+                        });
+                        realm.close();
+
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        try {
+                            JSONObject str = new JSONObject(anError.getErrorBody().toString());
+                            //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                            ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            toast.show();
+                        } catch (Exception e) {
+                            ToastCustom toast = new ToastCustom(getContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            toast.show();
+                            Log.e("ErrorPost", e.getMessage());
+                        }
+                    }
+                });
     }
 }

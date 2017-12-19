@@ -19,7 +19,7 @@ public class CreatePlayerClass {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
 
-        playersModel.setIdPlayer(new Random().nextInt());
+        playersModel.setIdPlayer(0);
         playersModel.setCreationDateUTC(dateFormat.format(new Date()));//"2017-10-12 08:08:00");
 
         playersModel.setName(name);

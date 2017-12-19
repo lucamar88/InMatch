@@ -1,5 +1,7 @@
 package com.ready.sport.inmatch.RealmClass;
 
+import java.util.Date;
+
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 import io.realm.annotations.PrimaryKey;
@@ -20,15 +22,15 @@ public class CounterMatchModel extends RealmObject {
     public String    getIdUser() { return s_IdUser; }
     public void   setIdUser(String idUser) { this.s_IdUser = idUser; }
 
-    public String d_CreationDateUtc;
+    public Date d_CreationDateUtc;
 
-    public String    getCreationDateUtc() { return d_CreationDateUtc; }
-    public void   setCreationDateUtc(String creationDateUtc) { this.d_CreationDateUtc = creationDateUtc; }
+    public Date    getCreationDateUtc() { return d_CreationDateUtc; }
+    public void   setCreationDateUtc(Date creationDateUtc) { this.d_CreationDateUtc = creationDateUtc; }
 
-    public String d_StartDateUtc;
+    public Date d_StartDateUtc;
 
-    public String    getStartDateUtc() { return d_StartDateUtc; }
-    public void   setStartDateUtc(String startDateUtc) { this.d_StartDateUtc = startDateUtc; }
+    public Date    getStartDateUtc() { return d_StartDateUtc; }
+    public void   setStartDateUtc(Date startDateUtc) { this.d_StartDateUtc = startDateUtc; }
 
     @Ignore
     public int IdCounter;

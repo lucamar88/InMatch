@@ -26,14 +26,21 @@
             android:background="@drawable/shape_players_list">
             <com.ready.sport.inmatch.util.TextViewPlus
                 android:id="@+id/listPlayersTitle"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name Surname"
                 android:textSize="18dp"
                 android:layout_marginLeft="10dp"
                 android:textColor="#ffff"
+                android:layout_weight="0.1"
                 />
-
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/editNormalPlayer"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@android:drawable/ic_menu_edit"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="right"/>
 
         </android.support.v7.widget.LinearLayoutCompat>
         <GridLayout

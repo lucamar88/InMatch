@@ -2,7 +2,6 @@ package com.ready.sport.inmatch.Activity;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -11,28 +10,22 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
-import com.github.florent37.singledateandtimepicker.SingleDateAndTimePicker;
-import com.github.florent37.singledateandtimepicker.dialog.DoubleDateAndTimePickerDialog;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.gson.reflect.TypeToken;
 import com.ready.sport.inmatch.R;
@@ -50,16 +43,15 @@ import com.ready.sport.inmatch.util.TextViewPlus;
 import com.ready.sport.inmatch.util.ToastCustom;
 import com.shawnlin.numberpicker.NumberPicker;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -86,6 +78,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private String dataToSave;
     private Drawable iconForToast;
     private Activity activity;
+    private String counterDate;
 
     // Date picker 1
     private SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -266,7 +259,10 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         }
 
         if(!cancel && Integer.parseInt(numTotPl.getText().toString()) != count){
-            Toast.makeText(this, getString(R.string.error_second_team_match).replace("{0}",numTotPl.getText().toString()), Toast.LENGTH_SHORT).show();
+            int totPl = Integer.parseInt(numTotPl.getText().toString()) - count;
+            Toast.makeText(this, getString(R.string.error_number_player_match).replace("{0}",String.valueOf(totPl)), Toast.LENGTH_SHORT).show();
+            focusView = numTotPl;
+            cancel = true;
         }
 
         if (cancel) {
@@ -470,6 +466,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         String day = String.valueOf(dayOfMonth);
         if(String.valueOf(dayOfMonth).length() == 1)day = "0"+dayOfMonth;
+        counterDate = year + "/"+(monthOfYear)+"/"+day+" ";
         String date = day +"/"+(++monthOfYear)+"/"+year;
         dataText.setText(date);
         dataToSave = year + "/"+(monthOfYear)+"/"+day+" ";
@@ -483,10 +480,11 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         String time = hourString+":"+minuteString;
         dataText.setText(dataText.getText() +" " + time);
         dataToSave = dataToSave+time+":00.503";
+        counterDate = counterDate +time+":00.503";
     }
 
     public void createMatch(){
-        String listaPlayerStr = listaPlayer.get(0).toString()+"_";
+        String listaPlayerStr = listaPlayer.get(0).toString();
         for(int i = 1;i<listaPlayer.size();i++){
             listaPlayerStr += "_"+listaPlayer.get(i).toString();
         }
@@ -511,18 +509,27 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 .build()
                 .getAsParsed(new TypeToken<MatchModel>() {}, new ParsedRequestListener<MatchModel>() {
                     @Override
-                    public void onResponse(MatchModel match) {
+                    public void onResponse(final MatchModel match) {
                         // do anything with response
 
                         model.setIdMatch(match.IdMatch);
 
                         // Aggiungo counter match
                         final CounterMatchModel counter = new CounterMatchModel();
-                        counter.setCreationDateUtc(new Date().toString());
+                        counter.setCreationDateUtc(new Date());
                         counter.setIdCounter(model.getIdMatch());
                         counter.setIdMatch(model.getIdMatch());
-                        counter.setIdUser(model.getIdUser());
-                        counter.setStartDateUtc(model.getStartDateUtc());
+                        counter.setIdUser(match.getIdUser());
+
+                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+                        try {
+                            Date date = dateFormat.parse(model.getStartDateUtc());//You will get date object relative to server/client timezone wherever it is parsed
+                            counter.setStartDateUtc(date);
+                        } catch (Exception e) {
+                            Log.e("Error Data:", e.getMessage());
+                        }
+
+
 
                         realm.executeTransaction(new Realm.Transaction() {
                             @Override

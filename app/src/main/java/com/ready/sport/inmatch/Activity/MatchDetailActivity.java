@@ -122,7 +122,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         location.setText(match.getLocation());
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
         try {
             Date date = dateFormat.parse(match.getStartDateUtc());//You will get date object relative to server/client timezone wherever it is parsed
             DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); //If you need time just put specific format for time like 'HH:mm:ss'
@@ -134,27 +134,33 @@ public class MatchDetailActivity extends AppCompatActivity {
             Log.e("Error Data:", e.getMessage());
         }
 
-        String[] firstTeamList = match.getListPlayersFirstTeam().split("_");
-        String[] secondTeamList = match.getListPlayersSecondTeam().split("_");
 
-        for(String str:firstTeamList){
-            int id = Integer.parseInt(str);
-            PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
-            firstList.add(player);
-            totList.add(player);
+        if(match.getListPlayersFirstTeam() != null && match.getListPlayersSecondTeam() != null){
+            String[] firstTeamList = match.getListPlayersFirstTeam().split("_");
+            String[] secondTeamList = match.getListPlayersSecondTeam().split("_");
+
+            for(String str:firstTeamList){
+                int id = Integer.parseInt(str);
+                PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                firstList.add(player);
+                totList.add(player);
+            }
+
+            for(String str:secondTeamList){
+                int id = Integer.parseInt(str);
+                PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                secondList.add(player);
+                totList.add(player);
+            }
+
+
         }
-
-        for(String str:secondTeamList){
-            int id = Integer.parseInt(str);
-            PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
-            secondList.add(player);
-            totList.add(player);
-        }
-
         setUpRecyclerView();
 
+
+
         //TEST
-        List<PlayersModel> pl = new ArrayList<PlayersModel>();
+        /*List<PlayersModel> pl = new ArrayList<PlayersModel>();
         PlayersModel pla1 = new PlayersModel();
         pla1.setRatingSoccer(4.5);
         pla1.setRuoloSoccer(0);
@@ -199,7 +205,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
 
         List<String> list = new ArrayList<String>();
-        list = TeamUtility.GenerateTeam(pl, 1);
+        list = TeamUtility.GenerateTeam(pl, 1);*/
 
     }
 

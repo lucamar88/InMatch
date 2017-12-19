@@ -272,9 +272,12 @@ public class SoccerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-        pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
-        spinner.setSelection(pl.getRuoloSoccer());
-        SetAllSeek(rootView);
-        SetLayoutValue();
+        if(IdPlayer != 0){
+            pl = realm.where(PlayersModel.class).equalTo("IdPlayer", IdPlayer).findFirst();
+            spinner.setSelection(pl.getRuoloSoccer());
+            SetAllSeek(rootView);
+            SetLayoutValue();
+        }
+
     }
 }

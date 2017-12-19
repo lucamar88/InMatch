@@ -13,6 +13,7 @@ import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.ready.sport.inmatch.Fragments.PlayersFragment;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.UserModel;
@@ -26,6 +27,8 @@ import com.viksaa.sssplash.lib.model.ConfigSplash;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.Sort;
 
@@ -35,7 +38,7 @@ public class SplashActivity extends AwesomeSplash {
     private UserModel model;
     private String token;
     private PlayersModel pl;
-
+    private List<PlayersModel> listPlayers;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +83,7 @@ public class SplashActivity extends AwesomeSplash {
         configSplash.setTitleSplash("");
         configSplash.setTitleTextColor(R.color.fillColor);
         configSplash.setTitleTextSize(30f); //float value
-        configSplash.setAnimTitleDuration(3000);
+        configSplash.setAnimTitleDuration(1000);
         configSplash.setAnimTitleTechnique(Techniques.FlipInX);
         //configSplash.setTitleFont("fonts/myfont.ttf"); //provide string to your font located in assets/fonts/
 
@@ -93,10 +96,26 @@ public class SplashActivity extends AwesomeSplash {
         //or do whatever you want
         if(token != ""){
             Constants.TOKEN = token;
-            GetDataUser();
-//            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//            overridePendingTransition(R.anim.enter, R.anim.exit);
-//            this.finish();
+            /*GetDataUser();
+
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        try {
+                            realm.copyToRealm(listPlayers);
+                        } catch (Exception e) {
+                            Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                        } finally {
+                            Log.d("TAG", "ADD_USER: FINALLY");
+
+                        }
+
+                    }
+                });
+            realm.close();*/
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+            finish();
         }else{
             startActivity(new Intent(SplashActivity.this, SignLoginActivity.class));
             overridePendingTransition(R.anim.enter, R.anim.exit);
@@ -119,21 +138,7 @@ public class SplashActivity extends AwesomeSplash {
                                     JSONObject player = response.getJSONObject(i);
                                     Gson gson = new GsonBuilder().create();
                                     pl = gson.fromJson(player.toString(), PlayersModel.class);
-
-                                    realm.executeTransaction(new Realm.Transaction() {
-                                        @Override
-                                        public void execute(Realm realm) {
-                                            try {
-                                                realm.copyToRealmOrUpdate(pl);
-                                            } catch (Exception e) {
-                                                Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
-                                            } finally {
-                                                Log.d("TAG", "ADD_USER: FINALLY");
-
-                                            }
-
-                                        }
-                                    });
+                                    listPlayers.add(pl);
                                 }catch(Exception e){
                                     Log.e("ErrorParse", e.getMessage());
                                 }
@@ -141,10 +146,7 @@ public class SplashActivity extends AwesomeSplash {
                         } catch (Exception e) {
                             Log.e("ErrorParse", e.getMessage());
                         }
-                        realm.close();
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-                        overridePendingTransition(R.anim.enter, R.anim.exit);
-                        finish();
+
                         // do anything with response
                     }
 

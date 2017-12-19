@@ -2,9 +2,12 @@ package com.ready.sport.inmatch.Tools;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ready.sport.inmatch.Activity.MainActivity;
+import com.ready.sport.inmatch.Activity.CreatePlayerActivity;
+import com.ready.sport.inmatch.Fragments.PlayersFragment;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.util.PopupDialogFragmentBasket;
@@ -21,6 +25,7 @@ import com.ready.sport.inmatch.util.PopupDialogFragmentTennis;
 import com.ready.sport.inmatch.util.PopupDialogFragmentVolley;
 import com.ready.sport.inmatch.util.TextViewPlus;
 import com.ready.sport.inmatch.util.ToastCustom;
+
 
 
 import java.text.DecimalFormat;
@@ -35,10 +40,12 @@ import io.realm.RealmRecyclerViewAdapter;
 public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel, CustomAdapterPlayers.MyViewHolder> {
     private Context mContext;
     private DecimalFormat value;
+    private PlayersFragment mFragment;
 
-    public CustomAdapterPlayers(OrderedRealmCollection<PlayersModel> data, Context context) {
+    public CustomAdapterPlayers(OrderedRealmCollection<PlayersModel> data, Context context, PlayersFragment fragment) {
         super(data, true);
         this.mContext = context;
+        this.mFragment = fragment;
         setHasStableIds(true);
     }
 
@@ -97,6 +104,36 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
             }
         });
 
+        holder.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent in = new Intent(mContext, CreatePlayerActivity.class);
+                in.putExtra("IdPlayer",obj.IdPlayer);
+                mContext.startActivity(in);
+            }
+        });
+
+        holder.cardPl.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                new AlertDialog.Builder(mContext, R.style.AlertDialogCustom)
+                        .setTitle(mContext.getString(R.string.delete))
+                        .setMessage(mContext.getString(R.string.delete_player))
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                mFragment.deletePlayer(obj.getIdPlayer());
+
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+
+                return true;// returning true instead of false, works for me
+            }
+        });
+
     }
 
     @Override
@@ -117,6 +154,7 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
         CardView cardBasket;
         CardView cardTennis;
         CardView cardVolley;
+        AppCompatImageView edit;
 
         MyViewHolder(View view) {
             super(view);
@@ -124,28 +162,9 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
             basketRating = (TextViewPlus) view.findViewById(R.id.basketLabel);
             tennisRating = (TextViewPlus) view.findViewById(R.id.tennisLabel);
             volleyRating = (TextViewPlus) view.findViewById(R.id.volleyLabel);
+            edit = (AppCompatImageView)view.findViewById(R.id.editNormalPlayer);
             listPlayersTitle = (TextViewPlus) view.findViewById(R.id.listPlayersTitle);
             cardPl = (CardView)view.findViewById(R.id.cardPlayers);
-            cardPl.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-
-
-                    new AlertDialog.Builder(mContext, R.style.AlertDialogCustom)
-                            .setTitle(mContext.getString(R.string.delete))
-                            .setMessage(mContext.getString(R.string.delete_player))
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    ToastCustom toast = new ToastCustom(mContext,  mContext.getResources().getDrawable(R.drawable.ic_icon_check),mContext.getString(R.string.operation_success));
-                                    toast.show();
-                                }})
-                            .setNegativeButton(android.R.string.no, null).show();
-
-                    return true;// returning true instead of false, works for me
-                }
-            });
 
             cardSoccer = (CardView)view.findViewById(R.id.cardSoccer);
             cardBasket = (CardView)view.findViewById(R.id.cardBasket);
