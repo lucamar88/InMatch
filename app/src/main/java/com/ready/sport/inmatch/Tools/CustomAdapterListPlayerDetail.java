@@ -18,6 +18,7 @@ import com.ready.sport.inmatch.util.PopupDialogFragmentVolley;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmRecyclerViewAdapter;
@@ -26,24 +27,28 @@ import io.realm.RealmRecyclerViewAdapter;
  * Created by l.martelloni on 30/11/2017.
  */
 
-public class CustomAdapterListPlayerDetail extends RealmRecyclerViewAdapter<PlayersModel ,CustomAdapterListPlayerDetail.MyViewHolder> {
-    private Context mContext;
+public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAdapterListPlayerDetail.MyViewHolder> {
+        private Context mContext;
     private int mTypeMatch;
+    private List<PlayersModel> dati;
     private DecimalFormat value;
 
-    public CustomAdapterListPlayerDetail(OrderedRealmCollection<PlayersModel> data, int typeMatch,Context context) {
-        super(data, true);
+    public CustomAdapterListPlayerDetail(List<PlayersModel> data, int typeMatch, Context context) {
+        //super((OrderedRealmCollection<PlayersModel>) data, true);
         this.mContext = context;
         this.mTypeMatch = typeMatch;
-        setHasStableIds(true);
+        this.dati = data;
+        //setHasStableIds(true);
     }
 
 
 
     @Override
     public CustomAdapterListPlayerDetail.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_player_detail_match, parent, false);
+        /*View itemView = LayoutInflater.from(mContext)
+                .inflate(R.layout.item_player_detail_match, parent, false);*/
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player_detail_match, parent, false);
+
         return new CustomAdapterListPlayerDetail.MyViewHolder(itemView);
     }
 
@@ -81,8 +86,20 @@ public class CustomAdapterListPlayerDetail extends RealmRecyclerViewAdapter<Play
         return getItem(index).IdPlayer;
     }
 
+    private PlayersModel getItem(int index) {
+        return this.dati.get(index);
+    }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         TextViewPlus ratingPlayer ;
         TextViewPlus namePlayer;
 

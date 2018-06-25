@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,9 @@ import java.util.List;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import uk.co.markormesher.android_fab.FloatingActionButton;
 import uk.co.markormesher.android_fab.SpeedDialMenuAdapter;
 import uk.co.markormesher.android_fab.SpeedDialMenuItem;
@@ -46,8 +49,9 @@ public class MatchDetailActivity extends AppCompatActivity {
     private int IdMatch = 0;
     private Realm realm;
     private MatchModel match;
-    private OrderedRealmCollection<PlayersModel> firstList;
-    private OrderedRealmCollection<PlayersModel> secondList;
+    private List<PlayersModel> firstList;
+    private List<PlayersModel> secondList;
+
     private List<PlayersModel> totList;
     private RecyclerView recyclerViewFirst;
     private RecyclerView recyclerViewSecond;
@@ -104,6 +108,9 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         recyclerViewSecond = (RecyclerView) findViewById(R.id.listSecondTeamDetail);
 
+        firstList = new ArrayList<>();
+        secondList = new ArrayList<>();
+
         TextViewPlus location = (TextViewPlus)findViewById(R.id.locationMatchDetail);
         TextViewPlus data = (TextViewPlus)findViewById(R.id.dateMatchDetail);
 
@@ -134,7 +141,6 @@ public class MatchDetailActivity extends AppCompatActivity {
             Log.e("Error Data:", e.getMessage());
         }
 
-
         if(match.getListPlayersFirstTeam() != null && match.getListPlayersSecondTeam() != null){
             String[] firstTeamList = match.getListPlayersFirstTeam().split("_");
             String[] secondTeamList = match.getListPlayersSecondTeam().split("_");
@@ -155,8 +161,8 @@ public class MatchDetailActivity extends AppCompatActivity {
 
 
         }
-        setUpRecyclerView();
 
+            setUpRecyclerView();
 
 
         //TEST
@@ -206,7 +212,43 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         List<String> list = new ArrayList<String>();
         list = TeamUtility.GenerateTeam(pl, 1);*/
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] totPlayerList = match.getListTotalPlayers().split("_");
+                List<PlayersModel> playerTot = new ArrayList<PlayersModel>();
+                for (String str: totPlayerList
+                     ) {
+                    int id = Integer.parseInt(str);
+                    PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                    playerTot.add(pla1);
+                }
+                List<String> list = TeamUtility.GenerateTeam(playerTot, 1);
 
+                String[] firstTeam = list.get(0).split("_");
+                String[] secondTeam = list.get(1).split("_");
+
+                for (int i = 0;i<(firstTeam.length -1);i++
+                        ) {
+                    if(firstTeam[i] != ""){
+                        int id = Integer.parseInt(firstTeam[i]);
+                        PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                        firstList.add(pla1);
+                    }
+                }
+
+                for (int i = 0;i<(secondTeam.length -1);i++
+                        ) {
+                    if(secondTeam[i] != ""){
+                        int id = Integer.parseInt(secondTeam[i]);
+                        PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                        secondList.add(pla1);
+                    }
+                }
+                setUpRecyclerView();
+
+            }
+        });
     }
 
     public void onClickWhatsApp() {
@@ -234,9 +276,13 @@ public class MatchDetailActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
+
+
         adapterFirst = new CustomAdapterListPlayerDetail(firstList, match.getMatchType(),this);
         adapterSecond = new CustomAdapterListPlayerDetail(secondList, match.getMatchType(),this);
         //First list
+
+        recyclerViewFirst.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewFirst.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFirst.setAdapter(adapterFirst);
 
@@ -245,12 +291,14 @@ public class MatchDetailActivity extends AppCompatActivity {
 
 
         //Second list
+        recyclerViewSecond.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewSecond.setItemAnimator(new DefaultItemAnimator());
         recyclerViewSecond.setAdapter(adapterSecond);
 
         recyclerViewSecond.setHasFixedSize(true);
         recyclerViewSecond.setNestedScrollingEnabled(false);
 
-
+        adapterFirst.notifyDataSetChanged();
+        adapterSecond.notifyDataSetChanged();
     }
 }
