@@ -18,6 +18,7 @@ import com.ready.sport.inmatch.util.PopupDialogFragmentVolley;
 import com.ready.sport.inmatch.util.TextViewPlus;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.OrderedRealmCollection;
@@ -28,9 +29,9 @@ import io.realm.RealmRecyclerViewAdapter;
  */
 
 public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAdapterListPlayerDetail.MyViewHolder> {
-        private Context mContext;
+    private Context mContext;
     private int mTypeMatch;
-    private List<PlayersModel> dati;
+    private List<PlayersModel> dati = new ArrayList<>();
     private DecimalFormat value;
 
     public CustomAdapterListPlayerDetail(List<PlayersModel> data, int typeMatch, Context context) {
@@ -42,15 +43,18 @@ public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAd
     }
 
 
-
     @Override
     public CustomAdapterListPlayerDetail.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        /*View itemView = LayoutInflater.from(mContext)
-                .inflate(R.layout.item_player_detail_match, parent, false);*/
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player_detail_match, parent, false);
-
+        View itemView = LayoutInflater.from(mContext)
+                .inflate(R.layout.item_player_detail_match, parent, false);
+        //View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player_detail_match, parent, false);
         return new CustomAdapterListPlayerDetail.MyViewHolder(itemView);
     }
+    @Override
+    public int getItemCount() {
+        return this.dati.size();
+    }
+
 
     @Override
     public void onBindViewHolder(CustomAdapterListPlayerDetail.MyViewHolder holder, int position) {
@@ -76,7 +80,8 @@ public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAd
 
         holder.ratingPlayer.setText(rating);
 
-        holder.namePlayer.setText(obj.s_Name + " " + obj.s_Surename);
+        holder.namePlayer.setText(obj.s_Name);
+        holder.surnamePlayer.setText(obj.s_Surename);
 
     }
 
@@ -90,10 +95,7 @@ public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAd
         return this.dati.get(index);
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
@@ -102,11 +104,13 @@ public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextViewPlus ratingPlayer ;
         TextViewPlus namePlayer;
+        TextViewPlus surnamePlayer;
 
         MyViewHolder(View view) {
             super(view);
             ratingPlayer = (TextViewPlus) view.findViewById(R.id.ratingPlayerItemDetail);
             namePlayer = (TextViewPlus)view.findViewById(R.id.namePlayerItemDetail);
+            surnamePlayer = (TextViewPlus)view.findViewById(R.id.surnamePlayerItemDetail);
         }
     }
 }

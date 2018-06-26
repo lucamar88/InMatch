@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import com.ready.sport.inmatch.Tools.CustomAdaptersPlayersMatch;
 import com.ready.sport.inmatch.util.ButtonPlus;
 import com.ready.sport.inmatch.util.TeamUtility;
 import com.ready.sport.inmatch.util.TextViewPlus;
+import com.ready.sport.inmatch.util.ToastCustom;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -111,6 +113,14 @@ public class MatchDetailActivity extends AppCompatActivity {
         firstList = new ArrayList<>();
         secondList = new ArrayList<>();
 
+        AppCompatImageView back = (AppCompatImageView)findViewById(R.id.backBtnDetailMatch);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         TextViewPlus location = (TextViewPlus)findViewById(R.id.locationMatchDetail);
         TextViewPlus data = (TextViewPlus)findViewById(R.id.dateMatchDetail);
 
@@ -161,60 +171,15 @@ public class MatchDetailActivity extends AppCompatActivity {
 
 
         }
-
+        if(firstList.size() != 0 || secondList.size()!= 0){
             setUpRecyclerView();
+        }
 
-
-        //TEST
-        /*List<PlayersModel> pl = new ArrayList<PlayersModel>();
-        PlayersModel pla1 = new PlayersModel();
-        pla1.setRatingSoccer(4.5);
-        pla1.setRuoloSoccer(0);
-        PlayersModel pla2 = new PlayersModel();
-        pla2.setRatingSoccer(7.5);
-        pla2.setRuoloSoccer(0);
-        PlayersModel pla3 = new PlayersModel();
-        pla3.setRatingSoccer(5.1);
-        pla3.setRuoloSoccer(1);
-        PlayersModel pla4 = new PlayersModel();
-        pla4.setRatingSoccer(7.8);
-        pla4.setRuoloSoccer(1);
-        PlayersModel pla5 = new PlayersModel();
-        pla5.setRatingSoccer(8.9);
-        pla5.setRuoloSoccer(2);
-        PlayersModel pla6 = new PlayersModel();
-        pla6.setRatingSoccer(8.2);
-        pla6.setRuoloSoccer(2);
-        PlayersModel pla7 = new PlayersModel();
-        pla7.setRatingSoccer(7.0);
-        pla7.setRuoloSoccer(3);
-        PlayersModel pla8 = new PlayersModel();
-        pla8.setRatingSoccer(9.2);
-        pla8.setRuoloSoccer(3);
-        PlayersModel pla9 = new PlayersModel();
-        pla9.setRatingSoccer(5.7);
-        pla9.setRuoloSoccer(1);
-        PlayersModel pla10 = new PlayersModel();
-        pla10.setRatingSoccer(6.7);
-        pla10.setRuoloSoccer(1);
-
-        pl.add(pla1);
-        pl.add(pla2);
-        pl.add(pla3);
-        pl.add(pla4);
-        pl.add(pla5);
-        pl.add(pla6);
-        pl.add(pla7);
-        pl.add(pla8);
-        pl.add(pla9);
-        pl.add(pla10);
-
-
-        List<String> list = new ArrayList<String>();
-        list = TeamUtility.GenerateTeam(pl, 1);*/
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                firstList.clear();
+                secondList.clear();
                 String[] totPlayerList = match.getListTotalPlayers().split("_");
                 List<PlayersModel> playerTot = new ArrayList<PlayersModel>();
                 for (String str: totPlayerList
@@ -278,11 +243,11 @@ public class MatchDetailActivity extends AppCompatActivity {
     private void setUpRecyclerView() {
 
 
-        adapterFirst = new CustomAdapterListPlayerDetail(firstList, match.getMatchType(),this);
-        adapterSecond = new CustomAdapterListPlayerDetail(secondList, match.getMatchType(),this);
+        adapterFirst = new CustomAdapterListPlayerDetail(firstList, match.getMatchType(),getBaseContext());
+        adapterSecond = new CustomAdapterListPlayerDetail(secondList, match.getMatchType(),getBaseContext());
         //First list
 
-        recyclerViewFirst.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewFirst.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerViewFirst.setItemAnimator(new DefaultItemAnimator());
         recyclerViewFirst.setAdapter(adapterFirst);
 
@@ -291,14 +256,14 @@ public class MatchDetailActivity extends AppCompatActivity {
 
 
         //Second list
-        recyclerViewSecond.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewSecond.setLayoutManager(new LinearLayoutManager(getBaseContext()));
         recyclerViewSecond.setItemAnimator(new DefaultItemAnimator());
         recyclerViewSecond.setAdapter(adapterSecond);
 
         recyclerViewSecond.setHasFixedSize(true);
         recyclerViewSecond.setNestedScrollingEnabled(false);
 
-        adapterFirst.notifyDataSetChanged();
-        adapterSecond.notifyDataSetChanged();
+        ToastCustom toast = new ToastCustom(this, getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.teams_generated));
+        toast.show();
     }
 }

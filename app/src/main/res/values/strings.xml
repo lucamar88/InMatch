@@ -34,6 +34,7 @@
     <string name="volley_label">VOLLEY</string>
     <string name="next_match">PROSSIMA PARTITA</string>
     <string name="generate_teams">GENERA FORMAZIONI</string>
+    <string name="teams_generated">Formazioni generate</string>
 
     // Attributes
     <string name="role">Ruolo</string>

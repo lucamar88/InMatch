@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="40sp"
+    android:layout_height="60sp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
@@ -10,19 +10,32 @@
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="10dp"
         android:gravity="center_vertical|center">
-        <com.ready.sport.inmatch.util.TextViewPlus
-            android:id="@+id/namePlayerItemDetail"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Player 1"
-            android:textSize="16sp"
-            android:textColor="@color/circular_progress_default_subtitle"/>
+            android:layout_height="40sp">
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/namePlayerItemDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:text="Name"
+                android:textSize="16sp"
+                android:textColor="@color/circular_progress_default_subtitle"/>
+            <com.ready.sport.inmatch.util.TextViewPlus
+                android:id="@+id/surnamePlayerItemDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:layout_marginTop="20sp"
+                android:text="Surnname"
+                android:textSize="16sp"
+                android:textColor="@color/circular_progress_default_subtitle"/>
+        </FrameLayout>
+
     </android.support.v7.widget.LinearLayoutCompat>
 
     <android.support.v7.widget.LinearLayoutCompat
         android:layout_width="40sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6sp"
+        android:layout_marginTop="15sp"
         android:layout_marginRight="10sp"
         android:background="@drawable/btn_generate_teams"
         android:gravity="center"
