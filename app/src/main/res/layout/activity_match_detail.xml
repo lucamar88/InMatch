@@ -50,6 +50,7 @@
                         android:layout_weight="1"/>
 
                     <android.support.v7.widget.AppCompatImageView
+                        android:id="@+id/saveMatchDetail"
                         android:layout_width="45dp"
                         android:layout_height="25dp"
                         android:src="@drawable/icon_check"
@@ -122,16 +123,17 @@
             </GridLayout>
             <android.support.v7.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
+                android:layout_height="70dp"
                 android:layout_gravity="center">
                 <com.ready.sport.inmatch.util.ButtonPlus
                     android:id="@+id/btn_generate_teams"
-                    android:layout_width="170dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_width="200dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="15dp"
                     android:layout_height="wrap_content"
                     android:text="@string/generate_teams"
                     android:textAlignment="center"
+                    android:textSize="18dp"
                     android:clickable="true"
                     android:background="@drawable/btn_generate_teams"
                     />
@@ -145,7 +147,6 @@
                     android:layout_height="wrap_content"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -220,7 +221,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical">
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -259,6 +261,112 @@
                                 android:layout_gravity="fill_horizontal"
                                 android:visibility="visible"></android.support.v7.widget.RecyclerView>
 
+                    </GridLayout>
+
+                </android.support.v7.widget.CardView>
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cardRatingTeam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="invisible"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    app:cardCornerRadius="5dp"
+                    app:cardBackgroundColor="@color/separatorColor">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <GridLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:columnCount="2"
+                            android:rowCount="1"
+                            android:layout_gravity="center">
+                            <android.support.v7.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15sp"
+                                android:layout_marginBottom="15sp"
+                                android:layout_columnWeight="1"
+                                android:layout_gravity="center">
+                                <com.ready.sport.inmatch.util.TextViewPlus
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:text="TOT"
+                                    android:textAlignment="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/circular_progress_default_subtitle"/>
+                            </android.support.v7.widget.LinearLayoutCompat>
+                            <android.support.v7.widget.LinearLayoutCompat
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="15sp"
+                                android:layout_marginBottom="15sp"
+                                android:layout_columnWeight="1"
+                                android:layout_gravity="center">
+                                <com.ready.sport.inmatch.util.TextViewPlus
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="15sp"
+                                    android:text="TOT"
+                                    android:textAlignment="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/circular_progress_default_subtitle"/>
+                            </android.support.v7.widget.LinearLayoutCompat>
+
+
+                        </GridLayout>
+                    </LinearLayout>
+
+                    <GridLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:columnCount="2"
+                        android:rowCount="1"
+                        android:layout_gravity="center">
+                        <android.support.v7.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15sp"
+                            android:layout_marginBottom="15sp"
+                            android:padding="10dp"
+                            android:background="@drawable/btn_generate_teams"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="center">
+                            <com.ready.sport.inmatch.util.TextViewPlus
+                                android:id="@+id/ratingFirstTeam"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:text="TOT 5.0"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:textColor="@color/mdtp_white"/>
+                        </android.support.v7.widget.LinearLayoutCompat>
+                        <android.support.v7.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15sp"
+                            android:layout_marginBottom="15sp"
+                            android:padding="10dp"
+                            android:background="@drawable/btn_generate_teams"
+                            android:layout_columnWeight="1"
+                            android:layout_gravity="center">
+                            <com.ready.sport.inmatch.util.TextViewPlus
+                                android:id="@+id/ratingSecondTeam"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="25sp"
+                                android:text="TOT 5.0"
+                                android:textAlignment="center"
+                                android:gravity="center"
+                                android:textColor="@color/mdtp_white"/>
+                        </android.support.v7.widget.LinearLayoutCompat>
                     </GridLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>

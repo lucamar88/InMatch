@@ -106,11 +106,13 @@ public class CustomAdapterListPlayerDetail extends RecyclerView.Adapter<CustomAd
         TextViewPlus namePlayer;
         TextViewPlus surnamePlayer;
 
+
         MyViewHolder(View view) {
             super(view);
             ratingPlayer = (TextViewPlus) view.findViewById(R.id.ratingPlayerItemDetail);
             namePlayer = (TextViewPlus)view.findViewById(R.id.namePlayerItemDetail);
             surnamePlayer = (TextViewPlus)view.findViewById(R.id.surnamePlayerItemDetail);
+
         }
     }
 }
