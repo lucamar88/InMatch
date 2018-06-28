@@ -60,7 +60,7 @@ public class MatchDetailActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private AppBarLayout bar;
     private ButtonPlus btn;
-    private ButtonPlus btnCheck;
+    private AppCompatImageView btnCheck;
     private int IdMatch = 0;
     private Realm realm;
     private MatchModel match;
@@ -120,7 +120,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         btn = (ButtonPlus)findViewById(R.id.btn_generate_teams);
 
-        btnCheck = findViewById(R.id.saveMatchDetail);
+        btnCheck = (AppCompatImageView)findViewById(R.id.saveMatchDetail);
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
@@ -157,6 +157,10 @@ public class MatchDetailActivity extends AppCompatActivity {
             finish();
         }
 
+        TextViewPlus firstTeamName = (TextViewPlus)findViewById(R.id.firstTeamName);
+        TextViewPlus secondTeamName = (TextViewPlus)findViewById(R.id.secondTeamName);
+        firstTeamName.setText(match.getNameFirstTeam());
+        secondTeamName.setText(match.getNameSecondTeam());
         location.setText(match.getLocation());
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
@@ -407,6 +411,7 @@ public class MatchDetailActivity extends AppCompatActivity {
             // handle error
             try {
                 JSONObject str = new JSONObject(anError.getErrorBody().toString());
+                //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
                 ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
                 toast.show();
             } catch (Exception e) {

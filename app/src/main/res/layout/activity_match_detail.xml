@@ -148,6 +148,7 @@
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
                     android:layout_gravity="center"
                     android:layout_marginBottom="15dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     app:cardCornerRadius="5dp"
@@ -164,10 +165,12 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <com.ready.sport.inmatch.util.TextViewPlus
+                            android:id="@+id/firstTeamName"
                             android:layout_width="90dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
+                            android:textSize="18dp"
                             android:textAlignment="center"
                             android:text="SQUADRA 1"/>
                         <com.ready.sport.inmatch.util.TextViewPlus
@@ -199,11 +202,13 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <com.ready.sport.inmatch.util.TextViewPlus
+                            android:id="@+id/secondTeamName"
                             android:layout_width="90dp"
                             android:textAlignment="center"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginLeft="10dp"
+                            android:textSize="18dp"
                             android:text="SQUADRA 2"/>
                         <com.ready.sport.inmatch.util.TextViewPlus
                             android:layout_width="wrap_content"

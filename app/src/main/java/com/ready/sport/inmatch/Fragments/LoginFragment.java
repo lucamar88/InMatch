@@ -34,6 +34,7 @@ import com.google.gson.GsonBuilder;
 import com.ready.sport.inmatch.Activity.MainActivity;
 import com.ready.sport.inmatch.Activity.SplashActivity;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.MatchModel;
 import com.ready.sport.inmatch.RealmClass.PlayersModel;
 import com.ready.sport.inmatch.RealmClass.UserModel;
 import com.ready.sport.inmatch.util.AutoCompleteTextViewPlus;
@@ -45,6 +46,9 @@ import com.ready.sport.inmatch.util.ToastCustom;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -60,6 +64,7 @@ public class LoginFragment extends Fragment {
     private UserModel model;
     private String token;
     private PlayersModel pl;
+    private MatchModel ma;
     private boolean IsSuccessSave = false;
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -433,18 +438,38 @@ public class LoginFragment extends Fragment {
         }
 
         public void onSuccessRealm() {
-            AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_GET_ALL)
+            AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.USER_DETAIL)
                     .addHeaders("Authorization", "bearer " + token)
                     .setPriority(Priority.MEDIUM)
                     .build()
-                    .getAsJSONArray(new JSONArrayRequestListener() {
+                    .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
-                        public void onResponse(JSONArray response) {
+                        public void onResponse(JSONObject response) {
 
                             try {
-                                for (int i = 0; i < response.length(); i++) {
+
+                                model.setUserName(response.get("UserName").toString());
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        try {
+                                            realm.copyToRealmOrUpdate(model);
+                                        } catch (Exception e) {
+                                            Log.e("TAG", "ADD_USER: " + e.getMessage(), e);
+                                            Toast.makeText(getContext(), "Errore di salvataggio. Riprova", Toast.LENGTH_SHORT).show();
+                                        } finally {
+                                            Log.d("TAG", "ADD_USER: FINALLY");
+                                            //IsSuccessSave = true;
+                                            onSuccessRealm();
+                                        }
+
+                                    }
+                                });
+                                JSONArray players = response.getJSONArray("players");
+                                JSONArray matchs = response.getJSONArray("matchs");
+                                for (int i = 0; i < players.length(); i++) {
                                     try{
-                                        JSONObject player = response.getJSONObject(i);
+                                        JSONObject player = players.getJSONObject(i);
                                         Gson gson = new GsonBuilder().create();
                                         pl = gson.fromJson(player.toString(), PlayersModel.class);
 
@@ -453,6 +478,39 @@ public class LoginFragment extends Fragment {
                                             public void execute(Realm realm) {
                                                 try {
                                                     realm.copyToRealmOrUpdate(pl);
+                                                } catch (Exception e) {
+                                                    Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
+                                                } finally {
+                                                    Log.d("TAG", "ADD_PLAYER: FINALLY");
+
+                                                }
+
+                                            }
+                                        });
+
+                                    }catch(Exception e){
+                                        Log.e("ErrorParse", e.getMessage());
+                                    }
+                                }
+                                for (int i = 0; i < matchs.length(); i++) {
+                                    try{
+                                        JSONObject match = matchs.getJSONObject(i);
+                                        Gson gson = new GsonBuilder().create();
+                                        ma = gson.fromJson(match.toString(), MatchModel.class);
+                                        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                                        try {
+                                            Date date = dateFormat.parse(match.getString("d_StartDateUtc"));//You will get date object relative to server/client timezone wherever it is parsed
+                                            DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS"); //If you need time just put specific format for time like 'HH:mm:ss'
+                                            String dateStr = formatter.format(date);
+                                            ma.setStartDateUtc(dateStr);
+                                        } catch (Exception e) {
+                                            Log.e("Error Data:", e.getMessage());
+                                        }
+                                        realm.executeTransaction(new Realm.Transaction() {
+                                            @Override
+                                            public void execute(Realm realm) {
+                                                try {
+                                                    realm.copyToRealmOrUpdate(ma);
                                                 } catch (Exception e) {
                                                     Log.e("TAG", "ADD_PLAYER: " + e.getMessage(), e);
                                                 } finally {

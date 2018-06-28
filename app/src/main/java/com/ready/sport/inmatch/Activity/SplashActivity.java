@@ -10,6 +10,7 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.daimajia.androidanimations.library.Techniques;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -124,18 +125,22 @@ public class SplashActivity extends AwesomeSplash {
 
     }
     public void GetDataUser() {
-        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.PLAYER_GET_ALL)
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.USER_DETAIL)
                 .addHeaders("Authorization", "bearer " + token)
                 .setPriority(Priority.MEDIUM)
                 .build()
-                .getAsJSONArray(new JSONArrayRequestListener() {
+                .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-                    public void onResponse(JSONArray response) {
+                    public void onResponse(JSONObject response) {
 
                         try {
-                            for (int i = 0; i < response.length(); i++) {
+                            response.get("UserName");
+                            JSONArray players = response.getJSONArray("players");
+                            JSONArray matchs = response.getJSONArray("matchs");
+
+                            for (int i = 0; i < players.length(); i++) {
                                 try{
-                                    JSONObject player = response.getJSONObject(i);
+                                    JSONObject player = players.getJSONObject(i);
                                     Gson gson = new GsonBuilder().create();
                                     pl = gson.fromJson(player.toString(), PlayersModel.class);
                                     listPlayers.add(pl);

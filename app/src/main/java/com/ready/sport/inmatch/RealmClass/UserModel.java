@@ -23,4 +23,9 @@ public class UserModel extends RealmObject {
 
     public String    getToken() { return Token; }
     public void   setToken(String token) { this.Token = token; }
+
+    private String UserName;
+
+    public String    getUserName() { return UserName; }
+    public void   setUserName(String userName) { this.UserName = userName; }
 }
