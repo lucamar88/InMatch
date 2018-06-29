@@ -61,6 +61,9 @@ public class MatchDetailActivity extends AppCompatActivity {
     private AppBarLayout bar;
     private ButtonPlus btn;
     private AppCompatImageView btnCheck;
+    private Context baseContext;
+
+
     private int IdMatch = 0;
     private Realm realm;
     private MatchModel match;
@@ -68,6 +71,7 @@ public class MatchDetailActivity extends AppCompatActivity {
     private List<PlayersModel> secondList;
     private String[] firstTeamList;
     private String[] secondTeamList;
+    private String[] totPlayerList;
     private String firstTeamStringList;
     private String secondTeamStringList;
     private String rating1;
@@ -86,6 +90,8 @@ public class MatchDetailActivity extends AppCompatActivity {
         public boolean onMenuItemClick(int i){
             if(i == 0){
                 onClickWhatsApp();
+            }else if(i == 1){
+
             }else{
                 Toast.makeText(MatchDetailActivity.this, "Click botton "+i, Toast.LENGTH_SHORT).show();
             }
@@ -97,10 +103,10 @@ public class MatchDetailActivity extends AppCompatActivity {
             SpeedDialMenuItem speedDialMenuItem = null;
             switch (i){
                 case 0:
-                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_media_play, "Item One");
+                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_media_play, "Condividi match");
                     break;
                 case 1:
-                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_edit, "Item Two");
+                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_edit, "Modifica match");
                     break;
                 case 2:
                     speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_crop, "Item Three");
@@ -115,6 +121,8 @@ public class MatchDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         setContentView(R.layout.activity_match_detail);
+        baseContext = getBaseContext();
+
         realm= Realm.getDefaultInstance();
         bar = (AppBarLayout)findViewById(R.id.appbarMatchDetail);
 
@@ -179,6 +187,9 @@ public class MatchDetailActivity extends AppCompatActivity {
             firstTeamList = match.getListPlayersFirstTeam().split("_");
             secondTeamList = match.getListPlayersSecondTeam().split("_");
 
+            firstTeamStringList = match.getListPlayersFirstTeam();
+            secondTeamStringList = match.getListPlayersSecondTeam();
+
             for(String str:firstTeamList){
                 int id = Integer.parseInt(str);
                 PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
@@ -204,7 +215,7 @@ public class MatchDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 firstList.clear();
                 secondList.clear();
-                String[] totPlayerList = match.getListTotalPlayers().split("_");
+                totPlayerList = match.getListTotalPlayers().split("_");
                 List<PlayersModel> playerTot = new ArrayList<PlayersModel>();
                 for (String str: totPlayerList
                      ) {
@@ -214,22 +225,25 @@ public class MatchDetailActivity extends AppCompatActivity {
                 }
                 List<String> list = TeamUtility.GenerateTeam(playerTot, 1);
 
-                String[] firstTeam = list.get(0).split("_");
-                String[] secondTeam = list.get(1).split("_");
+                firstTeamStringList = list.get(0);
+                secondTeamStringList = list.get(1);
 
-                for (int i = 0;i<(firstTeam.length -1);i++
+                firstTeamList = list.get(0).split("_");
+                secondTeamList = list.get(1).split("_");
+
+                for (int i = 0;i<firstTeamList.length;i++
                         ) {
-                    if(firstTeam[i] != ""){
-                        int id = Integer.parseInt(firstTeam[i]);
+                    if(firstTeamList[i] != ""){
+                        int id = Integer.parseInt(firstTeamList[i]);
                         PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
                         firstList.add(pla1);
                     }
                 }
 
-                for (int i = 0;i<(secondTeam.length -1);i++
+                for (int i = 0;i<secondTeamList.length ;i++
                         ) {
-                    if(secondTeam[i] != ""){
-                        int id = Integer.parseInt(secondTeam[i]);
+                    if(secondTeamList[i] != ""){
+                        int id = Integer.parseInt(secondTeamList[i]);
                         PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
                         secondList.add(pla1);
                     }
@@ -351,21 +365,31 @@ public class MatchDetailActivity extends AppCompatActivity {
     }
 
     public void SaveMatchDetail(){
-        firstTeamStringList = firstTeamList[0].toString();
+        /*firstTeamStringList = firstTeamList[0].toString();
         for(int i = 1;i<firstTeamList.length;i++){
             firstTeamStringList += "_"+firstTeamList[i].toString();
         }
         secondTeamStringList = secondTeamList[0].toString();
         for(int i = 1;i<secondTeamList.length;i++){
             secondTeamStringList += "_"+secondTeamList[i].toString();
-        }
+        }*/
 
-    final MatchModel model = match;
+        final MatchModel model = new MatchModel();
+        model.setIdMatch(match.getIdMatch());
+        model.setStartDateUtc(match.getStartDateUtc());
+        model.setIdUser(match.getIdUser());
         model.setIsFinish(false);
+        model.setResult("");
+        model.setLocation(match.getLocation());
+        model.setListTotalPlayers(match.getListTotalPlayers());
         model.setListPlayersFirstTeam(firstTeamStringList);
         model.setListPlayersSecondTeam(secondTeamStringList);
-        model.setFirstTeamRating(Double.parseDouble(rating1));
-        model.setSecondTeamRating(Double.parseDouble(rating2));
+        model.setFirstTeamRating(Double.parseDouble(rating1.replace(",",".")));
+        model.setSecondTeamRating(Double.parseDouble(rating2.replace(",",".")));
+        model.setNumberForTeam(match.getNumberForTeam());
+        model.setNameFirstTeam(match.getNameFirstTeam());
+        model.setNameSecondTeam(match.getNameSecondTeam());
+        model.setMatchType(match.getMatchType());
 
         JSONObject obj = model.toJSON();
 
@@ -410,12 +434,12 @@ public class MatchDetailActivity extends AppCompatActivity {
         public void onError(ANError anError) {
             // handle error
             try {
-                JSONObject str = new JSONObject(anError.getErrorBody().toString());
+                JSONObject str = new JSONObject(anError.getResponse().toString());
                 //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
-                ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                ToastCustom toast = new ToastCustom(baseContext, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
                 toast.show();
             } catch (Exception e) {
-                ToastCustom toast = new ToastCustom(getBaseContext(), getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                ToastCustom toast = new ToastCustom(baseContext, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
                 toast.show();
                 Log.e("ErrorPost", e.getMessage());
             }

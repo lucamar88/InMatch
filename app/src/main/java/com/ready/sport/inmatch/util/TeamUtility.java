@@ -199,21 +199,28 @@ public class TeamUtility {
         String listStringSecond = "";
         for (Pair<Integer,Double> el : firstTeam)
         {
-            listStringFirst = listStringFirst + el.first.toString() + '_';
+            //listStringFirst = listStringFirst + el.first.toString() + '_';
+            listStringFirst = listStringFirst.concat(el.first.toString());
+            if(firstTeam.indexOf(el) != (firstTeam.size() -1)){
+                listStringFirst = listStringFirst.concat("_");
+            }
             rateFirstTeam = rateFirstTeam + el.second;
         }
 
         for (Pair<Integer,Double> el : secondTeam)
         {
-            listStringSecond = listStringSecond + el.first.toString()+ '_';
+            listStringSecond = listStringSecond.concat(el.first.toString());
+            if(secondTeam.indexOf(el) != (secondTeam.size() -1)){
+                listStringSecond = listStringSecond.concat("_");
+            }
             rateSecondTeam = rateSecondTeam + el.second;
         }
         rateFirstTeam = rateFirstTeam / firstTeam.size();
         rateSecondTeam = rateSecondTeam / secondTeam.size();
         //Calcolo percentuale di precisione media
 
-        listStringFirst = listStringFirst  + PercentageRate(rateFirstTeam, rateAllPlayers);
-        listStringSecond = listStringSecond + PercentageRate(rateSecondTeam, rateAllPlayers);
+        //listStringFirst = listStringFirst  + PercentageRate(rateFirstTeam, rateAllPlayers);
+        //listStringSecond = listStringSecond + PercentageRate(rateSecondTeam, rateAllPlayers);
 
 
         listPlayers.add(listStringFirst);
