@@ -684,7 +684,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         team1Text.setText(team1Str);
         team2Text.setText(team2Str);
 
-        numSelectPl.setText(String.valueOf(count));
+        //numSelectPl.setText(String.valueOf(count));
     }
 }
 
