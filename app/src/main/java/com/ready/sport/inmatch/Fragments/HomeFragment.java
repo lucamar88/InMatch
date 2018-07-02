@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
                 int strName = Constants.SOCCER_TYPE;
                 intent.putExtra(Constants.MATCH_TYPE, strName);
-
+                intent.putExtra("IdMatch",0);
                 startActivity(intent);
             }
         });
@@ -53,7 +53,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
                 int strName = Constants.BASKET_TYPE;
                 intent.putExtra(Constants.MATCH_TYPE, strName);
-
+                intent.putExtra("IdMatch",0);
                 startActivity(intent);
             }
         });
@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
                 int strName = Constants.TENNIS_TYPE;
                 intent.putExtra(Constants.MATCH_TYPE, strName);
-
+                intent.putExtra("IdMatch",0);
                 startActivity(intent);
             }
         });
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateMatchActivity.class);
                 int strName = Constants.VOLLEY_TYPE;
                 intent.putExtra(Constants.MATCH_TYPE, strName);
-
+                intent.putExtra("IdMatch",0);
                 startActivity(intent);
             }
         });

@@ -69,6 +69,7 @@ public class MatchDetailActivity extends AppCompatActivity {
     private MatchModel match;
     private List<PlayersModel> firstList;
     private List<PlayersModel> secondList;
+    private List<PlayersModel> totList;
     private String[] firstTeamList;
     private String[] secondTeamList;
     private String[] totPlayerList;
@@ -76,7 +77,6 @@ public class MatchDetailActivity extends AppCompatActivity {
     private String secondTeamStringList;
     private String rating1;
     private String rating2;
-    private List<PlayersModel> totList;
     private RecyclerView recyclerViewFirst;
     private RecyclerView recyclerViewSecond;
     private static RecyclerView.Adapter adapterFirst;
@@ -91,7 +91,11 @@ public class MatchDetailActivity extends AppCompatActivity {
             if(i == 0){
                 onClickWhatsApp();
             }else if(i == 1){
-
+                Intent intent = new Intent(MatchDetailActivity.this, CreateMatchActivity.class);
+                intent.putExtra(Constants.MATCH_TYPE, match.getMatchType());
+                intent.putExtra("IdMatch",IdMatch);
+                startActivity(intent);
+                finish();
             }else{
                 Toast.makeText(MatchDetailActivity.this, "Click botton "+i, Toast.LENGTH_SHORT).show();
             }
@@ -140,6 +144,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         firstList = new ArrayList<>();
         secondList = new ArrayList<>();
+        totList = new ArrayList<>();
 
         AppCompatImageView back = (AppCompatImageView)findViewById(R.id.backBtnDetailMatch);
         back.setOnClickListener(new View.OnClickListener() {
@@ -249,7 +254,8 @@ public class MatchDetailActivity extends AppCompatActivity {
                     }
                 }
                 setUpRecyclerView();
-
+                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.teams_generated));
+                toast.show();
             }
         });
 
@@ -279,7 +285,7 @@ public class MatchDetailActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(waIntent, "Share with"));
 
         } catch (PackageManager.NameNotFoundException e) {
-            Toast.makeText(this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
+            Toast.makeText(MatchDetailActivity.this, "WhatsApp not Installed", Toast.LENGTH_SHORT)
                     .show();
         }
 
@@ -309,8 +315,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         setRatingTeam();
 
-        ToastCustom toast = new ToastCustom(this, getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.teams_generated));
-        toast.show();
+
     }
 
     public void setRatingTeam(){
@@ -418,7 +423,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
                             @Override
                             public void run() {
-                                ToastCustom toast = new ToastCustom(getBaseContext(),  getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.operation_success));
+                                ToastCustom toast = new ToastCustom(MatchDetailActivity.this,  getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.operation_success));
                                 toast.show();
                             }
                         }, 1000);
@@ -436,10 +441,10 @@ public class MatchDetailActivity extends AppCompatActivity {
             try {
                 JSONObject str = new JSONObject(anError.getResponse().toString());
                 //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
-                ToastCustom toast = new ToastCustom(baseContext, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
                 toast.show();
             } catch (Exception e) {
-                ToastCustom toast = new ToastCustom(baseContext, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
                 toast.show();
                 Log.e("ErrorPost", e.getMessage());
             }

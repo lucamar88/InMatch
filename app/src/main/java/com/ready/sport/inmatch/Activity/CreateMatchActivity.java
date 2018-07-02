@@ -3,6 +3,7 @@ package com.ready.sport.inmatch.Activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -50,8 +51,11 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -79,6 +83,8 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private Drawable iconForToast;
     private Activity activity;
     private String counterDate;
+    private Integer IdMatch = 0;
+    private MatchModel model;
 
     // Date picker 1
     private SingleDateAndTimePickerDialog.Builder singleBuilder;
@@ -95,6 +101,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
     private static RealmResults<PlayersModel> data;
     private ArrayList<Integer> listaPlayer = new ArrayList<>();
     private static ArrayList<PlayerCardMatchModel> dataFin;
+    private String[] listPlayersMatch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,7 +116,6 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         team2Text = (EditTextPlus)findViewById(R.id.team2NewMatch);
         numberPicker = (NumberPicker)findViewById(R.id.number_picker);
         numTotPl = (TextViewPlus)findViewById(R.id.numberTotPlayer);
-
 
 
         numberPicker.setOnValueChangedListener(this);
@@ -147,6 +153,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 type= Constants.SOCCER_TYPE;
             } else {
                 type= extras.getInt(Constants.MATCH_TYPE);
+                IdMatch = extras.getInt("IdMatch");
             }
         }
         catch (Exception e){
@@ -189,6 +196,24 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
 
         realm= Realm.getDefaultInstance();
 
+        if(IdMatch != 0){
+            model = realm.where(MatchModel.class).equalTo("IdMatch",IdMatch).findFirst();
+
+            String[] str1 = model.getListPlayersFirstTeam().split("_");
+            String[] str2 = model.getListPlayersSecondTeam().split("_");
+            listPlayersMatch = concatenateTwoArrays(str1,str2);
+
+            for(int a = 0;a<listPlayersMatch.length;a++){
+                int s = Integer.parseInt(listPlayersMatch[a]);
+                listaPlayer.add(s);
+            }
+            count = listPlayersMatch.length;
+            numberPicker.setValue(count/2);
+
+            numTotPl.setText(String.valueOf(count));
+            numSelectPl.setText(String.valueOf(count));
+        }
+
         recyclerView = (RecyclerView) findViewById(R.id.listPlayerNewMatch);
         //recyclerView.setHasFixedSize(true);
         dataFin = new ArrayList<PlayerCardMatchModel>();
@@ -209,12 +234,34 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             }else if(type == Constants.VOLLEY_TYPE){
                 plFin.RatingPlayer = pl.getRatingVolley();
             }
+
+            if (listPlayersMatch != null && Arrays.asList(listPlayersMatch).contains(String.valueOf(plFin.PlayerId))) {
+                plFin.setIsSelected(true);
+            }else{
+                plFin.setIsSelected(false);
+            }
+
             dataFin.add(plFin);
         }
         setUpRecyclerView();
-
+        if(IdMatch != 0){editMatch();}
     }
+    protected String[] concatenateTwoArrays(String[] arrayFirst,String[] arraySecond){
+        // Initialize an empty list
+        List<String> both = new ArrayList<>();
 
+        // Add first array elements to list
+        Collections.addAll(both,arrayFirst);
+
+        // Add another array elements to list
+        Collections.addAll(both,arraySecond);
+
+        // Convert list to array
+        String[] result = both.toArray(new String[both.size()]);
+
+        // Return the result
+        return result;
+    }
     private void validate() {
 
         // Reset errors.
@@ -282,22 +329,41 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             case Constants.SOCCER_TYPE:
                 bar.setBackgroundColor(getResources().getColor(R.color.soccerColor));
                 colorSet = getResources().getColor(R.color.soccerColor);
-                title.setText("Nuova partita - Calcio");
+                if(IdMatch != 0){
+                    title.setText("Modifica partita - Calcio");
+                }else{
+                    title.setText("Nuova partita - Calcio");
+                }
+
                 return;
             case Constants.BASKET_TYPE:
                 bar.setBackgroundColor(getResources().getColor(R.color.basketColor));
                 colorSet = getResources().getColor(R.color.basketColor);
-                title.setText("Nuova partita - Basket");
+                if(IdMatch != 0){
+                    title.setText("Modifica partita - Basket");
+                }else{
+                    title.setText("Nuova partita - Basket");
+                }
                 return;
             case Constants.TENNIS_TYPE:
                 bar.setBackgroundColor(getResources().getColor(R.color.tennisColor));
                 colorSet = getResources().getColor(R.color.tennisColor);
-                title.setText("Nuova partita - Tennis");
+                if(IdMatch != 0){
+                    title.setText("Modifica partita - Tennis");
+                }else{
+                    title.setText("Nuova partita - Tennis");
+                }
+
                 return;
             case Constants.VOLLEY_TYPE:
                 bar.setBackgroundColor(getResources().getColor(R.color.volleyColor));
                 colorSet = getResources().getColor(R.color.volleyColor);
-                title.setText("Nuova partita - Volley");
+                if(IdMatch != 0){
+                    title.setText("Modifica partita - Volley");
+                }else{
+                    title.setText("Nuova partita - Volley");
+                }
+
                 return;
         }
     }
@@ -498,6 +564,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         model.setMatchType(type);
         model.setNumberForTeam(listaPlayer.size()/2);
         model.setListTotalPlayers(listaPlayerStr);
+        model.setIdMatch(IdMatch);
 
         JSONObject obj = model.toJSON();
 
@@ -567,7 +634,12 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                             }
                         });
                         realm.close();
+                        if(IdMatch != 0){
+                            Intent ap = new Intent(CreateMatchActivity.this, MatchDetailActivity.class);
+                            ap.putExtra("idMatch",IdMatch);
+                            startActivity(ap);
 
+                        }
                         finish();
                     }
                     @Override
@@ -589,6 +661,28 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
 
     public int numberPlayerRemain(){
         return Integer.parseInt(numTotPl.getText().toString()) - count;
+    }
+
+    public void editMatch(){
+        locationStr = model.getLocation();
+        locationText.setText(locationStr);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");
+        try {
+            Date date = dateFormat.parse(model.getStartDateUtc().replace("-","/"));//You will get date object relative to server/client timezone wherever it is parsed
+            DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm"); //If you need time just put specific format for time like 'HH:mm:ss'
+            String dateStr = formatter.format(date);
+            dataStr = dateStr;
+            dataText.setText(dateStr);
+        } catch (Exception e) {
+            Log.e("Error Data:", e.getMessage());
+        }
+
+
+        team1Str = model.getNameFirstTeam();
+        team2Str = model.getNameSecondTeam();
+
+        team1Text.setText(team1Str);
+        team2Text.setText(team2Str);
     }
 }
 

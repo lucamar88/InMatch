@@ -109,6 +109,7 @@ public class MatchModel extends RealmObject {
             jo.put("d_SecondTeamRating", d_SecondTeamRating);
             jo.put("s_ListTotalPlayers", s_ListTotalPlayers);
             jo.put("s_Result", s_Result);
+            jo.put("IdMatch", IdMatch);
         } catch (Exception e) {
         }
         return jo;

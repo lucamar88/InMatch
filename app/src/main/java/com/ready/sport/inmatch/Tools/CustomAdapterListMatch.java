@@ -78,16 +78,21 @@ public class CustomAdapterListMatch extends RealmRecyclerViewAdapter<MatchModel,
                 holder.selectLayout.setBackground(mContext.getDrawable(R.drawable.shape_match_list_volley));
                 break;
         }
-
         if(obj.getResult() != null && obj.getResult().toString() != ""){
             String[] risultati = obj.getResult().split("_");
-
-            holder.secondResult.setText(risultati[1]);
-            holder.firstResult.setText(risultati[0]);
+            if(risultati.length < 1){
+                holder.secondResult.setText(risultati[1]);
+                holder.firstResult.setText(risultati[0]);
+            }else{
+                holder.secondResult.setText("-");
+                holder.firstResult.setText("-");
+            }
         }else{
             holder.secondResult.setText("-");
             holder.firstResult.setText("-");
         }
+
+
 
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss.SSS");

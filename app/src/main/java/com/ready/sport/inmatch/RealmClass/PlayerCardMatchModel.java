@@ -38,4 +38,9 @@ public class PlayerCardMatchModel extends RealmObject{
     public String    getRoleSoccer() { return RoleSoccer; }
     public void   setRoleSoccer(String roleSoccer) { this.RoleSoccer = roleSoccer; }
 
+    public Boolean IsSelected;
+
+    public Boolean getIsSelected() {return IsSelected; }
+    public void setIsSelected(Boolean isSelected){ this.IsSelected = isSelected; }
+
 }
