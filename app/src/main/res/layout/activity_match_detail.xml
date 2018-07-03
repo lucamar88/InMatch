@@ -39,8 +39,8 @@
                         android:layout_height="25dp"
                         android:src="@drawable/icon_back"
                         android:layout_weight="0.15"
-                        android:clickable="true"
-                        android:background="?attr/selectableItemBackground"/>
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"/>
                     <com.ready.sport.inmatch.util.TextViewPlus
                         android:id="@+id/titleMatchDetail"
                         android:layout_width="wrap_content"
@@ -55,8 +55,8 @@
                         android:layout_width="45dp"
                         android:layout_height="25dp"
                         android:src="@drawable/icon_check"
-                        android:clickable="true"
-                        android:background="?attr/selectableItemBackground"/>
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"/>
                 </android.support.v7.widget.LinearLayoutCompat>
 
 
