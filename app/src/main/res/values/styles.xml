@@ -1,5 +1,7 @@
 <resources>
-    <style name="Widget"/>
+
+    <style name="Widget" />
+
     <style name="Widget.ProgressBar.CircularProgressBar" parent="Widget">
         <item name="android:indeterminateOnly">false</item>
         <item name="android:adjustViewBounds">true</item>
@@ -14,30 +16,35 @@
         <item name="cpb_hasShadow">false</item>
         <item name="cpb_strokeWidth">5</item>
     </style>
+
     <style name="Widget.ProgressBar.Soccer.CircularProgressBar" parent="Widget.ProgressBar.CircularProgressBar">
         <item name="cpb_hasShadow">false</item>
         <item name="cpb_strokeWidth">10</item>
         <item name="cpb_titleColor">#a3a3a3</item>
         <item name="cpb_progressColor">@color/soccerColor</item>
     </style>
+
     <style name="Widget.ProgressBar.Basket.CircularProgressBar" parent="Widget.ProgressBar.CircularProgressBar">
         <item name="cpb_hasShadow">false</item>
         <item name="cpb_strokeWidth">10</item>
         <item name="cpb_titleColor">#a3a3a3</item>
         <item name="cpb_progressColor">@color/basketColor</item>
     </style>
+
     <style name="Widget.ProgressBar.Tennis.CircularProgressBar" parent="Widget.ProgressBar.CircularProgressBar">
         <item name="cpb_hasShadow">false</item>
         <item name="cpb_strokeWidth">10</item>
         <item name="cpb_titleColor">#a3a3a3</item>
         <item name="cpb_progressColor">@color/tennisColor</item>
     </style>
+
     <style name="Widget.ProgressBar.Volley.CircularProgressBar" parent="Widget.ProgressBar.CircularProgressBar">
         <item name="cpb_hasShadow">false</item>
         <item name="cpb_strokeWidth">10</item>
         <item name="cpb_titleColor">#a3a3a3</item>
         <item name="cpb_progressColor">@color/volleyColor</item>
     </style>
+
     <style name="Widget.ProgressBar.Player.CircularProgressBar" parent="Widget.ProgressBar.CircularProgressBar">
         <item name="cpb_hasShadow">false</item>
         <item name="cpb_strokeWidth">3</item>
@@ -59,14 +66,20 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="colorControlActivated">@android:color/white</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
+
     </style>
 
     <style name="AwesomeSplashTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AwesomeSplashTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
-    <item name="android:textColor">@android:color/white</item>
+
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/img_splash_screen</item>
     </style>
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:colorAccent">@color/colorTextFill</item>
     </style>
@@ -77,17 +90,20 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
         <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
     </style>
-        <style name="customtheme" parent="@android:style/Widget.Spinner.DropDown">
-            <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
-            <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
-        </style>
-        <style name="SpinnerItem">
-            <item name="android:textColor">@color/colorPrimary</item>
-        </style>
-        <style name="SpinnerDropDownItem">
-            <item name="android:textColor">@color/colorPrimary</item>
-        </style>
-<!--SeekBar-->
+
+    <style name="customtheme" parent="@android:style/Widget.Spinner.DropDown">
+        <item name="android:spinnerItemStyle">@style/SpinnerItem</item>
+        <item name="android:spinnerDropDownItemStyle">@style/SpinnerDropDownItem</item>
+    </style>
+
+    <style name="SpinnerItem">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="SpinnerDropDownItem">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <!--SeekBar-->
     <style name="MySeekBar" parent="Widget.AppCompat.SeekBar">
         <item name="android:progressBackgroundTint">@color/colorButton</item>
         <item name="android:progressTint">@color/colorPrimary</item>
@@ -98,5 +114,17 @@
     <style name="error_appearance" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="FullscreenTheme" parent="AwesomeSplashTheme">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
     </style>
 </resources>

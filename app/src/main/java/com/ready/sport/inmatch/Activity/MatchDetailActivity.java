@@ -6,8 +6,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,6 +25,9 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
 import com.google.gson.reflect.TypeToken;
+import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
+import com.hlab.fabrevealmenu.model.FABMenuItem;
+import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.CounterMatchModel;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
@@ -51,7 +56,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
-import uk.co.markormesher.android_fab.FloatingActionButton;
+
 import uk.co.markormesher.android_fab.SpeedDialMenuAdapter;
 import uk.co.markormesher.android_fab.SpeedDialMenuItem;
 
@@ -81,45 +86,47 @@ public class MatchDetailActivity extends AppCompatActivity {
     private RecyclerView recyclerViewSecond;
     private static RecyclerView.Adapter adapterFirst;
     private static RecyclerView.Adapter adapterSecond;
-    private SpeedDialMenuAdapter speedDialMenuAdapter = new SpeedDialMenuAdapter() {
-        @Override
-        public int getCount() {
-            return 3;
-        }
-        @Override
-        public boolean onMenuItemClick(int i){
-            if(i == 0){
-                onClickWhatsApp();
-            }else if(i == 1){
-                Intent intent = new Intent(MatchDetailActivity.this, CreateMatchActivity.class);
-                intent.putExtra(Constants.MATCH_TYPE, match.getMatchType());
-                intent.putExtra("IdMatch",IdMatch);
-                startActivity(intent);
-                finish();
-            }else{
-                Toast.makeText(MatchDetailActivity.this, "Click botton "+i, Toast.LENGTH_SHORT).show();
-            }
-            return true;
-        }
-        @NotNull
-        @Override
-        public SpeedDialMenuItem getMenuItem(Context context, int i) {
-            SpeedDialMenuItem speedDialMenuItem = null;
-            switch (i){
-                case 0:
-                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_media_play, "Condividi match");
-                    break;
-                case 1:
-                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_edit, "Modifica match");
-                    break;
-                case 2:
-                    speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_crop, "Item Three");
-                    break;
-            }
-            return speedDialMenuItem;
-        }
-    };
 
+    private ArrayList<FABMenuItem> items;
+   /*private SpeedDialMenuAdapter speedDialMenuAdapter = new SpeedDialMenuAdapter() {
+       @Override
+       public int getCount() {
+           return 3;
+       }
+       @Override
+       public boolean onMenuItemClick(int i){
+           if(i == 0){
+               onClickWhatsApp();
+           }else if(i == 1){
+               Intent intent = new Intent(MatchDetailActivity.this, CreateMatchActivity.class);
+               intent.putExtra(Constants.MATCH_TYPE, match.getMatchType());
+               intent.putExtra("IdMatch",IdMatch);
+               startActivity(intent);
+               finish();
+           }else{
+               Toast.makeText(MatchDetailActivity.this, "Click botton "+i, Toast.LENGTH_SHORT).show();
+           }
+           return true;
+       }
+       @NotNull
+       @Override
+       public SpeedDialMenuItem getMenuItem(Context context, int i) {
+           SpeedDialMenuItem speedDialMenuItem = null;
+           switch (i){
+               case 0:
+                   speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_share, "Condividi match");
+                   break;
+               case 1:
+                   speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_edit, "Modifica match");
+                   break;
+               case 2:
+                   speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_crop, "Item Three");
+                   break;
+           }
+           return speedDialMenuItem;
+       }
+   };
+*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +143,42 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
-        fab.setSpeedDialMenuAdapter(speedDialMenuAdapter);
+
+        final FABRevealMenu fabMenu = findViewById(R.id.fabMenu);
+
+        try {
+            if (fab != null && fabMenu != null) {
+                initItems();
+                //attach menu to fab
+                //setFabMenu(fabMenu);
+                //set menu items from arrylist
+                fabMenu.setMenuItems(items);
+                //attach menu to fab
+                fabMenu.bindAnchorView(fab);
+
+                //set menu item selection
+                fabMenu.setOnFABMenuSelectedListener(new OnFABMenuSelectedListener() {
+                    @Override
+                    public void onMenuItemSelected(View view, int id) {
+                        if(id == 0){
+                            onClickWhatsApp();
+                        }else if(id == 1){
+                            Intent intent = new Intent(MatchDetailActivity.this, CreateMatchActivity.class);
+                            intent.putExtra(Constants.MATCH_TYPE, match.getMatchType());
+                            intent.putExtra("IdMatch",IdMatch);
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            Toast.makeText(MatchDetailActivity.this, "Click botton "+id, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //fab.setSpeedDialMenuAdapter(speedDialMenuAdapter);
 
         recyclerViewFirst = (RecyclerView) findViewById(R.id.listFirstTeamDetail);
 
@@ -451,4 +493,13 @@ public class MatchDetailActivity extends AppCompatActivity {
         }
     });
 }
+
+    private void initItems() {
+        items = new ArrayList<>();
+        items.add(new FABMenuItem("Condividi match", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_share)));
+        items.add(new FABMenuItem("Modifica match", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_edit)));
+        items.add(new FABMenuItem("Item Three", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_crop)));
+
+    }
+
 }

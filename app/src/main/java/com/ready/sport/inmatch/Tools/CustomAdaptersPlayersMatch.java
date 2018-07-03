@@ -95,7 +95,7 @@ public class CustomAdaptersPlayersMatch extends  RecyclerView.Adapter<CustomAdap
 
         if(obj.IsSelected){
             holder.selectLayout.setVisibility(View.VISIBLE);
-            ((AdapterInterface) mContext).setPlayerForMatch((int) getItemId(position), 1);
+            //((AdapterInterface) mContext).setPlayerForMatch((int) getItemId(position), 1);
         }
     }
 

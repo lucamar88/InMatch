@@ -24,17 +24,15 @@ import com.ready.sport.inmatch.util.ToastCustom;
 import com.viksaa.sssplash.lib.activity.AwesomeSplash;
 import com.viksaa.sssplash.lib.cnst.Flags;
 import com.viksaa.sssplash.lib.model.ConfigSplash;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.Sort;
 
 
-public class SplashActivity extends AwesomeSplash {
+public class SplashActivity extends AwesomeSplash{
     private Realm realm;
     private UserModel model;
     private String token;

@@ -1,25 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CustomFont">
-        <attr name="fontName" format="string"/>
+        <attr name="fontName" format="string" />
     </declare-styleable>
     <declare-styleable name="CircularProgressBar">
-        <attr name="cpb_hasShadow" format="boolean"/>
-        <attr name="cpb_progressColor" format="string"/>
-        <attr name="cpb_backgroundColor" format="string"/>
-        <attr name="cpb_title" format="string"/>
-        <attr name="cpb_titleColor" format="string"/>
-        <attr name="cpb_subtitle" format="string"/>
-        <attr name="cpb_subtitleColor" format="string"/>
-        <attr name="cpb_strokeWidth" format="integer"/>
+        <attr name="cpb_hasShadow" format="boolean" />
+        <attr name="cpb_progressColor" format="string" />
+        <attr name="cpb_backgroundColor" format="string" />
+        <attr name="cpb_title" format="string" />
+        <attr name="cpb_titleColor" format="string" />
+        <attr name="cpb_subtitle" format="string" />
+        <attr name="cpb_subtitleColor" format="string" />
+        <attr name="cpb_strokeWidth" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="CountDownView">
-        <attr name="showHour" format="boolean"/>
-        <attr name="showMin" format="boolean"/>
-        <attr name="showSec" format="boolean"/>
-        <attr name="showMilli" format="boolean"/>
-        <attr name="numberColor" format="reference"/>
-        <attr name="unitColor" format="reference"/>
+        <attr name="showHour" format="boolean" />
+        <attr name="showMin" format="boolean" />
+        <attr name="showSec" format="boolean" />
+        <attr name="showMilli" format="boolean" />
+        <attr name="numberColor" format="reference" />
+        <attr name="unitColor" format="reference" />
+    </declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 </resources>

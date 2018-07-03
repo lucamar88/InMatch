@@ -78,4 +78,8 @@
     <string name="delete">Elimina</string>
     <string name="delete_player">Vuoi eliminare questo giocatore?</string>
     <string name="delete_match">Vuoi eliminare questa partita?</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
