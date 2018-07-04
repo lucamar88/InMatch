@@ -39,7 +39,7 @@
                         android:layout_height="25dp"
                         android:src="@drawable/icon_back"
                         android:layout_weight="0.15"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"/>
                     <com.ready.sport.inmatch.util.TextViewPlus
                         android:id="@+id/titleMatchDetail"
@@ -55,7 +55,7 @@
                         android:layout_width="45dp"
                         android:layout_height="25dp"
                         android:src="@drawable/icon_check"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="?attr/selectableItemBackgroundBorderless"
                         android:clickable="true"/>
                 </android.support.v7.widget.LinearLayoutCompat>
 
@@ -405,8 +405,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        app:menuBackgroundColor="@color/soccerColor"
-        app:menuTitleTextColor="@color/colorWhite"
+        app:menuBackgroundColor="@color/colorWhite"
+        app:menuTitleTextColor="@color/colorTextFill"
         app:showTitle="true"
         app:animateItems="true"
         app:menuSize="normal"

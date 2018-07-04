@@ -161,6 +161,7 @@ public class MatchDetailActivity extends AppCompatActivity {
                     @Override
                     public void onMenuItemSelected(View view, int id) {
                         if(id == 0){
+
                             onClickWhatsApp();
                         }else if(id == 1){
                             Intent intent = new Intent(MatchDetailActivity.this, CreateMatchActivity.class);
@@ -208,6 +209,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         if(IdMatch != 0){
             match = realm.where(MatchModel.class).equalTo("IdMatch",IdMatch).findFirst();
+            setColorFab();
         }else{
             finish();
         }
@@ -236,10 +238,14 @@ public class MatchDetailActivity extends AppCompatActivity {
 
             firstTeamStringList = match.getListPlayersFirstTeam();
             secondTeamStringList = match.getListPlayersSecondTeam();
-
+            boolean isDeleted = false;
             for(String str:firstTeamList){
                 int id = Integer.parseInt(str);
                 PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                if(player == null){
+                    player = new PlayersModel();
+                    isDeleted = true;
+                }
                 firstList.add(player);
                 totList.add(player);
             }
@@ -247,11 +253,18 @@ public class MatchDetailActivity extends AppCompatActivity {
             for(String str:secondTeamList){
                 int id = Integer.parseInt(str);
                 PlayersModel player = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                if(player == null){
+                    player = new PlayersModel();
+                    isDeleted = true;
+                }
                 secondList.add(player);
                 totList.add(player);
             }
 
-
+            if(isDeleted){
+                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),"Alcuni giocatori sono stati eliminati");
+                toast.show();
+            }
         }
         if(firstList.size() != 0 || secondList.size()!= 0){
             setUpRecyclerView();
@@ -268,6 +281,7 @@ public class MatchDetailActivity extends AppCompatActivity {
                      ) {
                     int id = Integer.parseInt(str);
                     PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                    if(pla1 == null)pla1 = new PlayersModel();
                     playerTot.add(pla1);
                 }
                 List<String> list = TeamUtility.GenerateTeam(playerTot, 1);
@@ -283,6 +297,7 @@ public class MatchDetailActivity extends AppCompatActivity {
                     if(firstTeamList[i] != ""){
                         int id = Integer.parseInt(firstTeamList[i]);
                         PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                        if(pla1 == null)pla1 = new PlayersModel();
                         firstList.add(pla1);
                     }
                 }
@@ -292,21 +307,44 @@ public class MatchDetailActivity extends AppCompatActivity {
                     if(secondTeamList[i] != ""){
                         int id = Integer.parseInt(secondTeamList[i]);
                         PlayersModel pla1 = realm.where(PlayersModel.class).equalTo("IdPlayer", id ).findFirst();
+                        if(pla1 == null)pla1 = new PlayersModel();
                         secondList.add(pla1);
                     }
                 }
                 setUpRecyclerView();
                 ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.teams_generated));
                 toast.show();
+                SaveMatchDetail(false);
             }
         });
 
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SaveMatchDetail();
+                SaveMatchDetail(true);
             }
         });
+    }
+
+    public void setColorFab(){
+        switch (match.getMatchType()){
+            case Constants.SOCCER_TYPE:
+                fab.setBackgroundColor(getResources().getColor(R.color.soccerColor));
+
+                return;
+            case Constants.BASKET_TYPE:
+                fab.setBackgroundColor(getResources().getColor(R.color.basketColor));
+
+                return;
+            case Constants.TENNIS_TYPE:
+                fab.setBackgroundColor(getResources().getColor(R.color.tennisColor));
+
+                return;
+            case Constants.VOLLEY_TYPE:
+                fab.setBackgroundColor(getResources().getColor(R.color.volleyColor));
+
+                return;
+        }
     }
 
     public void onClickWhatsApp() {
@@ -316,7 +354,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
             Intent waIntent = new Intent(Intent.ACTION_SEND);
             waIntent.setType("text/plain");
-            String text = "YOUR TEXT HERE";
+            String text = ConfigUrls.getBASE_URL()+"Home/Index?id="+match.getIdMatch();
 
             PackageInfo info=pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
             //Check if package exists or not. If not then code
@@ -411,7 +449,8 @@ public class MatchDetailActivity extends AppCompatActivity {
         card.setVisibility(View.VISIBLE);
     }
 
-    public void SaveMatchDetail(){
+    public void SaveMatchDetail(boolean isToClose){
+        final boolean isClose = isToClose;
         /*firstTeamStringList = firstTeamList[0].toString();
         for(int i = 1;i<firstTeamList.length;i++){
             firstTeamStringList += "_"+firstTeamList[i].toString();
@@ -465,8 +504,11 @@ public class MatchDetailActivity extends AppCompatActivity {
 
                             @Override
                             public void run() {
-                                ToastCustom toast = new ToastCustom(MatchDetailActivity.this,  getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.operation_success));
-                                toast.show();
+                                if(isClose){
+                                    ToastCustom toast = new ToastCustom(MatchDetailActivity.this,  getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.operation_success));
+                                    toast.show();
+                                }
+
                             }
                         }, 1000);
 
@@ -474,8 +516,8 @@ public class MatchDetailActivity extends AppCompatActivity {
                 }
             });
             realm.close();
+            if(isClose){finish();}
 
-            finish();
         }
         @Override
         public void onError(ANError anError) {
@@ -498,7 +540,7 @@ public class MatchDetailActivity extends AppCompatActivity {
         items = new ArrayList<>();
         items.add(new FABMenuItem("Condividi match", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_share)));
         items.add(new FABMenuItem("Modifica match", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_edit)));
-        items.add(new FABMenuItem("Item Three", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_crop)));
+        //items.add(new FABMenuItem("Item Three", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_crop)));
 
     }
 
