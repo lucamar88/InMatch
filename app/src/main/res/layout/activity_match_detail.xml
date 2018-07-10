@@ -379,15 +379,15 @@
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <!--<uk.co.markormesher.android_fab.FloatingActionButton
+    <uk.co.markormesher.android_fab.FloatingActionButton
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:buttonPosition="bottom|end"
         app:buttonBackgroundColour="@color/soccerColor"
-        app:buttonIcon="@drawable/plus_icon"/>-->
-    <android.support.design.widget.FloatingActionButton
+        app:buttonIcon="@drawable/plus_icon"/>
+   <!-- <android.support.design.widget.FloatingActionButton
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -397,9 +397,9 @@
         app:fabSize="normal"
         app:srcCompat="@drawable/plus_icon"
         android:layout_gravity="bottom|end"
-        app:buttonBackgroundColour="@color/soccerColor"/>
+        app:buttonBackgroundColour="@color/soccerColor"/>-->
 
-    <com.hlab.fabrevealmenu.view.FABRevealMenu
+   <!-- <com.hlab.fabrevealmenu.view.FABRevealMenu
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fabMenu"
         android:layout_width="match_parent"
@@ -412,6 +412,6 @@
         app:menuSize="normal"
         app:menuDirection="up">
 
-    </com.hlab.fabrevealmenu.view.FABRevealMenu>
+    </com.hlab.fabrevealmenu.view.FABRevealMenu>-->
 
 </android.support.design.widget.CoordinatorLayout>

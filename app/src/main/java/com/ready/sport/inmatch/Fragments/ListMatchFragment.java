@@ -66,6 +66,9 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
     private CounterMatchModel count;
     private Date dateDefault;
 
+    private Handler handler;
+    private Runnable runnable;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list_match_layout, container, false);
@@ -158,38 +161,77 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
 
     }
 
-    public void setCalendar(Date startDate){
-        Calendar start_calendar = Calendar.getInstance();
-        Calendar end_calendar = Calendar.getInstance();
-        end_calendar.set(DataUtil.getYear(startDate),DataUtil.getMonth(startDate),DataUtil.getDay(startDate),DataUtil.getHour(startDate),DataUtil.getMinute(startDate));
-        long start_millis = start_calendar.getTimeInMillis(); //get the start time in milliseconds
-        long end_millis = end_calendar.getTimeInMillis(); //get the end time in milliseconds
-        long total_millis = (end_millis - start_millis); //total time in milliseconds
+//    public void setCalendar(Date startDate){
+//        Calendar start_calendar = Calendar.getInstance();
+//        Calendar end_calendar = Calendar.getInstance();
+//        end_calendar.set(DataUtil.getYear(startDate),DataUtil.getMonth(startDate),DataUtil.getDay(startDate),DataUtil.getHour(startDate),DataUtil.getMinute(startDate));
+//        long start_millis = start_calendar.getTimeInMillis(); //get the start time in milliseconds
+//        long end_millis = end_calendar.getTimeInMillis(); //get the end time in milliseconds
+//        long total_millis = (end_millis - start_millis); //total time in milliseconds
+//
+//        CountDownTimer cdt = new CountDownTimer(total_millis, 1000) {
+//            @Override
+//            public void onTick(long millisUntilFinished) {
+//                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
+//                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+//
+//                long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
+//                millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
+//
+//                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
+//                millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
+//
+//                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
+//
+//                tv_countdown.setText(days + " g " + hours + " h " + minutes + " m " + seconds + " s"); //You can compute the millisUntilFinished on hours/minutes/seconds
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                tv_countdown.setText("Finish!");
+//            }
+//        };
+//        cdt.start();
+//
+//    }
 
-        CountDownTimer cdt = new CountDownTimer(total_millis, 1000) {
+    public void setCountDown(){
+        handler = new Handler();
+        runnable = new Runnable() {
             @Override
-            public void onTick(long millisUntilFinished) {
-                long days = TimeUnit.MILLISECONDS.toDays(millisUntilFinished);
-                millisUntilFinished -= TimeUnit.DAYS.toMillis(days);
+            public void run() {
+                handler.postDelayed(this, 1000);
+                try {
 
-                long hours = TimeUnit.MILLISECONDS.toHours(millisUntilFinished);
-                millisUntilFinished -= TimeUnit.HOURS.toMillis(hours);
+                    // Please here set your event date//YYYY-MM-DD
+                    Date futureDate = dateDefault;
+                    Date currentDate = new Date();
+                    if (!currentDate.after(futureDate)) {
+                        long diff = futureDate.getTime()
+                                - currentDate.getTime();
+                        long days = diff / (24 * 60 * 60 * 1000);
+                        diff -= days * (24 * 60 * 60 * 1000);
+                        long hours = diff / (60 * 60 * 1000);
+                        diff -= hours * (60 * 60 * 1000);
+                        long minutes = diff / (60 * 1000);
+                        diff -= minutes * (60 * 1000);
+                        long seconds = diff / 1000;
 
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished);
-                millisUntilFinished -= TimeUnit.MINUTES.toMillis(minutes);
+                        String daysStr = String.format("%02d", days);
+                        String hoursStr = String.format("%02d", hours);
+                        String minutesStr = String.format("%02d", minutes);
+                        String secondsStr = String.format("%02d", seconds);
+                        tv_countdown.setText(daysStr + " g " + hoursStr + " h " + minutesStr + " m " + secondsStr + " s"); //You can compute the millisUntilFinished on hours/minutes/seconds
+                    } else {
 
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished);
-
-                tv_countdown.setText(days + " g " + hours + " h " + minutes + " m " + seconds + " s"); //You can compute the millisUntilFinished on hours/minutes/seconds
-            }
-
-            @Override
-            public void onFinish() {
-                tv_countdown.setText("Finish!");
+                        tv_countdown.setText("Finish!");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
-        cdt.start();
-
+        handler.postDelayed(runnable, 1 * 1000);
     }
 
     public void getCounter(){
@@ -207,7 +249,7 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
                                 for (int i = 0; i < response.length(); i++) {
                                     try {
                                         JSONObject counters = response.getJSONObject(i);
-                                        if(i == 0){
+                                        if(i == response.length()-1){
                                             DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd'T'HH:mm:ss.SSS");
                                             try {
                                                 Date date = dateFormat.parse(counters.get("d_StartMatchUtc").toString().replace("-","/"));//You will get date object relative to server/client timezone wherever it is parsed
@@ -237,7 +279,8 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
                                         Log.e("ErrorParse", e.getMessage());
                                     }
                                 }
-                                setCalendar(dateDefault);
+                                //setCalendar(dateDefault);
+                                setCountDown();
 
                             }else{
                                 tv_countdown.setText("-- : -- : --");
@@ -275,7 +318,9 @@ public class ListMatchFragment extends Fragment implements CountdownView.OnCount
         super.onResume();
         CounterMatchModel count = realm.where(CounterMatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING).first(null);
         if(count != null){
-            setCalendar(count.d_StartDateUtc);
+            //setCalendar(count.d_StartDateUtc);
+            dateDefault = count.d_StartDateUtc;
+            setCountDown();
         }
 
         adapter = new CustomAdapterListMatch(realm.where(MatchModel.class).findAllSorted("d_StartDateUtc",Sort.DESCENDING), getContext());

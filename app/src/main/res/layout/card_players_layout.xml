@@ -34,13 +34,35 @@
                 android:textColor="#ffff"
                 android:layout_weight="0.1"
                 />
-            <android.support.v7.widget.AppCompatImageView
+            <android.support.v7.widget.LinearLayoutCompat
+                android:id="@+id/deleteNormalPlayer"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true">
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/icon_fab_delete"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="center"/>
+            </android.support.v7.widget.LinearLayoutCompat>
+            <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/editNormalPlayer"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@android:drawable/ic_menu_edit"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="right"/>
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true">
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/icon_fab_edit"
+                    android:layout_marginLeft="15dp"
+                    android:layout_gravity="right"/>
+            </android.support.v7.widget.LinearLayoutCompat>
+
 
         </android.support.v7.widget.LinearLayoutCompat>
         <GridLayout

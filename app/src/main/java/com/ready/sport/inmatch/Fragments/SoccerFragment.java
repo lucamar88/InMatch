@@ -221,14 +221,15 @@ public class SoccerFragment extends Fragment {
 
     public SoccerModel getDataSoccer(){
         SoccerModel model = new SoccerModel();
+
         model.setRuoloSoccer(roleSelect);
-        model.setAgilitaSoccer(Float.valueOf(value.format(seekbar6.getProgressFloat())));
-        model.setAttaccoSoccer(Float.valueOf(value.format(seekbar5.getProgressFloat())));
-        model.setDifesaSoccer(Float.valueOf(value.format(seekbar4.getProgressFloat())));
-        model.setDribblingSoccer(Float.valueOf(value.format(seekbar3.getProgressFloat())));
-        model.setPotenzaSoccer(Float.valueOf(value.format(seekbar2.getProgressFloat())));
-        model.setVelocitaSoccer(Float.valueOf(value.format(seekbar.getProgressFloat())));
-        model.setRatingSoccer(Double.valueOf(value.format(ratingFinal)));
+        model.setAgilitaSoccer(Float.valueOf(value.format(seekbar6.getProgressFloat()).replace(',','.')));
+        model.setAttaccoSoccer(Float.valueOf(value.format(seekbar5.getProgressFloat()).replace(',','.')));
+        model.setDifesaSoccer(Float.valueOf(value.format(seekbar4.getProgressFloat()).replace(',','.')));
+        model.setDribblingSoccer(Float.valueOf(value.format(seekbar3.getProgressFloat()).replace(',','.')));
+        model.setPotenzaSoccer(Float.valueOf(value.format(seekbar2.getProgressFloat()).replace(',','.')));
+        model.setVelocitaSoccer(Float.valueOf(value.format(seekbar.getProgressFloat()).replace(',','.')));
+        model.setRatingSoccer(Double.valueOf(value.format(ratingFinal).replace(',','.')));
         return model;
     }
 

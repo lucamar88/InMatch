@@ -1,12 +1,16 @@
 package com.ready.sport.inmatch.Activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
+//import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.content.res.AppCompatResources;
@@ -17,6 +21,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,10 +29,8 @@ import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
+import com.androidnetworking.interfaces.StringRequestListener;
 import com.google.gson.reflect.TypeToken;
-import com.hlab.fabrevealmenu.listeners.OnFABMenuSelectedListener;
-import com.hlab.fabrevealmenu.model.FABMenuItem;
-import com.hlab.fabrevealmenu.view.FABRevealMenu;
 import com.ready.sport.inmatch.R;
 import com.ready.sport.inmatch.RealmClass.CounterMatchModel;
 import com.ready.sport.inmatch.RealmClass.MatchModel;
@@ -57,6 +60,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 
+import uk.co.markormesher.android_fab.FloatingActionButton;
 import uk.co.markormesher.android_fab.SpeedDialMenuAdapter;
 import uk.co.markormesher.android_fab.SpeedDialMenuItem;
 
@@ -67,7 +71,7 @@ public class MatchDetailActivity extends AppCompatActivity {
     private ButtonPlus btn;
     private AppCompatImageView btnCheck;
     private Context baseContext;
-
+    private Activity activity;
 
     private int IdMatch = 0;
     private Realm realm;
@@ -87,8 +91,8 @@ public class MatchDetailActivity extends AppCompatActivity {
     private static RecyclerView.Adapter adapterFirst;
     private static RecyclerView.Adapter adapterSecond;
 
-    private ArrayList<FABMenuItem> items;
-   /*private SpeedDialMenuAdapter speedDialMenuAdapter = new SpeedDialMenuAdapter() {
+
+   private SpeedDialMenuAdapter speedDialMenuAdapter = new SpeedDialMenuAdapter() {
        @Override
        public int getCount() {
            return 3;
@@ -96,6 +100,7 @@ public class MatchDetailActivity extends AppCompatActivity {
        @Override
        public boolean onMenuItemClick(int i){
            if(i == 0){
+
                onClickWhatsApp();
            }else if(i == 1){
                Intent intent = new Intent(MatchDetailActivity.this, CreateMatchActivity.class);
@@ -103,8 +108,24 @@ public class MatchDetailActivity extends AppCompatActivity {
                intent.putExtra("IdMatch",IdMatch);
                startActivity(intent);
                finish();
-           }else{
-               Toast.makeText(MatchDetailActivity.this, "Click botton "+i, Toast.LENGTH_SHORT).show();
+           }else if(i == 2){
+               LayoutInflater inflater = activity.getLayoutInflater();
+
+               View titleView = inflater.inflate(R.layout.layout_title_alert, null);
+               new AlertDialog.Builder(activity, R.style.AlertDialogCustom)
+                       //.setTitle(activity.getString(R.string.delete))
+                       .setCustomTitle(titleView)
+                       .setMessage(activity.getString(R.string.delete_match))
+                       .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                           public void onClick(DialogInterface dialog, int whichButton) {
+
+                               deleteMatch();
+
+                           }})
+                       .setNegativeButton(android.R.string.no, null).show();
+
+
            }
            return true;
        }
@@ -114,25 +135,25 @@ public class MatchDetailActivity extends AppCompatActivity {
            SpeedDialMenuItem speedDialMenuItem = null;
            switch (i){
                case 0:
-                   speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_share, "Condividi match");
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_share), "Condividi match");
                    break;
                case 1:
-                   speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_edit, "Modifica match");
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_edit), "Modifica match");
                    break;
                case 2:
-                   speedDialMenuItem = new SpeedDialMenuItem(context, android.R.drawable.ic_menu_crop, "Item Three");
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_delete), "Elimina match");
                    break;
            }
            return speedDialMenuItem;
        }
    };
-*/
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         setContentView(R.layout.activity_match_detail);
         baseContext = getBaseContext();
+        activity = this;
 
         realm= Realm.getDefaultInstance();
         bar = (AppBarLayout)findViewById(R.id.appbarMatchDetail);
@@ -143,8 +164,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
-
-        final FABRevealMenu fabMenu = findViewById(R.id.fabMenu);
+        /*final FABRevealMenu fabMenu = findViewById(R.id.fabMenu);
 
         try {
             if (fab != null && fabMenu != null) {
@@ -170,7 +190,7 @@ public class MatchDetailActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         }else{
-                            Toast.makeText(MatchDetailActivity.this, "Click botton "+id, Toast.LENGTH_SHORT).show();
+                            deleteMatch();
                         }
                     }
                 });
@@ -178,8 +198,8 @@ public class MatchDetailActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        //fab.setSpeedDialMenuAdapter(speedDialMenuAdapter);
+*/
+        fab.setSpeedDialMenuAdapter(speedDialMenuAdapter);
 
         recyclerViewFirst = (RecyclerView) findViewById(R.id.listFirstTeamDetail);
 
@@ -209,7 +229,7 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         if(IdMatch != 0){
             match = realm.where(MatchModel.class).equalTo("IdMatch",IdMatch).findFirst();
-            setColorFab();
+            //setColorFab();
         }else{
             finish();
         }
@@ -525,10 +545,10 @@ public class MatchDetailActivity extends AppCompatActivity {
             try {
                 JSONObject str = new JSONObject(anError.getResponse().toString());
                 //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
-                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
                 toast.show();
             } catch (Exception e) {
-                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
                 toast.show();
                 Log.e("ErrorPost", e.getMessage());
             }
@@ -536,12 +556,54 @@ public class MatchDetailActivity extends AppCompatActivity {
     });
 }
 
-    private void initItems() {
-        items = new ArrayList<>();
-        items.add(new FABMenuItem("Condividi match", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_share)));
-        items.add(new FABMenuItem("Modifica match", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_edit)));
-        //items.add(new FABMenuItem("Item Three", AppCompatResources.getDrawable(this, android.R.drawable.ic_menu_crop)));
 
+    private void deleteMatch(){
+        AndroidNetworking.get(ConfigUrls.BASE_URL + ConfigUrls.MATCH_DELETE + "?idMatch=" + match.getIdMatch())
+                .addHeaders("Authorization", "bearer " + Constants.TOKEN)
+                .addHeaders("contentType","application/json")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsString(new StringRequestListener() {
+                    @Override
+                    public void onResponse(String idMatch) {
+                        // do anything with response
+                        int idToRemove = Integer.parseInt(idMatch);
+                        final MatchModel model = realm.where(MatchModel.class).equalTo("IdMatch",idToRemove).findFirst();
+
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                try {
+                                    model.deleteFromRealm();
+                                } catch (Exception e) {
+                                    Log.e("TAG", "DELETE_MATCH: " + e.getMessage(), e);
+                                } finally {
+                                    Log.d("TAG", "DELETE_MATCH: FINALLY");
+
+                                    ToastCustom toast = new ToastCustom(activity, getResources().getDrawable(R.drawable.ic_icon_check),getString(R.string.operation_success));
+                                    toast.show();
+
+                                }
+                            }
+                        });
+                        realm.close();
+                        finish();
+                    }
+                    @Override
+                    public void onError(ANError anError) {
+                        // handle error
+                        try {
+                            JSONObject str = new JSONObject(anError.getResponse().toString());
+                            //Toast.makeText(getBaseContext(), "Errore: " + str.get("Message").toString(), Toast.LENGTH_SHORT).show();
+                            ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),"Errore: " + str.get("Message").toString());
+                            toast.show();
+                        } catch (Exception e) {
+                            ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),getString(R.string.error_default));
+                            toast.show();
+                            Log.e("ErrorPost", e.getMessage());
+                        }
+                    }
+                });
     }
 
 }

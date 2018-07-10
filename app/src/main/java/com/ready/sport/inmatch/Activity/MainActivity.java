@@ -1,6 +1,7 @@
 package com.ready.sport.inmatch.Activity;
 
 import android.content.Intent;
+import android.hardware.usb.UsbRequest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -20,8 +21,13 @@ import com.ready.sport.inmatch.Fragments.ListMatchFragment;
 import com.ready.sport.inmatch.Fragments.PlayersFragment;
 import com.ready.sport.inmatch.Fragments.ProfileFragment;
 import com.ready.sport.inmatch.R;
+import com.ready.sport.inmatch.RealmClass.MatchModel;
+import com.ready.sport.inmatch.RealmClass.UserModel;
 import com.ready.sport.inmatch.Tools.NoSwipableViewPager;
 import com.ready.sport.inmatch.Tools.ViewPagerAdapter;
+import com.ready.sport.inmatch.util.TextViewPlus;
+
+import io.realm.Realm;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private PlayersFragment playerFrg;
     private ProfileFragment profileFrg;
     private FloatingActionButton fab;
+    private Realm realm;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -71,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextViewPlus userName = (TextViewPlus)findViewById(R.id.userNameBar);
+        realm = Realm.getDefaultInstance();
+
+        UserModel model = realm.where(UserModel.class).findFirst();
+
+        userName.setText(model.getUserName());
         //Initializing viewPager
         mViewPager = (NoSwipableViewPager) findViewById(R.id.viewpager_home);
         mViewPager.setOffscreenPageLimit(4);

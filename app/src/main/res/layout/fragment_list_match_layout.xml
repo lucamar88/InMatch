@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:id="@+id/tv_countdown"
-                        android:text="02 g 01 h 34 m 45 s"
+                        android:text="-- : -- : --"
                         android:textSize="22dp"
                         android:textColor="@android:color/white"/>
                     <!--<cn.iwgang.countdownview.CountdownView-->

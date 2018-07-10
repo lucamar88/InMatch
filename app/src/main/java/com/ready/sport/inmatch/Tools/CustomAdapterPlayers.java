@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -114,13 +115,37 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
             }
         });
 
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+
+                View titleView = inflater.inflate(R.layout.layout_title_alert, null);
+                new AlertDialog.Builder(mContext, R.style.AlertDialogCustom)
+                        //.setTitle(activity.getString(R.string.delete))
+                        .setCustomTitle(titleView)
+                        .setMessage(mContext.getString(R.string.delete_player))
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int whichButton) {
+
+                                mFragment.deletePlayer(obj.getIdPlayer());
+
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        });
+
         holder.cardPl.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                LayoutInflater inflater = LayoutInflater.from(mContext);
+
+                View titleView = inflater.inflate(R.layout.layout_title_alert, null);
                 new AlertDialog.Builder(mContext, R.style.AlertDialogCustom)
-                        .setTitle(mContext.getString(R.string.delete))
+                        //.setTitle(activity.getString(R.string.delete))
+                        .setCustomTitle(titleView)
                         .setMessage(mContext.getString(R.string.delete_player))
-                        .setIcon(android.R.drawable.ic_dialog_alert)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -154,7 +179,8 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
         CardView cardBasket;
         CardView cardTennis;
         CardView cardVolley;
-        AppCompatImageView edit;
+        LinearLayoutCompat edit;
+        LinearLayoutCompat delete;
 
         MyViewHolder(View view) {
             super(view);
@@ -162,7 +188,8 @@ public class CustomAdapterPlayers extends RealmRecyclerViewAdapter<PlayersModel,
             basketRating = (TextViewPlus) view.findViewById(R.id.basketLabel);
             tennisRating = (TextViewPlus) view.findViewById(R.id.tennisLabel);
             volleyRating = (TextViewPlus) view.findViewById(R.id.volleyLabel);
-            edit = (AppCompatImageView)view.findViewById(R.id.editNormalPlayer);
+            edit = (LinearLayoutCompat)view.findViewById(R.id.editNormalPlayer);
+            delete = (LinearLayoutCompat)view.findViewById(R.id.deleteNormalPlayer);
             listPlayersTitle = (TextViewPlus) view.findViewById(R.id.listPlayersTitle);
             cardPl = (CardView)view.findViewById(R.id.cardPlayers);
 

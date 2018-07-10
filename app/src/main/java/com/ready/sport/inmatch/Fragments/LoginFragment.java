@@ -369,10 +369,12 @@ public class LoginFragment extends Fragment {
 
                                     try {
                                         token = response.get("access_token").toString();
+                                        String username = response.get("userName").toString();
                                         Constants.TOKEN = token;
                                         model = new UserModel();
                                         model.setEmailUser(mEmail);
                                         model.setToken(token);
+                                        model.setUserName(username);
                                         realm.executeTransaction(new Realm.Transaction() {
                                             @Override
                                             public void execute(Realm realm) {

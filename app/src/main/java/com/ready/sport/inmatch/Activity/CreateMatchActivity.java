@@ -226,7 +226,23 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
             plFin.SurnamePlayer = pl.getSurName();
             if(type == Constants.SOCCER_TYPE){
                 plFin.RatingPlayer = pl.getRatingSoccer();
-                plFin.RoleSoccer = "CENTROCAMPISTA";
+                switch (pl.i_RuoloSoccer){
+                    case 0:
+                        plFin.RoleSoccer = "PORTIERE";
+                        break;
+                    case 1:
+                        plFin.RoleSoccer = "DIFENSORE";
+                        break;
+                    case 2:
+                        plFin.RoleSoccer = "CENTROCAMPISTA";
+                        break;
+                    case 3:
+                        plFin.RoleSoccer = "ESTERNO";
+                        break;
+                    case 4:
+                        plFin.RoleSoccer = "ATTACCANTE";
+                        break;
+                }
             }else if(type == Constants.BASKET_TYPE){
                 plFin.RatingPlayer = pl.getRatingBasket();
             }else if(type == Constants.TENNIS_TYPE){
@@ -556,6 +572,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         }
 
         final MatchModel model = new MatchModel();
+        if(dataToSave == null)dataToSave = dataText.getText().toString()+":00.503";
         model.setStartDateUtc(dataToSave);
         model.setNameFirstTeam(team1Str);
         model.setNameSecondTeam(team2Str);
