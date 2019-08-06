@@ -198,9 +198,15 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
 
         if(IdMatch != 0){
             model = realm.where(MatchModel.class).equalTo("IdMatch",IdMatch).findFirst();
+            String[] str1 = new String[0];
+            String[] str2 = new String[0];
+            if(model.getListPlayersFirstTeam() != null){
+                str1 = model.getListPlayersFirstTeam().split("_");
+            }
+            if(model.getListPlayersSecondTeam() != null){
+                str2 = model.getListPlayersSecondTeam().split("_");
+            }
 
-            String[] str1 = model.getListPlayersFirstTeam().split("_");
-            String[] str2 = model.getListPlayersSecondTeam().split("_");
             listPlayersMatch = concatenateTwoArrays(str1,str2);
 
             for(int a = 0;a<listPlayersMatch.length;a++){

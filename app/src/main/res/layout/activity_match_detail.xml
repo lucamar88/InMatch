@@ -158,7 +158,7 @@
                 <GridLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:columnCount="5"
+                    android:columnCount="3"
                     android:rowCount="1"
                     android:orientation="horizontal"
                     android:layout_gravity="center">
@@ -168,7 +168,7 @@
                         android:orientation="vertical">
                         <com.ready.sport.inmatch.util.TextViewPlus
                             android:id="@+id/firstTeamName"
-                            android:layout_width="90dp"
+                            android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_marginRight="10dp"
@@ -185,27 +185,27 @@
                             android:layout_gravity="center"
                             android:gravity="center_vertical|center"/>
                     </android.support.v7.widget.LinearLayoutCompat>
-                    <android.support.v7.widget.AppCompatImageView
+                    <!--<android.support.v7.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:src="@drawable/team_1_icon"/>
+                        android:src="@drawable/team_1_icon"/>-->
                     <com.ready.sport.inmatch.util.TextViewPlus
                         android:layout_height="70dp"
                         android:layout_width="wrap_content"
                         android:text="VS"
                         android:textAlignment="center"
                         android:gravity="center_vertical|right"/>
-                    <android.support.v7.widget.AppCompatImageView
+                    <!--<android.support.v7.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/team_2_icon"/>
+                        android:src="@drawable/team_2_icon"/>-->
                     <android.support.v7.widget.LinearLayoutCompat
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
                         <com.ready.sport.inmatch.util.TextViewPlus
                             android:id="@+id/secondTeamName"
-                            android:layout_width="90dp"
+                            android:layout_width="140dp"
                             android:textAlignment="center"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
