@@ -234,19 +234,19 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 plFin.RatingPlayer = pl.getRatingSoccer();
                 switch (pl.i_RuoloSoccer){
                     case 0:
-                        plFin.RoleSoccer = "PORTIERE";
+                        plFin.RoleSoccer = getResources().getString(R.string.role_soccer_0);
                         break;
                     case 1:
-                        plFin.RoleSoccer = "DIFENSORE";
+                        plFin.RoleSoccer = getResources().getString(R.string.role_soccer_1);
                         break;
                     case 2:
-                        plFin.RoleSoccer = "CENTROCAMPISTA";
+                        plFin.RoleSoccer = getResources().getString(R.string.role_soccer_2);
                         break;
                     case 3:
-                        plFin.RoleSoccer = "ESTERNO";
+                        plFin.RoleSoccer = getResources().getString(R.string.role_soccer_3);
                         break;
                     case 4:
-                        plFin.RoleSoccer = "ATTACCANTE";
+                        plFin.RoleSoccer = getResources().getString(R.string.role_soccer_4);
                         break;
                 }
             }else if(type == Constants.BASKET_TYPE){
@@ -352,9 +352,9 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 bar.setBackgroundColor(getResources().getColor(R.color.soccerColor));
                 colorSet = getResources().getColor(R.color.soccerColor);
                 if(IdMatch != 0){
-                    title.setText("Modifica partita - Calcio");
+                    title.setText(getResources().getString(R.string.edit_match).replace("{0}",getResources().getString(R.string.soccer_label)));
                 }else{
-                    title.setText("Nuova partita - Calcio");
+                    title.setText(getResources().getString(R.string.new_match).replace("{0}",getResources().getString(R.string.soccer_label)));
                 }
 
                 return;
@@ -362,18 +362,18 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 bar.setBackgroundColor(getResources().getColor(R.color.basketColor));
                 colorSet = getResources().getColor(R.color.basketColor);
                 if(IdMatch != 0){
-                    title.setText("Modifica partita - Basket");
+                    title.setText(getResources().getString(R.string.edit_match).replace("{0}",getResources().getString(R.string.basket_label)));
                 }else{
-                    title.setText("Nuova partita - Basket");
+                    title.setText(getResources().getString(R.string.new_match).replace("{0}",getResources().getString(R.string.basket_label)));
                 }
                 return;
             case Constants.TENNIS_TYPE:
                 bar.setBackgroundColor(getResources().getColor(R.color.tennisColor));
                 colorSet = getResources().getColor(R.color.tennisColor);
                 if(IdMatch != 0){
-                    title.setText("Modifica partita - Tennis");
+                    title.setText(getResources().getString(R.string.edit_match).replace("{0}",getResources().getString(R.string.tennis_label)));
                 }else{
-                    title.setText("Nuova partita - Tennis");
+                    title.setText(getResources().getString(R.string.new_match).replace("{0}",getResources().getString(R.string.tennis_label)));
                 }
 
                 return;
@@ -381,9 +381,9 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
                 bar.setBackgroundColor(getResources().getColor(R.color.volleyColor));
                 colorSet = getResources().getColor(R.color.volleyColor);
                 if(IdMatch != 0){
-                    title.setText("Modifica partita - Volley");
+                    title.setText(getResources().getString(R.string.edit_match).replace("{0}",getResources().getString(R.string.volley_label)));
                 }else{
-                    title.setText("Nuova partita - Volley");
+                    title.setText(getResources().getString(R.string.new_match).replace("{0}",getResources().getString(R.string.volley_label)));
                 }
 
                 return;
@@ -490,7 +490,7 @@ public class CreateMatchActivity extends AppCompatActivity implements AdapterInt
         if(newVal*2 < count){
             numberPicker.setValue(oldVal);
             numTotPl.setText(String.valueOf(oldVal*2));
-            Toast.makeText(this,"Deseleziona alcuni giocatori", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getResources().getString(R.string.deselect_some_player), Toast.LENGTH_SHORT).show();
         }else{
             numTotPl.setText(String.valueOf(newVal*2));
         }

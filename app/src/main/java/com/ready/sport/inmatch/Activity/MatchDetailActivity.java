@@ -135,13 +135,13 @@ public class MatchDetailActivity extends AppCompatActivity {
            SpeedDialMenuItem speedDialMenuItem = null;
            switch (i){
                case 0:
-                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_share), "Condividi match");
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_share), getResources().getString(R.string.share_match_fab));
                    break;
                case 1:
-                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_edit), "Modifica match");
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_edit), getResources().getString(R.string.edit_match_fab));
                    break;
                case 2:
-                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_delete), "Elimina match");
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_delete), getResources().getString(R.string.delete_match_fab));
                    break;
            }
            return speedDialMenuItem;
@@ -223,7 +223,7 @@ public class MatchDetailActivity extends AppCompatActivity {
         try{
             IdMatch = intent.getExtras().getInt("idMatch");
         }catch(Exception e){
-            Toast.makeText(this,"Errore di rete",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getResources().getString(R.string.error_default),Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -282,7 +282,7 @@ public class MatchDetailActivity extends AppCompatActivity {
             }
 
             if(isDeleted){
-                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),"Alcuni giocatori sono stati eliminati");
+                ToastCustom toast = new ToastCustom(MatchDetailActivity.this, getResources().getDrawable(R.drawable.ic_error_cloud),getResources().getString(R.string.error_players_deleted));
                 toast.show();
             }
         }

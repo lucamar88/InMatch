@@ -35,6 +35,9 @@
     <string name="next_match">PROSSIMA PARTITA</string>
     <string name="generate_teams">GENERA FORMAZIONI</string>
     <string name="teams_generated">Formazioni generate</string>
+    <string name="edit_match">Modifica partita - {0}</string>
+    <string name="new_match">Nuova partita - {0}</string>
+    <string name="deselect_some_player">Deseleziona alcuni giocatori</string>
 
     // Attributes
     <string name="role">Ruolo</string>
@@ -72,6 +75,7 @@
     <string name="error_number_player_match">Devi selezionare {0} giocatori</string>
     <string name="error_max_player">Hai già selezionato tutti i giocatori</string>
     <string name="error_default">Errore di rete</string>
+    <string name="error_players_deleted">Alcuni giocatori sono stati eliminati</string>
 
     //Elimina
 
@@ -82,4 +86,10 @@
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    // Fab Label
+
+    <string name="share_match_fab">Condividi match</string>
+    <string name="delete_match_fab">Elimina match</string>
+    <string name="edit_match_fab">Modifica match</string>
 </resources>
