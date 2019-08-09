@@ -153,6 +153,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:paddingBottom="5dp"
                     app:cardCornerRadius="5dp"
                     app:cardBackgroundColor="@color/separatorColor">
                 <GridLayout
@@ -175,7 +176,7 @@
                             android:textSize="18dp"
                             android:textAlignment="center"
                             android:text="SQUADRA 1"/>
-                        <com.ready.sport.inmatch.util.TextViewPlus
+                        <!--<com.ready.sport.inmatch.util.TextViewPlus
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -183,7 +184,59 @@
                             android:layout_marginRight="10dp"
                             android:textAlignment="center"
                             android:layout_gravity="center"
-                            android:gravity="center_vertical|center"/>
+                            android:gravity="center_vertical|center"/>-->
+                        <android.support.v7.widget.LinearLayoutCompat
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical|center"
+                            android:layout_gravity="left"
+                            android:layout_marginLeft="25dp">
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/btn_goal_team_1"
+                                android:visibility="invisible">
+                                <com.ready.sport.inmatch.util.ButtonPlus
+                                    android:id="@+id/add_goals_teams_1"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:text="+"
+                                    android:gravity="top"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:textAlignment="center"
+                                    android:textSize="11dp"
+                                    android:clickable="true"
+                                    android:background="@drawable/btn_goals"
+                                    />
+                                <com.ready.sport.inmatch.util.ButtonPlus
+                                    android:id="@+id/less_goals_teams_1"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:text="-"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="bottom"
+                                    android:layout_marginBottom="5dp"
+                                    android:textAlignment="center"
+                                    android:textSize="11dp"
+                                    android:clickable="true"
+                                    android:background="@drawable/btn_goals"
+                                    />
+                            </RelativeLayout>
+                            <com.ready.sport.inmatch.util.TextViewPlus
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="30dp"
+                                android:layout_marginLeft="10dp"
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:gravity="center_vertical|center"/>
+                        </android.support.v7.widget.LinearLayoutCompat>
                     </android.support.v7.widget.LinearLayoutCompat>
                     <!--<android.support.v7.widget.AppCompatImageView
                         android:layout_width="wrap_content"
@@ -212,16 +265,61 @@
                             android:layout_marginLeft="10dp"
                             android:textSize="18dp"
                             android:text="SQUADRA 2"/>
-                        <com.ready.sport.inmatch.util.TextViewPlus
+
+                        <android.support.v7.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0"
-                            android:textSize="30dp"
-                            android:layout_marginLeft="10dp"
-                            android:textAlignment="center"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical|center"
                             android:layout_gravity="center"
-                            android:gravity="center_vertical|center"/>
+                            android:layout_marginLeft="12dp">
+                            <com.ready.sport.inmatch.util.TextViewPlus
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="30dp"
+                                android:layout_marginLeft="10dp"
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:gravity="center_vertical|center"/>
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:id="@+id/btn_goal_team_2"
+                                android:visibility="invisible">
+                                <com.ready.sport.inmatch.util.ButtonPlus
+                                    android:id="@+id/add_goals_teams_2"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:text="+"
+                                    android:gravity="top"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:textAlignment="center"
+                                    android:textSize="11dp"
+                                    android:clickable="true"
+                                    android:background="@drawable/btn_goals"
+                                    />
+                                <com.ready.sport.inmatch.util.ButtonPlus
+                                    android:id="@+id/less_goals_teams_2"
+                                    android:layout_width="15dp"
+                                    android:layout_height="15dp"
+                                    android:layout_alignParentBottom="true"
+                                    android:text="-"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginLeft="10dp"
+                                    android:gravity="bottom"
+                                    android:layout_marginBottom="5dp"
+                                    android:textAlignment="center"
+                                    android:textSize="11dp"
+                                    android:clickable="true"
+                                    android:background="@drawable/btn_goals"
+                                    />
+                            </RelativeLayout>
+
+                        </android.support.v7.widget.LinearLayoutCompat>
                     </android.support.v7.widget.LinearLayoutCompat>
+
                 </GridLayout>
                 </android.support.v7.widget.CardView>
             </android.support.v7.widget.LinearLayoutCompat>

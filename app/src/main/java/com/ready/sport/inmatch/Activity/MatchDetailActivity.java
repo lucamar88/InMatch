@@ -23,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -72,6 +73,12 @@ public class MatchDetailActivity extends AppCompatActivity {
     private AppCompatImageView btnCheck;
     private Context baseContext;
     private Activity activity;
+    private RelativeLayout btnTeam1;
+    private RelativeLayout btnTeam2;
+    private ButtonPlus btnAddGoal1;
+    private ButtonPlus btnAddGoal2;
+    private ButtonPlus btnLessGoal1;
+    private ButtonPlus btnLessGoal2;
 
     private int IdMatch = 0;
     private Realm realm;
@@ -126,6 +133,9 @@ public class MatchDetailActivity extends AppCompatActivity {
                        .setNegativeButton(android.R.string.no, null).show();
 
 
+           }else if(i==3){
+               btnTeam1.setVisibility(View.VISIBLE);
+               btnTeam2.setVisibility(View.VISIBLE);
            }
            return true;
        }
@@ -142,6 +152,9 @@ public class MatchDetailActivity extends AppCompatActivity {
                    break;
                case 2:
                    speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.icon_fab_delete), getResources().getString(R.string.delete_match_fab));
+                   break;
+               case 3:
+                   speedDialMenuItem = new SpeedDialMenuItem(context, getResources().getDrawable(R.drawable.team2_icon_rid), getResources().getString(R.string.insert_result_fab));
                    break;
            }
            return speedDialMenuItem;
@@ -164,6 +177,12 @@ public class MatchDetailActivity extends AppCompatActivity {
 
         fab = (FloatingActionButton)findViewById(R.id.fab);
 
+        btnTeam1 = (RelativeLayout)findViewById(R.id.btn_goal_team_1);
+        btnTeam2 = (RelativeLayout)findViewById(R.id.btn_goal_team_2);
+        btnAddGoal1 = (ButtonPlus)findViewById(R.id.add_goals_teams_1);
+        btnAddGoal2 = (ButtonPlus)findViewById(R.id.add_goals_teams_2);
+        btnLessGoal1  = (ButtonPlus)findViewById(R.id.less_goals_teams_1);
+        btnLessGoal2  = (ButtonPlus)findViewById(R.id.less_goals_teams_2);
         /*final FABRevealMenu fabMenu = findViewById(R.id.fabMenu);
 
         try {

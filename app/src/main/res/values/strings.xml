@@ -92,4 +92,5 @@
     <string name="share_match_fab">Condividi match</string>
     <string name="delete_match_fab">Elimina match</string>
     <string name="edit_match_fab">Modifica match</string>
+    <string name="insert_result_fab">Inserisci risultato</string>
 </resources>
